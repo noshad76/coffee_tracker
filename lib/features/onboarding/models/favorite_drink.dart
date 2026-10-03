@@ -11,6 +11,52 @@ class FavoriteDrink {
   final int caffeineMg;
   final int volumeMl;
 
+  bool get isCustom => id.startsWith('custom:');
+
+  String get artworkId {
+    if (isCustom) {
+      final parts = id.split(':');
+      return parts.length >= 5 ? parts[4] : 'mug';
+    }
+    return id;
+  }
+
+  static String buildCustomId({
+    required String name,
+    required int caffeineMg,
+    required int volumeMl,
+    String artworkId = 'mug',
+  }) {
+    final encodedName = Uri.encodeComponent(name.trim());
+    return 'custom:$encodedName:$caffeineMg:$volumeMl:$artworkId';
+  }
+
+  static FavoriteDrink? findById(String id) {
+    if (id.startsWith('custom:')) {
+      final parts = id.split(':');
+      if (parts.length >= 4) {
+        final name = Uri.decodeComponent(parts[1]);
+        final caffeine = int.tryParse(parts[2]) ?? 80;
+        final volume = int.tryParse(parts[3]) ?? 200;
+        return FavoriteDrink(
+          id: id,
+          name: name.isEmpty ? 'Custom Drink' : name,
+          caffeineMg: caffeine,
+          volumeMl: volume,
+        );
+      }
+    }
+
+    final normalized = id == 'cold_brew' ? 'coldbrew' : id;
+    for (final drink in fullLogCatalog) {
+      if (drink.id == id || drink.id == normalized) return drink;
+    }
+    for (final drink in catalog) {
+      if (drink.id == id || drink.id == normalized) return drink;
+    }
+    return null;
+  }
+
   static const catalog = <FavoriteDrink>[
     FavoriteDrink(
       id: 'espresso',

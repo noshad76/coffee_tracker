@@ -8,6 +8,7 @@ class _ModeCard extends StatelessWidget {
     required this.title,
     required this.description,
     required this.accent,
+    required this.badge,
   });
 
   final bool selected;
@@ -16,6 +17,7 @@ class _ModeCard extends StatelessWidget {
   final String title;
   final String description;
   final _ModeAccent accent;
+  final String badge;
 
   @override
   Widget build(BuildContext context) {
@@ -35,39 +37,96 @@ class _ModeCard extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           constraints: const BoxConstraints(minHeight: 88),
-          padding: const EdgeInsets.all(AppSpacing.x4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
             color: selected ? palette.surfaceRaised : palette.surface,
             borderRadius: BorderRadius.circular(AppRadii.card),
             border: Border.all(
               color: selected ? palette.brand500 : palette.stone800,
-              width: 2,
+              width: selected ? 2 : 1,
             ),
           ),
           child: Row(
             children: [
               Container(
-                width: AppTargets.minimumInteractive,
-                height: AppTargets.minimumInteractive,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
-                  color: palette.stone800,
-                  borderRadius: BorderRadius.circular(AppRadii.control),
+                  color: selected
+                      ? accentColor.withValues(alpha: 0.15)
+                      : palette.stone800,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: selected
+                        ? accentColor.withValues(alpha: 0.3)
+                        : palette.stone700,
+                  ),
                 ),
-                child: Icon(icon, color: accentColor),
+                child: Icon(icon, color: accentColor, size: 22),
               ),
-              const SizedBox(width: AppSpacing.x3),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(height: AppSpacing.x1),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: palette.textPrimary,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: accentColor.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: accentColor.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Text(
+                            badge,
+                            style: TextStyle(
+                              color: accentColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
                     Text(
                       description,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: palette.textMuted,
+                            height: 1.3,
+                          ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(width: 10),
+              Icon(
+                selected
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked,
+                size: 20,
+                color: selected ? palette.brand500 : palette.stone700,
               ),
             ],
           ),

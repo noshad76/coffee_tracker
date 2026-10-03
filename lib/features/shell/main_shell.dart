@@ -6,7 +6,7 @@ import '../calendar/calendar_page.dart';
 import '../drink_log/log_drink_sheet.dart';
 import '../onboarding/models/onboarding_preferences.dart';
 import '../onboarding/providers/onboarding_providers.dart';
-import '../feature_board/feature_board_page.dart';
+import '../achievements/achievements_page.dart';
 import '../settings/mode_sheet.dart';
 import '../settings/theme_sheet.dart';
 import '../statistics/statistics_page.dart';
@@ -52,7 +52,7 @@ class _MainShellState extends ConsumerState<MainShell> {
       CaffeineGoalMode.cuttingBack => 'Cutting Back',
       CaffeineGoalMode.quitting => 'Quitting',
     };
-    final titles = ['Today', 'Calendar', 'Stats', 'Features'];
+    final titles = ['Today', 'Calendar', 'Stats', 'Trophies'];
     return PopScope(
       canPop: tab == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -201,7 +201,7 @@ class _MainShellState extends ConsumerState<MainShell> {
                       TodayPage(snapshot: snapshot, onLog: _openLog),
                       CalendarPage(snapshot: snapshot),
                       StatisticsPage(snapshot: snapshot),
-                      FeatureBoardPage(snapshot: snapshot),
+                      AchievementsPage(snapshot: snapshot),
                     ],
                   ),
                 ),
@@ -238,7 +238,7 @@ class _MainShellState extends ConsumerState<MainShell> {
                       ),
                     ),
                     _tabButton(2, Icons.pie_chart_outline, 'Stats'),
-                    _tabButton(3, Icons.lightbulb_outline, 'Roadmap'),
+                    _tabButton(3, Icons.emoji_events_outlined, 'Trophies'),
                   ],
                 ),
               ),

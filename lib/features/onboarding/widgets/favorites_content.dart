@@ -39,7 +39,7 @@ class _FavoritesContent extends StatelessWidget {
                 crossAxisCount: columns,
                 crossAxisSpacing: AppSpacing.x3,
                 mainAxisSpacing: AppSpacing.x3,
-                mainAxisExtent: 112 + ((textScale - 1).clamp(0, 2) * 36),
+                mainAxisExtent: 124 + ((textScale - 1).clamp(0, 2) * 40),
               ),
               itemBuilder: (context, index) {
                 final drink = FavoriteDrink.catalog[index];

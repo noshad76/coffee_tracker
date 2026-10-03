@@ -14,6 +14,7 @@ class DrinkRecord {
     required this.cupStyle,
     this.cafeName,
     this.note,
+    this.photoPath,
   });
 
   final int id;
@@ -27,6 +28,7 @@ class DrinkRecord {
   final String cupStyle;
   final String? cafeName;
   final String? note;
+  final String? photoPath;
 
   DateTime get localTime => consumedAtUtc.toLocal();
 }
@@ -70,6 +72,7 @@ class DrinkDraft {
     required this.cupStyle,
     this.cafeName,
     this.note,
+    this.photoPath,
   });
   final String name;
   final int caffeineMg;
@@ -81,4 +84,5 @@ class DrinkDraft {
   final String cupStyle;
   final String? cafeName;
   final String? note;
+  final String? photoPath;
 }

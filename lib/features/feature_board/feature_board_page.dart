@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/app_toast.dart';
 import '../../shared/widgets/coffee_card.dart';
 import '../tracking/models/tracking_models.dart';
 import '../tracking/providers/tracking_providers.dart';
@@ -150,10 +151,10 @@ class _FeatureBoardPageState extends ConsumerState<FeatureBoardPage> {
                             .toggleVote(idea);
                       } catch (_) {
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Could not save vote.'),
-                            ),
+                          AppToast.show(
+                            context,
+                            'Could not save vote.',
+                            isError: true,
                           );
                         }
                       }

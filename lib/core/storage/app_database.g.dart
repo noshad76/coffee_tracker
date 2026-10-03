@@ -723,6 +723,17 @@ class $DrinkEntriesTable extends DrinkEntries
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _photoPathMeta = const VerificationMeta(
+    'photoPath',
+  );
+  @override
+  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
+    'photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -736,6 +747,7 @@ class $DrinkEntriesTable extends DrinkEntries
     cafeName,
     cupStyle,
     note,
+    photoPath,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -826,6 +838,12 @@ class $DrinkEntriesTable extends DrinkEntries
         note.isAcceptableOrUnknown(data['note']!, _noteMeta),
       );
     }
+    if (data.containsKey('photo_path')) {
+      context.handle(
+        _photoPathMeta,
+        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
+      );
+    }
     return context;
   }
 
@@ -879,6 +897,10 @@ class $DrinkEntriesTable extends DrinkEntries
         DriftSqlType.string,
         data['${effectivePrefix}note'],
       ),
+      photoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_path'],
+      ),
     );
   }
 
@@ -900,6 +922,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
   final String? cafeName;
   final String cupStyle;
   final String? note;
+  final String? photoPath;
   const DrinkEntry({
     required this.id,
     required this.name,
@@ -912,6 +935,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
     this.cafeName,
     required this.cupStyle,
     this.note,
+    this.photoPath,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -931,6 +955,9 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
     }
+    if (!nullToAbsent || photoPath != null) {
+      map['photo_path'] = Variable<String>(photoPath);
+    }
     return map;
   }
 
@@ -949,6 +976,9 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
           : Value(cafeName),
       cupStyle: Value(cupStyle),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      photoPath: photoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoPath),
     );
   }
 
@@ -969,6 +999,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
       cafeName: serializer.fromJson<String?>(json['cafeName']),
       cupStyle: serializer.fromJson<String>(json['cupStyle']),
       note: serializer.fromJson<String?>(json['note']),
+      photoPath: serializer.fromJson<String?>(json['photoPath']),
     );
   }
   @override
@@ -986,6 +1017,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
       'cafeName': serializer.toJson<String?>(cafeName),
       'cupStyle': serializer.toJson<String>(cupStyle),
       'note': serializer.toJson<String?>(note),
+      'photoPath': serializer.toJson<String?>(photoPath),
     };
   }
 
@@ -1001,6 +1033,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
     Value<String?> cafeName = const Value.absent(),
     String? cupStyle,
     Value<String?> note = const Value.absent(),
+    Value<String?> photoPath = const Value.absent(),
   }) => DrinkEntry(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1013,6 +1046,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
     cafeName: cafeName.present ? cafeName.value : this.cafeName,
     cupStyle: cupStyle ?? this.cupStyle,
     note: note.present ? note.value : this.note,
+    photoPath: photoPath.present ? photoPath.value : this.photoPath,
   );
   DrinkEntry copyWithCompanion(DrinkEntriesCompanion data) {
     return DrinkEntry(
@@ -1035,6 +1069,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
       cafeName: data.cafeName.present ? data.cafeName.value : this.cafeName,
       cupStyle: data.cupStyle.present ? data.cupStyle.value : this.cupStyle,
       note: data.note.present ? data.note.value : this.note,
+      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
     );
   }
 
@@ -1051,7 +1086,8 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
           ..write('location: $location, ')
           ..write('cafeName: $cafeName, ')
           ..write('cupStyle: $cupStyle, ')
-          ..write('note: $note')
+          ..write('note: $note, ')
+          ..write('photoPath: $photoPath')
           ..write(')'))
         .toString();
   }
@@ -1069,6 +1105,7 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
     cafeName,
     cupStyle,
     note,
+    photoPath,
   );
   @override
   bool operator ==(Object other) =>
@@ -1084,7 +1121,8 @@ class DrinkEntry extends DataClass implements Insertable<DrinkEntry> {
           other.location == this.location &&
           other.cafeName == this.cafeName &&
           other.cupStyle == this.cupStyle &&
-          other.note == this.note);
+          other.note == this.note &&
+          other.photoPath == this.photoPath);
 }
 
 class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
@@ -1099,6 +1137,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
   final Value<String?> cafeName;
   final Value<String> cupStyle;
   final Value<String?> note;
+  final Value<String?> photoPath;
   const DrinkEntriesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -1111,6 +1150,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
     this.cafeName = const Value.absent(),
     this.cupStyle = const Value.absent(),
     this.note = const Value.absent(),
+    this.photoPath = const Value.absent(),
   });
   DrinkEntriesCompanion.insert({
     this.id = const Value.absent(),
@@ -1124,6 +1164,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
     this.cafeName = const Value.absent(),
     this.cupStyle = const Value.absent(),
     this.note = const Value.absent(),
+    this.photoPath = const Value.absent(),
   }) : name = Value(name),
        caffeineMg = Value(caffeineMg),
        volumeMl = Value(volumeMl),
@@ -1140,6 +1181,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
     Expression<String>? cafeName,
     Expression<String>? cupStyle,
     Expression<String>? note,
+    Expression<String>? photoPath,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1153,6 +1195,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
       if (cafeName != null) 'cafe_name': cafeName,
       if (cupStyle != null) 'cup_style': cupStyle,
       if (note != null) 'note': note,
+      if (photoPath != null) 'photo_path': photoPath,
     });
   }
 
@@ -1168,6 +1211,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
     Value<String?>? cafeName,
     Value<String>? cupStyle,
     Value<String?>? note,
+    Value<String?>? photoPath,
   }) {
     return DrinkEntriesCompanion(
       id: id ?? this.id,
@@ -1181,6 +1225,7 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
       cafeName: cafeName ?? this.cafeName,
       cupStyle: cupStyle ?? this.cupStyle,
       note: note ?? this.note,
+      photoPath: photoPath ?? this.photoPath,
     );
   }
 
@@ -1220,6 +1265,9 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
     if (note.present) {
       map['note'] = Variable<String>(note.value);
     }
+    if (photoPath.present) {
+      map['photo_path'] = Variable<String>(photoPath.value);
+    }
     return map;
   }
 
@@ -1236,7 +1284,8 @@ class DrinkEntriesCompanion extends UpdateCompanion<DrinkEntry> {
           ..write('location: $location, ')
           ..write('cafeName: $cafeName, ')
           ..write('cupStyle: $cupStyle, ')
-          ..write('note: $note')
+          ..write('note: $note, ')
+          ..write('photoPath: $photoPath')
           ..write(')'))
         .toString();
   }
@@ -2047,6 +2096,7 @@ typedef $$DrinkEntriesTableCreateCompanionBuilder =
       Value<String?> cafeName,
       Value<String> cupStyle,
       Value<String?> note,
+      Value<String?> photoPath,
     });
 typedef $$DrinkEntriesTableUpdateCompanionBuilder =
     DrinkEntriesCompanion Function({
@@ -2061,6 +2111,7 @@ typedef $$DrinkEntriesTableUpdateCompanionBuilder =
       Value<String?> cafeName,
       Value<String> cupStyle,
       Value<String?> note,
+      Value<String?> photoPath,
     });
 
 class $$DrinkEntriesTableFilterComposer
@@ -2124,6 +2175,11 @@ class $$DrinkEntriesTableFilterComposer
 
   ColumnFilters<String> get note => $composableBuilder(
     column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2191,6 +2247,11 @@ class $$DrinkEntriesTableOrderingComposer
     column: $table.note,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get photoPath => $composableBuilder(
+    column: $table.photoPath,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DrinkEntriesTableAnnotationComposer
@@ -2242,6 +2303,9 @@ class $$DrinkEntriesTableAnnotationComposer
 
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get photoPath =>
+      $composableBuilder(column: $table.photoPath, builder: (column) => column);
 }
 
 class $$DrinkEntriesTableTableManager
@@ -2286,6 +2350,7 @@ class $$DrinkEntriesTableTableManager
                 Value<String?> cafeName = const Value.absent(),
                 Value<String> cupStyle = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> photoPath = const Value.absent(),
               }) => DrinkEntriesCompanion(
                 id: id,
                 name: name,
@@ -2298,6 +2363,7 @@ class $$DrinkEntriesTableTableManager
                 cafeName: cafeName,
                 cupStyle: cupStyle,
                 note: note,
+                photoPath: photoPath,
               ),
           createCompanionCallback:
               ({
@@ -2312,6 +2378,7 @@ class $$DrinkEntriesTableTableManager
                 Value<String?> cafeName = const Value.absent(),
                 Value<String> cupStyle = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> photoPath = const Value.absent(),
               }) => DrinkEntriesCompanion.insert(
                 id: id,
                 name: name,
@@ -2324,6 +2391,7 @@ class $$DrinkEntriesTableTableManager
                 cafeName: cafeName,
                 cupStyle: cupStyle,
                 note: note,
+                photoPath: photoPath,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

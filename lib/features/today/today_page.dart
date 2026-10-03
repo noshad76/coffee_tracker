@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/app_toast.dart';
 import '../../shared/widgets/coffee_card.dart';
 import '../../shared/widgets/drink_artwork.dart';
 import '../drink_log/log_drink_sheet.dart';
@@ -10,6 +11,7 @@ import '../onboarding/models/onboarding_preferences.dart';
 import '../onboarding/providers/onboarding_providers.dart';
 import '../tracking/models/tracking_models.dart';
 import '../tracking/providers/tracking_providers.dart';
+import 'widgets/edit_quick_log_sheet.dart';
 import 'widgets/metabolism_card.dart';
 import 'widgets/today_drink_row.dart';
 
@@ -42,9 +44,12 @@ class TodayPage extends ConsumerWidget {
       CaffeineGoalMode.quitting => total == 0 ? 1 : 0,
     };
     final favoriteIds = preferences?.favoriteDrinkIds ?? const <String>[];
-    final favorites = FavoriteDrink.catalog
-        .where((drink) => favoriteIds.contains(drink.id))
-        .toList();
+    final favorites = favoriteIds.isNotEmpty
+        ? favoriteIds
+            .map((id) => FavoriteDrink.findById(id))
+            .whereType<FavoriteDrink>()
+            .toList()
+        : FavoriteDrink.catalog.take(3).toList();
 
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.x4),
@@ -183,40 +188,64 @@ class TodayPage extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'QUICK LOG',
-              style: TextStyle(
-                color: palette.textMuted,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-              ),
+            Row(
+              children: [
+                Text(
+                  'QUICK LOG',
+                  style: TextStyle(
+                    color: palette.textMuted,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  '• 1-tap record',
+                  style: TextStyle(color: palette.textSubtle, fontSize: 11),
+                ),
+              ],
             ),
-            Text(
-              'One tap record',
-              style: TextStyle(color: palette.brand300, fontSize: 11),
+            InkWell(
+              onTap: () => EditQuickLogSheet.show(
+                context,
+                favorites.map((d) => d.id).toList(),
+              ),
+              borderRadius: BorderRadius.circular(AppRadii.control),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.tune_rounded, size: 13, color: palette.brand300),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: palette.brand300,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
         const SizedBox(height: AppSpacing.x2),
-        if (favorites.isEmpty)
-          CoffeeCard(
-            child: Text(
-              'Choose favorite drinks in setup to add quick log shortcuts.',
-              style: TextStyle(color: palette.textMuted),
-            ),
-          )
-        else
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
             children: [
-              for (final drink in favorites)
+              for (final drink in favorites) ...[
                 SizedBox(
-                  width: 110,
+                  width: 104,
                   child: CoffeeCard(
                     padding: EdgeInsets.zero,
                     child: InkWell(
+                      borderRadius: BorderRadius.circular(AppRadii.card),
                       onTap: () async {
                         try {
                           await ref
@@ -230,41 +259,57 @@ class TodayPage extends ConsumerWidget {
                                   priceCents: 0,
                                   temperature: 'Hot',
                                   location: 'home',
-                                  cupStyle: 'Ceramic Mug',
+                                  cupStyle: 'artwork:${drink.artworkId}',
                                 ),
                               );
                           if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${drink.name} logged')),
+                            AppToast.show(
+                              context,
+                              '${drink.name} logged',
+                              icon: Icons.local_cafe,
                             );
                           }
                         } catch (_) {
                           if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Could not save drink. Try again.',
-                                ),
-                              ),
+                            AppToast.show(
+                              context,
+                              'Could not save drink. Try again.',
+                              isError: true,
                             );
                           }
                         }
                       },
+                      onLongPress: () => EditQuickLogSheet.show(
+                        context,
+                        favorites.map((d) => d.id).toList(),
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 12,
+                        ),
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            DrinkArtwork(id: drink.id, size: 40),
+                            DrinkArtwork(id: drink.artworkId, size: 38),
+                            const SizedBox(height: 6),
                             Text(
                               drink.name,
-                              style: const TextStyle(fontSize: 12),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
                               overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
                             ),
+                            const SizedBox(height: 2),
                             Text(
                               '${drink.caffeineMg}mg',
                               style: TextStyle(
-                                color: palette.textSubtle,
+                                color: palette.brand300,
                                 fontSize: 10,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -273,8 +318,11 @@ class TodayPage extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const SizedBox(width: 8),
+              ],
             ],
           ),
+        ),
         const SizedBox(height: AppSpacing.x4),
         MetabolismCard(drinks: snapshot.drinks, now: now),
         const SizedBox(height: AppSpacing.x4),
@@ -329,6 +377,7 @@ class TodayPage extends ConsumerWidget {
             const SizedBox(height: 8),
             TodayDrinkRow(
               drink: drink,
+              favorites: favorites,
               onEdit: () => showModalBottomSheet<void>(
                 context: context,
                 isScrollControlled: true,
@@ -434,9 +483,7 @@ class TodayPage extends ConsumerWidget {
       await ref.read(trackingControllerProvider.notifier).deleteDrink(drink.id);
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not delete drink.')),
-        );
+        AppToast.show(context, 'Could not delete drink.', isError: true);
       }
     }
   }

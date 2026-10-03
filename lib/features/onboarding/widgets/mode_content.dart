@@ -27,6 +27,7 @@ class _ModeContent extends StatelessWidget {
           title: option.title,
           description: option.description,
           accent: option.accent,
+          badge: option.badge,
         ),
         const SizedBox(height: AppSpacing.x3),
       ],

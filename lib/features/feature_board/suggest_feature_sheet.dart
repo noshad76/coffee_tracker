@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/app_toast.dart';
 import '../tracking/providers/tracking_providers.dart';
 
 class SuggestFeatureSheet extends ConsumerStatefulWidget {
@@ -113,7 +114,14 @@ class _SuggestFeatureSheetState extends ConsumerState<SuggestFeatureSheet> {
                                     description.text.trim(),
                                     anonymous,
                                   );
-                              if (context.mounted) Navigator.pop(context);
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                AppToast.show(
+                                  context,
+                                  'Feature proposed',
+                                  icon: Icons.lightbulb_outline,
+                                );
+                              }
                             } catch (_) {
                               if (mounted) {
                                 setState(() {

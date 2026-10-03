@@ -4,9 +4,16 @@
 
 **Phase:** Complete Native Flutter Client
 
-**Last completed:** Configured Android/iOS application identifiers (`com.coffeeaholic.app`, `Coffeeaholic`), refactored and integrated `TodayDrinkRow` into the Today feed, implemented `EarnedBadgesCard` with interactive detail modals and four documented achievement rules (First Sip, Under Limit, 7-Day Run, No-Crash), integrated user-configured caffeine limit into Statistics intake trends, and verified with clean `flutter analyze` and `flutter test`.
+**Last completed:**
+- Fixed Custom Drink Artwork Matching: Custom drinks created with custom artwork (e.g. matcha, cold brew, etc.) now correctly carry their artwork style into the Today's Drinks log and history row via `drinkArtworkId` and fallback catalog resolution.
+- Redesigned `MetabolismCard`: Created a clean, clear, and intuitive 3-milestone caffeine clearance journey (Active Now, In 6 Hours half-life, and Sleep-Safe expected clearance time) with sleep status badge and educational clearance guidance.
+- Fixed `LogDrinkSheet` dropdown assertion error when editing drinks with encoded cupStyle/artwork values.
+- Quick Log 3-Drink Restore Guarantee: Empty shortcut lists now automatically restore 3 drinks from onboarding or default catalog; explicit button added.
+- Filtered Earned Badges in Calendar (`EarnedBadgesCard`): Strictly displays only unlocked badges, eliminating locked badges from the card, with an inviting empty state when no badges are earned yet.
+- Added Camera & Photo permissions to `AndroidManifest.xml` and iOS `Info.plist` with actionable error handling in `LogDrinkSheet`.
+- All 5 test suites pass with 100% success (7/7 tests) and 0 analyze warnings.
 
-**Next:** Continuous maintenance and future feature iterations based on local Feature Board ideas.
+**Next:** Continuous maintenance and future feature iterations based on local offline coffee journeys.
 
 ## Product setup
 
@@ -62,7 +69,7 @@
 8. Product domain handles caffeine amounts in explicit units and local dates carefully.
 9. Use Riverpod `AsyncNotifier` ViewModels and providers for app state and dependency injection.
 10. The Feature Board stores suggestions and votes only on this device, as confirmed by the user.
-11. Drink history and local Feature Board ideas use Drift schema version 2 with a migration from version 1.
+11. Drink history and local Feature Board ideas use Drift schema version 3 (with `photoPath` column) with automatic backwards migrations from versions 1 and 2.
 
 ## Previous project context explicitly retired
 

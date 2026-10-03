@@ -4,6 +4,7 @@ import 'package:coffee_tracker/features/onboarding/models/onboarding_preferences
 import 'package:coffee_tracker/features/onboarding/models/onboarding_repository.dart';
 import 'package:coffee_tracker/features/onboarding/providers/onboarding_repository_provider.dart';
 import 'package:coffee_tracker/features/shell/main_shell.dart';
+import 'package:coffee_tracker/features/today/today_page.dart';
 import 'package:coffee_tracker/features/tracking/models/tracking_models.dart';
 import 'package:coffee_tracker/features/tracking/models/tracking_repository.dart';
 import 'package:coffee_tracker/features/tracking/providers/tracking_providers.dart';
@@ -140,23 +141,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Intake Trend'), findsOneWidget);
 
-    await tester.tap(find.text('Roadmap'));
+    await tester.tap(find.text('Trophies'));
     await tester.pumpAndSettle();
-    expect(find.text('Feature Board'), findsOneWidget);
-    await tester.tap(find.text('+ Propose'));
+    expect(find.text('Trophy Progress'), findsOneWidget);
+    expect(find.text('First Sip'), findsWidgets);
+    await tester.tap(find.text('First Sip').first);
     await tester.pumpAndSettle();
-    await tester.enterText(
-      find.widgetWithText(TextField, 'Title'),
-      'Home widget',
-    );
-    await tester.enterText(
-      find.widgetWithText(TextField, 'Description'),
-      'A faster quick log.',
-    );
-    await tester.tap(find.text('Post Suggestion'));
+    expect(find.text('Close'), findsOneWidget);
+    await tester.tap(find.text('Close'));
     await tester.pumpAndSettle();
-    expect(tracking.ideas, hasLength(1));
-    await tester.binding.handlePopRoute();
+
+    await tester.tap(find.text('Home').last);
     await tester.pumpAndSettle();
     expect(find.text('Today'), findsOneWidget);
 
@@ -182,7 +177,17 @@ void main() {
 
     await tester.tap(find.text('Home').last);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.byTooltip('Actions for Latte'), 250);
+    await tester.scrollUntilVisible(
+      find.byTooltip('Actions for Latte'),
+      100,
+      scrollable: find.descendant(
+        of: find.byType(TodayPage),
+        matching: find.byWidgetPredicate(
+          (w) => w is Scrollable && w.axis == Axis.vertical,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Actions for Latte'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Edit').last);

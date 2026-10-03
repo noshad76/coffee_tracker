@@ -31,6 +31,7 @@ class DriftTrackingRepository implements TrackingRepository {
             cafeName: row.cafeName,
             cupStyle: row.cupStyle,
             note: row.note,
+            photoPath: row.photoPath,
           ),
       ],
       ideas: [
@@ -63,6 +64,7 @@ class DriftTrackingRepository implements TrackingRepository {
             cafeName: Value(draft.cafeName),
             cupStyle: Value(draft.cupStyle),
             note: Value(draft.note),
+            photoPath: Value(draft.photoPath),
           ),
         );
   }
@@ -83,6 +85,7 @@ class DriftTrackingRepository implements TrackingRepository {
         cafeName: Value(draft.cafeName),
         cupStyle: Value(draft.cupStyle),
         note: Value(draft.note),
+        photoPath: Value(draft.photoPath),
       ),
     );
   }

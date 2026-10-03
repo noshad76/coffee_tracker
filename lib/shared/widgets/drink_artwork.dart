@@ -8,11 +8,16 @@ class DrinkArtwork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assetId = switch (id) {
+    String cleanId = id;
+    if (cleanId.startsWith('custom:')) {
+      final parts = cleanId.split(':');
+      cleanId = parts.length >= 5 ? parts[4] : 'mug';
+    }
+    final assetId = switch (cleanId) {
       'cold_brew' => 'coldbrew',
       'matcha_latte' => 'matcha',
       'black_tea' => 'tea',
-      _ => id,
+      _ => cleanId,
     };
     return SvgPicture.asset(
       'assets/drinks/$assetId.svg',

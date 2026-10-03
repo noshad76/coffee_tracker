@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/app_theme.dart';
 import '../../../shared/widgets/drink_artwork.dart';
+import '../../../shared/widgets/photo_detail_dialog.dart';
+import '../../onboarding/models/favorite_drink.dart';
 import '../../tracking/models/tracking_models.dart';
 import '../drink_artwork_id.dart';
 
@@ -11,10 +14,12 @@ class TodayDrinkRow extends StatelessWidget {
     required this.drink,
     required this.onEdit,
     required this.onDelete,
+    this.favorites,
   });
   final DrinkRecord drink;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final List<FavoriteDrink>? favorites;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,10 @@ class TodayDrinkRow extends StatelessWidget {
     final cost = drink.priceCents > 0
         ? ' · \$${(drink.priceCents / 100).toStringAsFixed(2)}'
         : '';
+    final hasPhoto = drink.photoPath != null && drink.photoPath!.isNotEmpty;
+    final photoFile = hasPhoto ? File(drink.photoPath!) : null;
+    final photoExists = photoFile != null && photoFile.existsSync();
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -34,17 +43,74 @@ class TodayDrinkRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: palette.surfaceRaised,
+          if (photoExists)
+            InkWell(
+              onTap: () => PhotoDetailDialog.show(context, drink),
               borderRadius: BorderRadius.circular(AppRadii.control),
+              child: Stack(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: palette.surfaceRaised,
+                      borderRadius: BorderRadius.circular(AppRadii.control),
+                      border: Border.all(color: palette.stone700),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.file(
+                      photoFile,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => Center(
+                        child: DrinkArtwork(
+                          id: drinkArtworkId(
+                            drink.name,
+                            cupStyle: drink.cupStyle,
+                            favorites: favorites,
+                          ),
+                          size: 36,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 2,
+                    right: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.7),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 9,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: palette.surfaceRaised,
+                borderRadius: BorderRadius.circular(AppRadii.control),
+              ),
+              child: Center(
+                child: DrinkArtwork(
+                  id: drinkArtworkId(
+                    drink.name,
+                    cupStyle: drink.cupStyle,
+                    favorites: favorites,
+                  ),
+                  size: 36,
+                ),
+              ),
             ),
-            child: Center(
-              child: DrinkArtwork(id: drinkArtworkId(drink.name), size: 36),
-            ),
-          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -67,6 +133,19 @@ class TodayDrinkRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: palette.textMuted, fontSize: 11),
                 ),
+                if (drink.note != null && drink.note!.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    '"${drink.note}"',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: palette.brand300,
+                      fontSize: 10,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

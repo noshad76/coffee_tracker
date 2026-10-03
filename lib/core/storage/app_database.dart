@@ -40,6 +40,7 @@ class DrinkEntries extends Table {
   TextColumn get cupStyle =>
       text().withDefault(const Constant('Ceramic Mug'))();
   TextColumn get note => text().nullable()();
+  TextColumn get photoPath => text().nullable()();
 }
 
 class FeatureIdeas extends Table {
@@ -59,7 +60,7 @@ class AppDatabase extends _$AppDatabase {
     : super(executor ?? driftDatabase(name: 'coffeeaholic'));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -68,6 +69,8 @@ class AppDatabase extends _$AppDatabase {
       if (from < 2) {
         await migrator.createTable(drinkEntries);
         await migrator.createTable(featureIdeas);
+      } else if (from < 3) {
+        await migrator.addColumn(drinkEntries, drinkEntries.photoPath);
       }
     },
   );

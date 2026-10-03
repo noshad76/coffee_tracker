@@ -30,9 +30,39 @@ class _OnboardingStep extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 520),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(20, 28, 20, 48),
+                  padding: const EdgeInsetsDirectional.fromSTEB(20, 16, 20, 24),
                   child: Column(
                     children: [
+                      if (step > 0) ...[
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: state.saving ? null : controller.back,
+                              icon: const Icon(Icons.arrow_back_rounded),
+                              tooltip: 'Back',
+                              color: AppTheme.paletteOf(context).textMuted,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: LinearProgressIndicator(
+                                  value: (step + 1) / 4,
+                                  minHeight: 4,
+                                  backgroundColor:
+                                      AppTheme.paletteOf(context).stone800,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppTheme.paletteOf(context).brand500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                      ],
                       Expanded(
                         child: LayoutBuilder(
                           builder: (context, constraints) =>

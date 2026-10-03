@@ -22,6 +22,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Coffeeaholic needs camera access so you can take photos of your drinks.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Coffeeaholic needs photo library access so you can attach coffee photos to your log.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

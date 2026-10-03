@@ -141,6 +141,16 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     );
   });
 
+  Future<void> saveFavorites(List<String> drinkIds) async {
+    final current = _current;
+    if (current == null) return;
+    final preferences = current.preferences.copyWith(
+      favoriteDrinkIds: drinkIds,
+    );
+    await _repository.savePreferences(preferences);
+    _set(current.copyWith(preferences: preferences));
+  }
+
   void back() => _update((current) {
     final step = current.step;
     if (step == 3) {

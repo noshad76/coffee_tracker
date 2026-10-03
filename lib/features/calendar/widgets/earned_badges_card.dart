@@ -3,25 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../shared/widgets/coffee_card.dart';
 import '../../../shared/widgets/drink_artwork.dart';
+import '../../achievements/models/badge_item.dart';
 import '../../tracking/models/tracking_models.dart';
-
-class BadgeItem {
-  const BadgeItem({
-    required this.id,
-    required this.artwork,
-    required this.title,
-    required this.description,
-    required this.requirement,
-    required this.earned,
-  });
-
-  final String id;
-  final String artwork;
-  final String title;
-  final String description;
-  final String requirement;
-  final bool earned;
-}
 
 class EarnedBadgesCard extends StatelessWidget {
   const EarnedBadgesCard({
@@ -32,88 +15,6 @@ class EarnedBadgesCard extends StatelessWidget {
 
   final List<DrinkRecord> drinks;
   final int caffeineLimitMg;
-
-  List<BadgeItem> _computeBadges() {
-    final hasFirstSip = drinks.isNotEmpty;
-
-    // Group drinks by local day
-    final dayTotals = <DateTime, int>{};
-    final dayLastDrinkTime = <DateTime, DateTime>{};
-
-    for (final drink in drinks) {
-      final local = drink.localTime;
-      final day = DateTime(local.year, local.month, local.day);
-      dayTotals[day] = (dayTotals[day] ?? 0) + drink.caffeineMg;
-      final existingLast = dayLastDrinkTime[day];
-      if (existingLast == null || local.isAfter(existingLast)) {
-        dayLastDrinkTime[day] = local;
-      }
-    }
-
-    // Under 400: Has at least one day with logged drinks where total caffeine <= limit (or <= 400)
-    final effectiveLimit = caffeineLimitMg > 0 ? caffeineLimitMg : 400;
-    final hasUnderLimitDay = dayTotals.values.any(
-      (total) => total > 0 && total <= effectiveLimit,
-    );
-
-    // 7-Day Run: 7 consecutive calendar days of logging
-    final recordedDays = dayTotals.keys.toSet();
-    var hasSevenDayRun = false;
-    for (final day in recordedDays) {
-      var isRun = true;
-      for (var offset = 0; offset < 7; offset++) {
-        final checkDay = DateTime(day.year, day.month, day.day + offset);
-        if (!recordedDays.contains(checkDay)) {
-          isRun = false;
-          break;
-        }
-      }
-      if (isRun) {
-        hasSevenDayRun = true;
-        break;
-      }
-    }
-
-    // No-Crash: Had a day where last drink was before 2:00 PM (14:00) so caffeine cleared before bedtime
-    final hasNoCrash = dayLastDrinkTime.values.any((time) => time.hour < 14);
-
-    return [
-      BadgeItem(
-        id: 'first_sip',
-        artwork: 'badge-sprout',
-        title: 'First Sip',
-        description: 'Logged your very first drink in the app.',
-        requirement: 'Log at least one drink.',
-        earned: hasFirstSip,
-      ),
-      BadgeItem(
-        id: 'under_400',
-        artwork: 'badge-bolt',
-        title: 'Under $effectiveLimit',
-        description: 'Kept daily caffeine within your safe threshold.',
-        requirement:
-            'Stay under $effectiveLimit mg on any day with logged drinks.',
-        earned: hasUnderLimitDay,
-      ),
-      BadgeItem(
-        id: 'seven_day_run',
-        artwork: 'badge-target',
-        title: '7-Day Run',
-        description: 'Logged your caffeine habits for a full consecutive week.',
-        requirement: 'Log drinks for 7 consecutive days.',
-        earned: hasSevenDayRun,
-      ),
-      BadgeItem(
-        id: 'no_crash',
-        artwork: 'badge-zen',
-        title: 'No-Crash',
-        description:
-            'Stopped caffeine early enough to protect your natural sleep.',
-        requirement: 'Finish your last caffeinated drink before 2:00 PM.',
-        earned: hasNoCrash,
-      ),
-    ];
-  }
 
   void _showBadgeDetail(BuildContext context, BadgeItem badge) {
     final palette = AppTheme.paletteOf(context);
@@ -140,7 +41,29 @@ class EarnedBadgesCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              DrinkArtwork(id: badge.artwork, size: 56),
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: palette.surfaceRaised,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: badge.earned ? palette.brand500 : palette.stone800,
+                    width: 2,
+                  ),
+                ),
+                child: Center(
+                  child: badge.svgAsset != null
+                      ? DrinkArtwork(id: badge.svgAsset!, size: 48)
+                      : Icon(
+                          badge.icon,
+                          color: badge.earned
+                              ? palette.brand300
+                              : palette.textSubtle,
+                          size: 38,
+                        ),
+                ),
+              ),
               const SizedBox(height: 12),
               Text(
                 badge.title,
@@ -161,7 +84,7 @@ class EarnedBadgesCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  badge.earned ? 'Earned' : 'Locked',
+                  badge.earned ? '✓ Unlocked' : '🔒 Locked',
                   style: TextStyle(
                     color: badge.earned
                         ? palette.stateSuccess
@@ -178,10 +101,32 @@ class EarnedBadgesCard extends StatelessWidget {
                 style: TextStyle(color: palette.textPrimary, fontSize: 13),
               ),
               const SizedBox(height: 8),
-              Text(
-                'How to earn: ${badge.requirement}',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: palette.textMuted, fontSize: 11),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: palette.stone900,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: palette.stone800),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.flag_outlined,
+                      size: 14,
+                      color: palette.brand300,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        badge.requirement,
+                        style: TextStyle(
+                          color: palette.textSecondary,
+                          fontSize: 11.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
               SizedBox(
@@ -207,72 +152,142 @@ class EarnedBadgesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = AppTheme.paletteOf(context);
-    final badges = _computeBadges();
+    final allBadges = BadgeCalculator.computeBadges(
+      drinks: drinks,
+      caffeineLimitMg: caffeineLimitMg,
+    );
+    final earnedBadges = allBadges.where((b) => b.earned).toList();
 
     return CoffeeCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'EARNED BADGES',
-            style: TextStyle(
-              color: palette.textMuted,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-            ),
-          ),
-          const SizedBox(height: 12),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (final badge in badges)
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: InkWell(
-                      onTap: () => _showBadgeDetail(context, badge),
-                      borderRadius: BorderRadius.circular(16),
-                      child: Opacity(
-                        opacity: badge.earned ? 1.0 : 0.4,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: palette.stone900,
-                            border: Border.all(
-                              color: badge.earned
-                                  ? palette.brand500.withValues(alpha: 0.5)
-                                  : palette.stone800,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              DrinkArtwork(id: badge.artwork, size: 38),
-                              const SizedBox(height: 6),
-                              Text(
-                                badge.title,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: palette.textPrimary,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+              Text(
+                'EARNED BADGES',
+                style: TextStyle(
+                  color: palette.textMuted,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: palette.brand500.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '${earnedBadges.length} / ${allBadges.length} Unlocked',
+                  style: TextStyle(
+                    color: palette.brand300,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
+              ),
             ],
           ),
+          const SizedBox(height: 12),
+          if (earnedBadges.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+              decoration: BoxDecoration(
+                color: palette.surfaceRaised,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: palette.stone800),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.emoji_events_outlined,
+                    color: palette.textMuted,
+                    size: 32,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'No Badges Earned Yet',
+                    style: TextStyle(
+                      color: palette.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Log drinks and hit milestones to unlock your first trophy!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: palette.textMuted,
+                      fontSize: 11.5,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: earnedBadges.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+                childAspectRatio: 0.88,
+              ),
+              itemBuilder: (context, index) {
+                final badge = earnedBadges[index];
+                return InkWell(
+                  onTap: () => _showBadgeDetail(context, badge),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: palette.stone900,
+                      border: Border.all(
+                        color: palette.brand500.withValues(alpha: 0.6),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (badge.svgAsset != null)
+                          DrinkArtwork(id: badge.svgAsset!, size: 36)
+                        else
+                          Icon(
+                            badge.icon,
+                            color: palette.brand300,
+                            size: 32,
+                          ),
+                        const SizedBox(height: 4),
+                        Text(
+                          badge.title,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: palette.textPrimary,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );

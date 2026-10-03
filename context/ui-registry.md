@@ -102,17 +102,66 @@ Files: `lib/features/today/widgets/today_drink_row.dart`
 
 Card surface row displaying drink artwork thumbnail, name, local time formatted, source (Home Brew or Cafe Name), estimated price if tracked, caffeine in mg with tabular figures, volume in ml, and an accessible popup menu for Edit and Delete actions.
 
+### App toast notifications
+
+Files: `lib/shared/widgets/app_toast.dart`
+
+Floating dark toast pill overlaying the bottom screen area above the bottom navigation bar. Styled with `stone900` surface, 1px brand border, rounded 24px radius, status icon (success, warning, info, error), and subtle drop shadow. Replaces default full-width Material SnackBars across the app.
+
 ### Earned badges card
 
 Files: `lib/features/calendar/widgets/earned_badges_card.dart`
 
-Four-column badge showcase matching the HTML reference: First Sip, Under Limit, 7-Day Run, and No-Crash. Includes full opacity for earned achievements and 0.4 opacity for locked ones. Tapping any badge opens a native modal sheet describing the milestone, its earned status, and how to earn it.
+Four-column badge showcase featuring 8 milestones: First Sip, Under Target, 7-Day Run, No-Crash, Weekend Warrior, Cold Brew, Tea Master, and Century Club. Includes an unlocked counter indicator ("X / 8 Unlocked"), full opacity for earned achievements and 0.4 opacity for locked ones. Tapping any badge opens a native modal sheet describing the milestone, its earned status, and how to earn it.
+
+### Trophy room & achievements
+
+Files: `lib/features/achievements/achievements_page.dart`, `lib/features/achievements/widgets/trophy_header_card.dart`, `lib/features/achievements/widgets/badge_filter_bar.dart`, `lib/features/achievements/widgets/badge_card.dart`, `lib/features/achievements/widgets/badge_detail_sheet.dart`, `lib/features/achievements/models/badge_item.dart`
+
+100% offline dedicated 4th tab replacing the Roadmap/Features board. Features:
+- `TrophyHeaderCard`: Displays current Barista Rank & Level (Level 1 Green Bean up to Level 6 Legendary Grandmaster) with custom rank icon and color, plus an animated overall trophy progress bar with percentage.
+- `BadgeFilterBar`: Horizontal pill chip selector for `All (50)`, `Streaks (10)`, `Mindfulness (10)`, `Rituals (10)`, `Variety (10)`, and `Milestones (10)`.
+- `BadgeCard`: Rich card displaying artwork or icon, title, category tag, unlock status badge ("EARNED" or progress like "3 / 7"), requirement summary, and progress bar for multi-step goals.
+- `BadgeDetailSheet`: Modal bottom sheet with large artwork, unlocked/locked status banner, requirement breakdown, and educational barista insight tips.
 
 ### Native sheets
 
 Files: `lib/features/drink_log/log_drink_sheet.dart`, `lib/features/settings/mode_sheet.dart`, `lib/features/settings/theme_sheet.dart`, `lib/features/feature_board/suggest_feature_sheet.dart`
 
-Sheets use the semantic card surface with 32 pixel top corners and native back dismissal. The drink form handles keyboard insets, drink selection, amount, temperature, location, cost, cup, time, and notes. It can create or edit an existing record; Today offers edit and confirmed delete actions. Settings selections persist before the sheet closes. The idea sheet validates title and description and saves locally.
+Sheets use the semantic card surface with 32 pixel top corners and native back dismissal:
+- `LogDrinkSheet`: 68x68 horizontal drink scroll selector, side-by-side Name & Caffeine and Volume & Price fields, Hot/Iced and Home/Cafe segmented pill toggles, Cup Style dropdown, Time picker, Photo button, and sticky full-width Log Entry action.
+- `ModeSheet`: 3 selectable cards ("Just Tracking", "Cutting Back", "Quitting Completely") with color-coded badges ("400mg Limit", "200mg Goal", "0mg Goal") and radio checkmarks.
+- `ThemeSheet`: Preset theme selector (Coffee, Ocean, Forest, Amber).
+- `SuggestFeatureSheet`: Local device idea submission.
+- `EditQuickLogSheet`: (`lib/features/today/widgets/edit_quick_log_sheet.dart`) Quick Log shortcut customization sheet. Pinned shortcuts section with delete/edit actions, 11-drink catalog browser with quick pin toggles, custom drink builder dialog with name, caffeine mg, volume ml, and SVG icon picker, and full-width Save button.
+
+### Coffee photo capture & brew scrapbook
+
+Files: `lib/shared/widgets/photo_detail_dialog.dart`, `lib/features/achievements/widgets/brew_gallery_card.dart`, `lib/features/drink_log/log_drink_sheet.dart`, `lib/features/today/widgets/today_drink_row.dart`
+
+- `LogDrinkSheet`: Photo capture and picker action using `image_picker` (Camera or Gallery bottom sheet). Displays real-time 44x44 photo preview chip with dismissible `✕` overlay.
+- `PhotoDetailDialog`: High-fidelity dark dialog presenting full-resolution coffee photo with rounded corners, drink name, time, caffeine badge, cafe/location tag, and user notes.
+- `BrewGalleryCard`: "BREW SCRAPBOOK" carousel embedded at the top of the Trophy Room (`AchievementsPage`). Displays a horizontally scrolling gallery of photo cards with date pills, drink labels, caffeine tags, and tap-to-inspect modal. Empty state invites users to snap their first brew.
+- `TodayDrinkRow`: Replaces generic vector drink artwork with the actual user-captured photo thumbnail when available, complete with a subtle camera overlay icon that triggers `PhotoDetailDialog` on tap.
+
+### Single-row Quick Log carousel
+
+File: `lib/features/today/today_page.dart`
+
+Clean single horizontal scrolling row displaying user-configured quick-log shortcut cards. Each shortcut has a 56x56 icon box, drink title, and caffeine badge. Quick Log items log with a single tap accompanied by an `AppToast`. Redundant `+ Add` tile removed; full customization remains accessible via the section header's `Edit` button.
+
+### Metabolism & sleep cutoff card
+
+File: `lib/features/today/widgets/metabolism_card.dart`
+
+Faithful reconstruction of the prototype's metabolism component (`ui/coffeeaholic-tracker-1-5.html:323-345`). Features:
+- Moon icon and `Metabolism & Sleep Cutoff` title with active sleep status pill.
+- Large active caffeine figure (`$activeMg mg active in system`) and human-readable bedtime forecast (`✓ Drops to X mg by 11 PM` or `⚠ X mg at 11 PM bedtime`).
+- 72px smooth Bézier decay curve with vertical gradient fill and current-time dot.
+- Dashed red sleep impact line at 50mg with `Sleep impact limit (50mg)` label.
+- Four timeline labels along the x-axis: `Now`, `+3h`, `+6h (Half-life)`, and `Sleep (11 PM)`.
+
+
 
 
 

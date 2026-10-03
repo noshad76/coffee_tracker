@@ -42,23 +42,23 @@ void main() {
     expect(find.text('EARNED BADGES'), findsOneWidget);
     expect(find.text('First Sip'), findsOneWidget);
     expect(find.text('Under 400'), findsOneWidget);
-    expect(find.text('7-Day Run'), findsOneWidget);
     expect(find.text('No-Crash'), findsOneWidget);
+    expect(find.text('7-Day Run'), findsNothing);
 
     // Tap on First Sip to open details modal
     await tester.tap(find.text('First Sip'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Earned'), findsOneWidget);
+    expect(find.text('✓ Unlocked'), findsOneWidget);
     expect(
       find.text('Logged your very first drink in the app.'),
       findsOneWidget,
     );
-    expect(find.text('How to earn: Log at least one drink.'), findsOneWidget);
+    expect(find.text('Log at least one drink.'), findsOneWidget);
 
     // Tap close
     await tester.tap(find.text('Close'));
     await tester.pumpAndSettle();
-    expect(find.text('How to earn: Log at least one drink.'), findsNothing);
+    expect(find.text('Log at least one drink.'), findsNothing);
   });
 }

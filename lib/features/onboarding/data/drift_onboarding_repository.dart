@@ -36,7 +36,7 @@ class DriftOnboardingRepository implements OnboardingRepository {
       favoriteDrinkIds: favoriteRows
           .map((favorite) => favorite.drinkId)
           .where(_isKnownFavorite)
-          .take(3)
+          .take(10)
           .toList(growable: false),
       themePreset: _themeFromStorage(row.themePreset),
     );
@@ -46,7 +46,7 @@ class DriftOnboardingRepository implements OnboardingRepository {
   Future<void> savePreferences(OnboardingPreferences preferences) async {
     final favoriteIds = preferences.favoriteDrinkIds
         .where(_isKnownFavorite)
-        .take(3)
+        .take(10)
         .toList(growable: false);
 
     await _database.transaction(() async {
@@ -90,14 +90,22 @@ class DriftOnboardingRepository implements OnboardingRepository {
         themePreset: 'coffee',
       );
 
-  bool _isKnownFavorite(String id) => const {
-    'espresso',
-    'americano',
-    'latte',
-    'matcha',
-    'tea',
-    'cold_brew',
-  }.contains(id);
+  bool _isKnownFavorite(String id) =>
+      id.startsWith('custom:') ||
+      const {
+        'espresso',
+        'americano',
+        'latte',
+        'matcha',
+        'tea',
+        'cold_brew',
+        'coldbrew',
+        'blackcoffee',
+        'cappuccino',
+        'icedlatte',
+        'energy',
+        'other',
+      }.contains(id);
 
   CaffeineGoalMode _goalModeFromStorage(String value) =>
       CaffeineGoalMode.values.firstWhere(
