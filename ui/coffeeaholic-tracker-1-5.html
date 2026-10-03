@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Coffeeaholic - Caffeine Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <style>*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:Inter,system-ui,-apple-system,sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0}.inset-4{inset:1rem}.bottom-0{bottom:0}.left-0{left:0}.left-4{left:1rem}.right-0{right:0}.right-4{right:1rem}.top-12{top:3rem}.z-20{z-index:20}.z-30{z-index:30}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.my-4{margin-top:1rem;margin-bottom:1rem}.-mt-5{margin-top:-1.25rem}.mb-1{margin-bottom:.25rem}.mb-1\.5{margin-bottom:.375rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-0{margin-top:0}.mt-0\.5{margin-top:.125rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.table{display:table}.grid{display:grid}.hidden{display:none}.h-11{height:2.75rem}.h-12{height:3rem}.h-16{height:4rem}.h-2{height:.5rem}.h-20{height:5rem}.h-24{height:6rem}.h-3{height:.75rem}.h-3\.5{height:.875rem}.h-32{height:8rem}.h-4{height:1rem}.h-40{height:10rem}.h-44{height:11rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\[100dvh\]{height:100dvh}.h-\[58px\]{height:58px}.h-\[68px\]{height:68px}.h-full{height:100%}.max-h-\[90\%\]{max-height:90%}.min-h-screen{min-height:100vh}.w-11{width:2.75rem}.w-12{width:3rem}.w-2{width:.5rem}.w-24{width:6rem}.w-3{width:.75rem}.w-3\.5{width:.875rem}.w-4{width:1rem}.w-40{width:10rem}.w-44{width:11rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-\[68px\]{width:68px}.w-\[72px\]{width:72px}.w-full{width:100%}.max-w-\[16rem\]{max-width:16rem}.max-w-md{max-width:28rem}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-rotate-90{--tw-rotate:-90deg}.-rotate-90,.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes bounce{0%,to{transform:translateY(-25%);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,.2,1)}}.animate-bounce{animation:bounce 1s infinite}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-cols-7{grid-template-columns:repeat(7,minmax(0,1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-2\.5{gap:.625rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.-space-x-2>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(-.5rem*var(--tw-space-x-reverse));margin-left:calc(-.5rem*(1 - var(--tw-space-x-reverse)))}.space-x-2>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(.5rem*var(--tw-space-x-reverse));margin-left:calc(.5rem*(1 - var(--tw-space-x-reverse)))}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-2\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.625rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.625rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.rounded-t-\[32px\]{border-top-left-radius:32px;border-top-right-radius:32px}.rounded-t-lg{border-top-left-radius:.5rem;border-top-right-radius:.5rem}.border{border-width:1px}.border-2{border-width:2px}.border-4{border-width:4px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-amber-500{--tw-border-opacity:1;border-color:rgb(245 158 11/var(--tw-border-opacity,1))}.border-amber-500\/20{border-color:rgba(245,158,11,.2)}.border-coffee-500{--tw-border-opacity:1;border-color:rgb(var(--c500)/var(--tw-border-opacity,1))}.border-coffee-500\/20{border-color:rgb(var(--c500)/.2)}.border-coffee-500\/30{border-color:rgb(var(--c500)/.3)}.border-coffee-500\/40{border-color:rgb(var(--c500)/.4)}.border-stone-700{--tw-border-opacity:1;border-color:rgb(var(--s700)/var(--tw-border-opacity,1))}.border-stone-700\/50{border-color:rgb(var(--s700)/.5)}.border-stone-800{--tw-border-opacity:1;border-color:rgb(var(--s800)/var(--tw-border-opacity,1))}.border-stone-800\/80{border-color:rgb(var(--s800)/.8)}.border-stone-900{--tw-border-opacity:1;border-color:rgb(var(--s900)/var(--tw-border-opacity,1))}.border-surface{--tw-border-opacity:1;border-color:rgb(var(--surface)/var(--tw-border-opacity,1))}.border-transparent{border-color:transparent}.bg-amber-400{--tw-bg-opacity:1;background-color:rgb(251 191 36/var(--tw-bg-opacity,1))}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11/var(--tw-bg-opacity,1))}.bg-amber-500\/10{background-color:rgba(245,158,11,.1)}.bg-amber-500\/20{background-color:rgba(245,158,11,.2)}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0/var(--tw-bg-opacity,1))}.bg-black\/70{background-color:rgba(0,0,0,.7)}.bg-black\/80{background-color:rgba(0,0,0,.8)}.bg-card{--tw-bg-opacity:1;background-color:rgb(var(--card)/var(--tw-bg-opacity,1))}.bg-card\/60{background-color:rgb(var(--card)/.6)}.bg-cardLight{--tw-bg-opacity:1;background-color:rgb(var(--card-light)/var(--tw-bg-opacity,1))}.bg-coffee-300{--tw-bg-opacity:1;background-color:rgb(var(--c300)/var(--tw-bg-opacity,1))}.bg-coffee-500{--tw-bg-opacity:1;background-color:rgb(var(--c500)/var(--tw-bg-opacity,1))}.bg-coffee-500\/10{background-color:rgb(var(--c500)/.1)}.bg-coffee-500\/15{background-color:rgb(var(--c500)/.15)}.bg-coffee-500\/20{background-color:rgb(var(--c500)/.2)}.bg-coffee-500\/80{background-color:rgb(var(--c500)/.8)}.bg-emerald-400{--tw-bg-opacity:1;background-color:rgb(52 211 153/var(--tw-bg-opacity,1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129/var(--tw-bg-opacity,1))}.bg-emerald-500\/20{background-color:rgba(16,185,129,.2)}.bg-indigo-500{--tw-bg-opacity:1;background-color:rgb(99 102 241/var(--tw-bg-opacity,1))}.bg-indigo-500\/15{background-color:rgba(99,102,241,.15)}.bg-rose-400{--tw-bg-opacity:1;background-color:rgb(251 113 133/var(--tw-bg-opacity,1))}.bg-rose-500{--tw-bg-opacity:1;background-color:rgb(244 63 94/var(--tw-bg-opacity,1))}.bg-rose-500\/20{background-color:rgba(244,63,94,.2)}.bg-stone-800{--tw-bg-opacity:1;background-color:rgb(var(--s800)/var(--tw-bg-opacity,1))}.bg-stone-800\/80{background-color:rgb(var(--s800)/.8)}.bg-stone-900{--tw-bg-opacity:1;background-color:rgb(var(--s900)/var(--tw-bg-opacity,1))}.bg-surface{--tw-bg-opacity:1;background-color:rgb(var(--surface)/var(--tw-bg-opacity,1))}.bg-surface\/90{background-color:rgb(var(--surface)/.9)}.bg-surface\/95{background-color:rgb(var(--surface)/.95)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}.from-coffee-500{--tw-gradient-from:rgb(var(--c500)/1) var(--tw-gradient-from-position);--tw-gradient-to:rgb(var(--c500)/0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.to-coffee-700{--tw-gradient-to:rgb(var(--c700)/1) var(--tw-gradient-to-position)}.p-0{padding:0}.p-1{padding:.25rem}.p-1\.5{padding:.375rem}.p-2{padding:.5rem}.p-2\.5{padding:.625rem}.p-3{padding:.75rem}.p-3\.5{padding:.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-2\.5{padding-left:.625rem;padding-right:.625rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0{padding-top:0;padding-bottom:0}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-3\.5{padding-top:.875rem;padding-bottom:.875rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-1{padding-bottom:.25rem}.pb-2{padding-bottom:.5rem}.pb-24{padding-bottom:6rem}.pt-1{padding-top:.25rem}.pt-3{padding-top:.75rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-.025em}.tracking-wide{letter-spacing:.025em}.tracking-wider{letter-spacing:.05em}.tracking-widest{letter-spacing:.1em}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77/var(--tw-text-opacity,1))}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36/var(--tw-text-opacity,1))}.text-coffee-100{--tw-text-opacity:1;color:rgb(var(--c100)/var(--tw-text-opacity,1))}.text-coffee-200{--tw-text-opacity:1;color:rgb(var(--c200)/var(--tw-text-opacity,1))}.text-coffee-300{--tw-text-opacity:1;color:rgb(var(--c300)/var(--tw-text-opacity,1))}.text-coffee-400{--tw-text-opacity:1;color:rgb(var(--c400)/var(--tw-text-opacity,1))}.text-coffee-50{--tw-text-opacity:1;color:rgb(var(--c50)/var(--tw-text-opacity,1))}.text-coffee-500{--tw-text-opacity:1;color:rgb(var(--c500)/var(--tw-text-opacity,1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153/var(--tw-text-opacity,1))}.text-indigo-300{--tw-text-opacity:1;color:rgb(165 180 252/var(--tw-text-opacity,1))}.text-indigo-400{--tw-text-opacity:1;color:rgb(129 140 248/var(--tw-text-opacity,1))}.text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133/var(--tw-text-opacity,1))}.text-stone-100{--tw-text-opacity:1;color:rgb(245 245 244/var(--tw-text-opacity,1))}.text-stone-200{--tw-text-opacity:1;color:rgb(231 229 228/var(--tw-text-opacity,1))}.text-stone-300{--tw-text-opacity:1;color:rgb(214 211 209/var(--tw-text-opacity,1))}.text-stone-400{--tw-text-opacity:1;color:rgb(168 162 158/var(--tw-text-opacity,1))}.text-stone-500{--tw-text-opacity:1;color:rgb(120 113 108/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.accent-coffee-500{accent-color:rgb(var(--c500)/1)}.opacity-40{opacity:.4}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color)}.shadow,.shadow-2xl{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgba(0,0,0,.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color)}.shadow-inner,.shadow-lg{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color),0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-coffee-900{--tw-shadow-color:rgb(var(--c900)/1);--tw-shadow:var(--tw-shadow-colored)}.shadow-coffee-900\/50{--tw-shadow-color:rgb(var(--c900)/0.5);--tw-shadow:var(--tw-shadow-colored)}.shadow-coffee-900\/60{--tw-shadow-color:rgb(var(--c900)/0.6);--tw-shadow:var(--tw-shadow-colored)}.blur-2xl{--tw-blur:blur(40px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur{--tw-backdrop-blur:blur(8px)}.backdrop-blur,.backdrop-blur-sm{-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.duration-700{transition-duration:.7s}.hover\:border-coffee-500\/60:hover{border-color:rgb(var(--c500)/.6)}.hover\:bg-coffee-600:hover{--tw-bg-opacity:1;background-color:rgb(var(--c600)/var(--tw-bg-opacity,1))}.hover\:bg-coffee-700:hover{--tw-bg-opacity:1;background-color:rgb(var(--c700)/var(--tw-bg-opacity,1))}.hover\:bg-stone-700:hover{--tw-bg-opacity:1;background-color:rgb(var(--s700)/var(--tw-bg-opacity,1))}.hover\:text-stone-300:hover{--tw-text-opacity:1;color:rgb(214 211 209/var(--tw-text-opacity,1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.focus\:border-coffee-500:focus{--tw-border-opacity:1;border-color:rgb(var(--c500)/var(--tw-border-opacity,1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.has-\[\:checked\]\:border-coffee-500:has(:checked){--tw-border-opacity:1;border-color:rgb(var(--c500)/var(--tw-border-opacity,1))}.has-\[\:checked\]\:bg-cardLight:has(:checked){--tw-bg-opacity:1;background-color:rgb(var(--card-light)/var(--tw-bg-opacity,1))}@media (min-width:640px){.sm\:h-\[840px\]{height:840px}.sm\:rounded-\[40px\]{border-radius:40px}.sm\:p-4{padding:1rem}}</style>
+  <style>
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgb(var(--c700)); border-radius: 4px; }
+    :root, [data-theme="espresso"] {
+      --c50:253 248 245; --c100:245 235 225; --c200:231 213 196; --c300:213 186 160; --c400:213 186 160;
+      --c500:140 90 60; --c600:110 69 45; --c700:90 54 34; --c900:46 24 14;
+      --surface:24 18 15; --card:36 27 22; --card-light:50 38 32;
+      --s700:68 64 60; --s800:41 37 36; --s900:28 25 23;
+    }
+    [data-theme="iced"] {
+      --c50:242 248 251; --c100:227 239 245; --c200:199 222 234; --c300:156 196 217; --c400:156 196 217;
+      --c500:79 143 174; --c600:62 115 145; --c700:44 86 110; --c900:20 42 56;
+      --surface:15 21 25; --card:23 33 40; --card-light:32 48 58;
+      --s700:47 67 82; --s800:29 42 51; --s900:17 26 32;
+    }
+    [data-theme="matcha"] {
+      --c50:243 248 238; --c100:227 239 215; --c200:201 223 178; --c300:165 201 127; --c400:165 201 127;
+      --c500:94 143 62; --c600:73 115 48; --c700:53 85 36; --c900:24 42 18;
+      --surface:14 21 16; --card:22 33 26; --card-light:31 49 37;
+      --s700:47 69 53; --s800:28 42 32; --s900:17 26 19;
+    }
+    [data-theme="tea"] {
+      --c50:255 249 237; --c100:251 239 211; --c200:243 220 168; --c300:232 194 122; --c400:232 194 122;
+      --c500:201 138 43; --c600:160 110 31; --c700:122 82 23; --c900:58 38 10;
+      --surface:23 18 10; --card:36 28 16; --card-light:51 40 26;
+      --s700:74 65 47; --s800:46 40 28; --s900:28 24 16;
+    }
+    .di { display: block; }
+    .drink-icon { display: inline-flex; }
+    body, #caffeine-ring { transition: background-color .3s; }
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.5s ease-in-out;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
+    .tap-effect:active { transform: scale(0.97); transition: transform 0.1s; }
+  </style>
+</head>
+<body class="bg-stone-900 text-stone-100 flex items-center justify-center min-h-screen p-0 sm:p-4 select-none">
+
+  <div class="w-full max-w-md h-[100dvh] sm:h-[840px] bg-surface sm:rounded-[40px] shadow-2xl border border-stone-800 flex flex-col overflow-hidden relative">
+
+    <div class="w-full px-6 pt-3 pb-1 flex justify-between items-center text-xs text-stone-400 z-30">
+      <span id="current-clock" class="font-medium tracking-wide">09:41</span>
+      <div class="flex items-center space-x-2">
+        <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+        <i data-lucide="signal" class="w-3.5 h-3.5"></i>
+        <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
+      </div>
+    </div>
+
+    <!-- ONBOARDING -->
+    <div id="screen-onboarding" class="flex-1 flex flex-col justify-between p-6 overflow-y-auto">
+
+      <div id="onboarding-step-1" class="flex-1 flex flex-col justify-between py-4">
+        <div class="flex flex-col items-center text-center mt-4">
+          <div class="relative w-40 h-40 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full bg-coffee-500/10 blur-2xl"></div>
+            <div class="absolute inset-0 rounded-full border border-coffee-500/20"></div>
+            <div class="absolute inset-4 rounded-full border border-coffee-500/30"></div>
+            <div class="relative w-24 h-24 rounded-full bg-gradient-to-br from-coffee-500 to-coffee-700 flex items-center justify-center shadow-xl shadow-coffee-900/60">
+              <i data-lucide="coffee" class="w-11 h-11 text-coffee-50"></i>
+            </div>
+          </div>
+          <h1 class="text-4xl font-extrabold text-coffee-50 tracking-tight mt-6 leading-tight">Know your<br/><span class="text-coffee-300">coffee.</span></h1>
+          <p class="text-stone-400 text-sm mt-3 max-w-[16rem] leading-relaxed">
+            Track caffeine, see your patterns, and stay in control.
+          </p>
+        </div>
+
+        <div class="space-y-2.5 my-4">
+          <div class="flex items-center gap-3 p-3 rounded-2xl bg-card border border-stone-800">
+            <div class="w-9 h-9 rounded-xl bg-coffee-500/15 flex items-center justify-center text-coffee-300"><i data-lucide="zap" class="w-4 h-4"></i></div>
+            <div class="text-left"><div class="text-sm font-semibold text-white">One-tap logging</div><div class="text-[11px] text-stone-400">Add a drink in a second</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-2xl bg-card border border-stone-800">
+            <div class="w-9 h-9 rounded-xl bg-coffee-500/15 flex items-center justify-center text-coffee-300"><i data-lucide="line-chart" class="w-4 h-4"></i></div>
+            <div class="text-left"><div class="text-sm font-semibold text-white">Clear patterns</div><div class="text-[11px] text-stone-400">Daily, weekly and monthly intake</div></div>
+          </div>
+          <div class="flex items-center gap-3 p-3 rounded-2xl bg-card border border-stone-800">
+            <div class="w-9 h-9 rounded-xl bg-indigo-500/15 flex items-center justify-center text-indigo-300"><i data-lucide="moon" class="w-4 h-4"></i></div>
+            <div class="text-left"><div class="text-sm font-semibold text-white">Sleep-safe cutoff</div><div class="text-[11px] text-stone-400">Know when caffeine stops affecting you</div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-3">
+          <button onclick="goToOnboarding(2)" class="w-full py-4 bg-coffee-500 hover:bg-coffee-700 text-white font-semibold rounded-2xl tap-effect shadow-lg shadow-coffee-900/50">
+            Get started
+          </button>
+          <div class="flex items-center gap-1.5 text-[11px] text-stone-500">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Everything stays on your phone. No account, no server.</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="onboarding-step-2" class="hidden flex-1 flex flex-col justify-between py-4">
+        <div>
+          <div class="text-xs font-semibold text-coffee-300 uppercase tracking-widest mb-1">Step 2 of 4</div>
+          <h2 class="text-2xl font-bold text-coffee-100">What brings you here?</h2>
+          <p class="text-stone-400 text-sm mt-1">Pick your personal focus for tailored metrics.</p>
+
+          <div class="space-y-3 mt-6">
+            <label class="block p-4 rounded-2xl bg-card border-2 border-stone-800 cursor-pointer has-[:checked]:border-coffee-500 has-[:checked]:bg-cardLight transition">
+              <input type="radio" name="app_mode" value="tracking" checked class="hidden" />
+              <div class="flex items-start gap-3">
+                <div class="p-2.5 rounded-xl bg-stone-800/80 text-coffee-300"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-semibold text-white">Just tracking</h4>
+                  <p class="text-xs text-stone-400 mt-0.5">I want to see how much I drink & monitor patterns.</p>
+                </div>
+              </div>
+            </label>
+
+            <label class="block p-4 rounded-2xl bg-card border-2 border-stone-800 cursor-pointer has-[:checked]:border-coffee-500 has-[:checked]:bg-cardLight transition">
+              <input type="radio" name="app_mode" value="cutting" class="hidden" />
+              <div class="flex items-start gap-3">
+                <div class="p-2.5 rounded-xl bg-stone-800/80 text-amber-400"><i data-lucide="trending-down" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-semibold text-white">Cutting back</h4>
+                  <p class="text-xs text-stone-400 mt-0.5">I want to drink less and set a reduction target.</p>
+                </div>
+              </div>
+            </label>
+
+            <label class="block p-4 rounded-2xl bg-card border-2 border-stone-800 cursor-pointer has-[:checked]:border-coffee-500 has-[:checked]:bg-cardLight transition">
+              <input type="radio" name="app_mode" value="quitting" class="hidden" />
+              <div class="flex items-start gap-3">
+                <div class="p-2.5 rounded-xl bg-stone-800/80 text-rose-400"><i data-lucide="ban" class="w-5 h-5"></i></div>
+                <div>
+                  <h4 class="font-semibold text-white">Quitting</h4>
+                  <p class="text-xs text-stone-400 mt-0.5">I want to stop completely. Zero caffeine streak.</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <button onclick="handleStep2Continue()" class="w-full py-4 bg-coffee-500 hover:bg-coffee-700 text-white font-semibold rounded-2xl tap-effect">
+          Continue
+        </button>
+      </div>
+
+      <div id="onboarding-step-3" class="hidden flex-1 flex flex-col justify-between py-4">
+        <div>
+          <div class="text-xs font-semibold text-coffee-300 uppercase tracking-widest mb-1">Step 3 of 4</div>
+          <h2 id="step3-title" class="text-2xl font-bold text-coffee-100">Set a daily limit</h2>
+          <p id="step3-desc" class="text-stone-400 text-sm mt-1">We'll show how close you are each day.</p>
+
+          <div class="mt-8 bg-card p-6 rounded-3xl border border-stone-800 text-center">
+            <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Caffeine Threshold</span>
+            <div class="flex items-center justify-center gap-2 mt-3">
+              <span id="target-value-disp" class="text-5xl font-black text-white">400</span>
+              <span class="text-stone-400 text-lg font-medium">mg</span>
+            </div>
+            <input type="range" id="target-slider" min="50" max="600" step="25" value="400" oninput="updateTargetDisplay(this.value)" class="w-full mt-6 accent-coffee-500 cursor-pointer" />
+            <div class="flex justify-between text-[11px] text-stone-500 mt-2 font-mono">
+              <span>Low (100mg)</span>
+              <span>FDA Safe (400mg)</span>
+              <span>High (600mg)</span>
+            </div>
+          </div>
+          <p class="text-stone-400 text-xs text-center mt-4">You can change this anytime in Settings.</p>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="goToOnboarding(4)" class="flex-1 py-3.5 bg-stone-800 text-stone-300 font-medium rounded-2xl tap-effect">Skip</button>
+          <button onclick="goToOnboarding(4)" class="flex-1 py-3.5 bg-coffee-500 text-white font-semibold rounded-2xl tap-effect">Continue</button>
+        </div>
+      </div>
+
+      <div id="onboarding-step-4" class="hidden flex-1 flex flex-col justify-between py-4">
+        <div>
+          <div class="text-xs font-semibold text-coffee-300 uppercase tracking-widest mb-1">Step 4 of 4</div>
+          <h2 class="text-2xl font-bold text-coffee-100">What do you usually drink?</h2>
+          <p class="text-stone-400 text-sm mt-1">Pick up to 3. They'll become your one-tap quick log.</p>
+
+          <div class="grid grid-cols-2 gap-3 mt-6">
+            <button onclick="toggleFavDrink(this, 'Espresso', 75)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect transition active:scale-95">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="espresso" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Espresso</div>
+              <div class="text-xs text-stone-400">75 mg · 30ml</div>
+            </button>
+            <button onclick="toggleFavDrink(this, 'Americano', 150)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="americano" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Americano</div>
+              <div class="text-xs text-stone-400">150 mg · 250ml</div>
+            </button>
+            <button onclick="toggleFavDrink(this, 'Latte / Cappuccino', 120)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="latte" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Latte</div>
+              <div class="text-xs text-stone-400">120 mg · 300ml</div>
+            </button>
+            <button onclick="toggleFavDrink(this, 'Matcha Latte', 70)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="matcha" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Matcha Latte</div>
+              <div class="text-xs text-stone-400">70 mg · 250ml</div>
+            </button>
+            <button onclick="toggleFavDrink(this, 'Black Tea', 50)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="tea" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Black Tea</div>
+              <div class="text-xs text-stone-400">50 mg · 200ml</div>
+            </button>
+            <button onclick="toggleFavDrink(this, 'Cold Brew', 200)" class="fav-drink-btn p-3.5 rounded-2xl bg-card border border-stone-800 text-left tap-effect">
+              <div class="mb-1.5"><span class="drink-icon" data-kind="coldbrew" data-size="40"></span></div>
+              <div class="font-medium text-sm text-white">Cold Brew</div>
+              <div class="text-xs text-stone-400">200 mg · 350ml</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="finishOnboarding()" class="flex-1 py-3.5 bg-stone-800 text-stone-300 font-medium rounded-2xl tap-effect">Skip</button>
+          <button onclick="finishOnboarding()" class="flex-1 py-3.5 bg-coffee-500 text-white font-semibold rounded-2xl tap-effect">Done</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="screen-main" class="hidden flex-1 flex flex-col overflow-hidden relative">
+
+      <header class="px-5 pt-3 pb-2 flex items-center justify-between border-b border-stone-800/80 bg-surface/90 backdrop-blur z-20">
+        <div>
+          <span class="text-[11px] font-semibold text-coffee-300 tracking-wider uppercase">Coffeeaholic</span>
+          <h1 class="text-lg font-bold text-white leading-tight">Today</h1>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="openThemeSheet()" aria-label="Change theme" class="w-8 h-8 rounded-full bg-cardLight border border-coffee-500/30 flex items-center justify-center text-coffee-200 tap-effect">
+            <i data-lucide="palette" class="w-4 h-4"></i>
+          </button>
+          <button onclick="openModeSheet()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cardLight border border-coffee-500/30 text-xs font-medium text-coffee-200 tap-effect">
+            <span id="active-mode-badge" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="active-mode-label">Tracking</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-stone-400"></i>
+          </button>
+        </div>
+      </header>
+
+      <main class="flex-1 overflow-y-auto pb-24 px-4 pt-3 space-y-4">
+
+        <!-- HOME -->
+        <div id="tab-home" class="space-y-4">
+
+          <div class="p-4 rounded-3xl bg-card border border-stone-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">
+                🔥
+              </div>
+              <div>
+                <div class="text-xs text-stone-400" id="streak-label">Daily Log Streak</div>
+                <div class="text-lg font-bold text-white"><span id="streak-count">4</span> Days Strong</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-[11px] text-stone-500 uppercase font-mono">Limit / Target</div>
+              <div class="text-sm font-semibold text-coffee-300"><span id="user-limit-disp">400</span> mg</div>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-card border border-stone-800 flex flex-col items-center relative overflow-hidden">
+            <div class="relative w-44 h-44 flex items-center justify-center">
+              <svg class="w-full h-full transform -rotate-90">
+                <circle cx="88" cy="88" r="76" style="stroke: rgb(var(--card-light))" stroke-width="14" fill="transparent" />
+                <circle id="caffeine-ring" cx="88" cy="88" r="76" style="stroke: rgb(var(--c500))" stroke-width="14" stroke-dasharray="477.5" stroke-dashoffset="477.5" stroke-linecap="round" fill="transparent" class="transition-all duration-700" />
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span id="consumed-caffeine" class="text-4xl font-black text-white">0</span>
+                <span class="text-xs text-stone-400 font-medium">mg caffeine</span>
+                <span id="caffeine-status-tag" class="mt-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium">Clear</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 w-full mt-4 pt-3 border-t border-stone-800/80 text-center">
+              <div>
+                <div class="text-[11px] text-stone-400">Cups</div>
+                <div id="cups-count" class="text-sm font-bold text-white">0</div>
+              </div>
+              <div>
+                <div class="text-[11px] text-stone-400">Remaining</div>
+                <div id="remaining-caffeine" class="text-sm font-bold text-coffee-200">400 mg</div>
+              </div>
+              <div>
+                <div class="text-[11px] text-stone-400">Cost (Est.)</div>
+                <div id="today-cost" class="text-sm font-bold text-emerald-400">$0.00</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-2 px-1">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Quick Log</span>
+              <span class="text-[11px] text-coffee-400">One tap record</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="quickLog('Espresso', 75, 30, 'espresso', 2.5)" class="p-3 bg-card rounded-2xl border border-stone-800 text-center hover:border-coffee-500/60 tap-effect">
+                <div class="flex justify-center"><span class="drink-icon" data-kind="espresso" data-size="40"></span></div>
+                <div class="text-xs font-medium text-stone-200 mt-1">Espresso</div>
+                <div class="text-[10px] text-stone-500 font-mono">75mg</div>
+              </button>
+              <button onclick="quickLog('Americano', 150, 250, 'americano', 3.0)" class="p-3 bg-card rounded-2xl border border-stone-800 text-center hover:border-coffee-500/60 tap-effect">
+                <div class="flex justify-center"><span class="drink-icon" data-kind="americano" data-size="40"></span></div>
+                <div class="text-xs font-medium text-stone-200 mt-1">Americano</div>
+                <div class="text-[10px] text-stone-500 font-mono">150mg</div>
+              </button>
+              <button onclick="quickLog('Matcha', 70, 250, 'matcha', 4.5)" class="p-3 bg-card rounded-2xl border border-stone-800 text-center hover:border-coffee-500/60 tap-effect">
+                <div class="flex justify-center"><span class="drink-icon" data-kind="matcha" data-size="40"></span></div>
+                <div class="text-xs font-medium text-stone-200 mt-1">Matcha</div>
+                <div class="text-[10px] text-stone-500 font-mono">70mg</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-3xl bg-card border border-stone-800">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i data-lucide="moon" class="w-4 h-4 text-indigo-400"></i>
+                <span class="text-xs font-semibold text-stone-200">Metabolism & Sleep Cutoff</span>
+              </div>
+              <span class="text-[11px] text-indigo-300 font-mono" id="sleep-safe-time">Safe by 11:30 PM</span>
+            </div>
+
+            <div class="relative h-20 w-full flex items-end">
+              <svg class="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
+                <line x1="0" y1="55" x2="300" y2="55" stroke="#ef4444" stroke-dasharray="3 3" stroke-width="1.5" />
+                <text x="210" y="50" fill="#ef4444" font-size="8">Sleep impact limit (50mg)</text>
+                <path id="metabolism-path" d="M 0,75 Q 80,20 180,65 T 300,75" fill="none" style="stroke: rgb(var(--c500))" stroke-width="2.5" />
+              </svg>
+            </div>
+            <div class="flex justify-between text-[10px] text-stone-500 font-mono mt-1">
+              <span>Now</span>
+              <span>+3h</span>
+              <span>+6h (Half-life)</span>
+              <span>Sleep (11 PM)</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2 px-1">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Today's Drinks</span>
+              <button onclick="openFullLogModal()" class="text-xs text-coffee-300 flex items-center gap-1 font-medium">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Custom Log
+              </button>
+            </div>
+
+            <div id="home-empty-state" class="p-8 rounded-3xl bg-card/60 border border-dashed border-stone-800 text-center">
+              <div class="flex justify-center mb-2"><span class="drink-icon" data-kind="mug" data-size="46"></span></div>
+              <h4 id="empty-title" class="text-sm font-semibold text-stone-200">Log your first drink</h4>
+              <p id="empty-desc" class="text-xs text-stone-400 mt-1 max-w-xs mx-auto">
+                Tap one of your quick-log drinks to get started.
+              </p>
+            </div>
+
+            <div id="home-drinks-list" class="space-y-2 hidden"></div>
+          </div>
+
+        </div>
+
+        <!-- CALENDAR -->
+        <div id="tab-calendar" class="hidden space-y-4">
+          <div class="p-4 rounded-3xl bg-card border border-stone-800">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-bold text-white text-base">October 2026</h3>
+              <div class="flex gap-2 text-stone-400 text-xs">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Under Limit</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Over</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-7 gap-1.5 text-center text-xs text-stone-500 mb-2 font-mono">
+              <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+          </div>
+
+          <div class="p-4 rounded-3xl bg-card border border-stone-800">
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-3">Earned Badges</h4>
+            <div class="grid grid-cols-4 gap-2 text-center">
+              <div class="p-2.5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col items-center">
+                <span class="drink-icon" data-kind="badge-sprout" data-size="38"></span>
+                <span class="text-[10px] text-stone-300 font-medium mt-1">First Sip</span>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col items-center">
+                <span class="drink-icon" data-kind="badge-bolt" data-size="38"></span>
+                <span class="text-[10px] text-stone-300 font-medium mt-1">Under 400</span>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col items-center opacity-40">
+                <span class="drink-icon" data-kind="badge-target" data-size="38"></span>
+                <span class="text-[10px] text-stone-300 font-medium mt-1">7-Day Run</span>
+              </div>
+              <div class="p-2.5 rounded-2xl bg-stone-900 border border-stone-800 flex flex-col items-center opacity-40">
+                <span class="drink-icon" data-kind="badge-zen" data-size="38"></span>
+                <span class="text-[10px] text-stone-300 font-medium mt-1">No-Crash</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div id="tab-stats" class="hidden space-y-4">
+          <div class="p-1 rounded-2xl bg-card border border-stone-800 flex text-xs">
+            <button onclick="switchStatsRange('day', this)" class="stats-range-btn flex-1 py-1.5 rounded-xl font-medium text-stone-400">Day</button>
+            <button onclick="switchStatsRange('week', this)" class="stats-range-btn flex-1 py-1.5 rounded-xl font-medium bg-coffee-500 text-white shadow">Week</button>
+            <button onclick="switchStatsRange('month', this)" class="stats-range-btn flex-1 py-1.5 rounded-xl font-medium text-stone-400">Month</button>
+            <button onclick="switchStatsRange('year', this)" class="stats-range-btn flex-1 py-1.5 rounded-xl font-medium text-stone-400">Year</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-4 rounded-3xl bg-card border border-stone-800">
+              <span class="text-xs text-stone-400">Total Caffeine</span>
+              <div class="text-2xl font-bold text-white mt-1">1,420 <span class="text-xs font-normal text-stone-400">mg</span></div>
+              <div class="text-[11px] text-emerald-400 mt-0.5">↓ 12% vs last week</div>
+            </div>
+            <div class="p-4 rounded-3xl bg-card border border-stone-800">
+              <span class="text-xs text-stone-400">Spending Tracked</span>
+              <div class="text-2xl font-bold text-emerald-400 mt-1">$23.50</div>
+              <div class="text-[11px] text-stone-400 mt-0.5">6 cafe · 4 home brews</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-3xl bg-card border border-stone-800">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-xs font-semibold text-stone-300">Intake Trend</span>
+              <span class="text-[11px] text-stone-500">Target 400mg</span>
+            </div>
+            <div class="flex items-end justify-between h-32 pt-4 px-2">
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-500/80 rounded-t-lg" style="height: 60px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Mon</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-500/80 rounded-t-lg" style="height: 80px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Tue</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-500/80 rounded-t-lg" style="height: 45px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Wed</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-amber-500 rounded-t-lg" style="height: 95px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Thu</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-500/80 rounded-t-lg" style="height: 30px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Fri</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-500/80 rounded-t-lg" style="height: 70px;"></div>
+                <span class="text-[10px] text-stone-400 font-mono">Sat</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5">
+                <div class="w-6 bg-coffee-300 rounded-t-lg" style="height: 50px;"></div>
+                <span class="text-[10px] text-coffee-300 font-bold font-mono">Sun</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- FEATURES -->
+        <div id="tab-features" class="hidden space-y-4">
+
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="font-bold text-white text-base">Feature Board</h3>
+              <p class="text-xs text-stone-400">Vote on roadmap items or submit your idea.</p>
+            </div>
+            <button onclick="openNewFeatureModal()" class="px-3 py-1.5 rounded-xl bg-coffee-500 hover:bg-coffee-600 text-xs font-semibold text-white tap-effect">
+              + Propose
+            </button>
+          </div>
+
+          <div class="flex gap-1.5 text-xs overflow-x-auto pb-1">
+            <button onclick="filterFeatures('popular', this)" class="feat-filter px-3 py-1 rounded-full bg-coffee-500 text-white font-medium">Most Popular</button>
+            <button onclick="filterFeatures('newest', this)" class="feat-filter px-3 py-1 rounded-full bg-card border border-stone-800 text-stone-400">Newest</button>
+            <button onclick="filterFeatures('status', this)" class="feat-filter px-3 py-1 rounded-full bg-card border border-stone-800 text-stone-400">Planned</button>
+          </div>
+
+          <div class="space-y-2.5" id="feature-items-list">
+
+            <div class="p-3.5 rounded-2xl bg-card border border-stone-800 flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-white">Apple Health & Health Connect Sync</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-medium">In Progress</span>
+                </div>
+                <p class="text-xs text-stone-400 mt-1">Direct bidirectional caffeine syncing with Android Health Connect & Google Fit.</p>
+                <div class="text-[10px] text-stone-500 mt-2 font-mono">Suggested by Reza · 2 days ago</div>
+              </div>
+              <button onclick="toggleUpvote(this, 128)" class="flex flex-col items-center px-2.5 py-1.5 rounded-xl bg-stone-800/80 border border-stone-700/50 tap-effect">
+                <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-stone-300"></i>
+                <span class="text-xs font-bold text-coffee-200 mt-0.5">128</span>
+              </button>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-card border border-stone-800 flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-white">Cafe Autocomplete via OpenStreetMap</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-md bg-stone-800 text-stone-400 font-medium">Planned</span>
+                </div>
+                <p class="text-xs text-stone-400 mt-1">Auto-suggest nearby coffee shops when logging coffee away from home.</p>
+                <div class="text-[10px] text-stone-500 mt-2 font-mono">Suggested by Anonymous · 1 week ago</div>
+              </div>
+              <button onclick="toggleUpvote(this, 84)" class="flex flex-col items-center px-2.5 py-1.5 rounded-xl bg-stone-800/80 border border-stone-700/50 tap-effect">
+                <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-stone-300"></i>
+                <span class="text-xs font-bold text-coffee-200 mt-0.5">84</span>
+              </button>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-card border border-stone-800 flex items-start justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-white">Smart Watch WearOS Quick-Tile</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 font-medium">Shipped</span>
+                </div>
+                <p class="text-xs text-stone-400 mt-1">One-tap espresso log directly from your wrist.</p>
+                <div class="text-[10px] text-stone-500 mt-2 font-mono">What's New in v1.0.4</div>
+              </div>
+              <button onclick="toggleUpvote(this, 215)" class="flex flex-col items-center px-2.5 py-1.5 rounded-xl bg-stone-800/80 border border-stone-700/50 tap-effect">
+                <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-stone-300"></i>
+                <span class="text-xs font-bold text-coffee-200 mt-0.5">215</span>
+              </button>
+            </div>
+
+          </div>
+
+          <div class="p-4 rounded-3xl bg-card border border-stone-800">
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> What's New
+            </h4>
+            <div class="text-xs text-stone-300 space-y-1">
+              <div class="font-medium text-white">Version 1.1.0 Released</div>
+              <p class="text-stone-400">Added Tea & Energy Drinks categories, customizable default home coffee price, and full offline export.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <nav class="absolute bottom-0 left-0 right-0 h-16 bg-surface/95 border-t border-stone-800/80 backdrop-blur px-6 flex items-center justify-between z-20">
+        <button onclick="switchTab('home', this)" class="nav-item flex flex-col items-center gap-1 text-coffee-400 tap-effect">
+          <i data-lucide="cup-soda" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button onclick="switchTab('calendar', this)" class="nav-item flex flex-col items-center gap-1 text-stone-500 hover:text-stone-300 tap-effect">
+          <i data-lucide="calendar" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium">Calendar</span>
+        </button>
+        <button onclick="openFullLogModal()" class="w-12 h-12 -mt-5 rounded-full bg-coffee-500 hover:bg-coffee-600 text-white shadow-xl flex items-center justify-center border-4 border-surface tap-effect">
+          <i data-lucide="plus" class="w-6 h-6"></i>
+        </button>
+        <button onclick="switchTab('stats', this)" class="nav-item flex flex-col items-center gap-1 text-stone-500 hover:text-stone-300 tap-effect">
+          <i data-lucide="pie-chart" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium">Stats</span>
+        </button>
+        <button onclick="switchTab('features', this)" class="nav-item flex flex-col items-center gap-1 text-stone-500 hover:text-stone-300 tap-effect">
+          <i data-lucide="lightbulb" class="w-5 h-5"></i>
+          <span class="text-[10px] font-medium">Roadmap</span>
+        </button>
+      </nav>
+
+    </div>
+
+    <!-- MODAL: FULL LOG -->
+    <div id="modal-full-log" class="hidden absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex flex-col justify-end">
+      <div class="bg-card w-full max-h-[90%] rounded-t-[32px] border-t border-stone-700 p-5 overflow-y-auto space-y-4">
+
+        <div class="flex justify-between items-center pb-2 border-b border-stone-800">
+          <h3 class="text-base font-bold text-white">Log Drink</h3>
+          <button onclick="closeFullLogModal()" class="p-1 rounded-full text-stone-400 hover:text-white">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-semibold uppercase text-stone-400">Drink</label>
+          <div id="drink-picker" class="flex gap-2.5 overflow-x-auto pb-1 mt-2"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Drink Name</label>
+            <input type="text" id="log-name" value="Flat White" class="w-full mt-1 px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-coffee-500" />
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Caffeine (mg)</label>
+            <input type="number" id="log-mg" value="130" class="w-full mt-1 px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-coffee-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Volume (ml)</label>
+            <input type="number" id="log-ml" value="220" class="w-full mt-1 px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-sm text-white focus:outline-none focus:border-coffee-500" />
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Temperature</label>
+            <div class="flex gap-1.5 mt-1">
+              <button onclick="setTemp('Hot', this)" class="temp-btn flex-1 flex items-center justify-center gap-1 py-2 rounded-xl bg-stone-800 text-stone-300 text-xs font-medium border border-coffee-500 text-coffee-300"><i data-lucide="flame" class="w-3.5 h-3.5"></i> Hot</button>
+              <button onclick="setTemp('Iced', this)" class="temp-btn flex-1 flex items-center justify-center gap-1 py-2 rounded-xl bg-stone-800 text-stone-400 text-xs font-medium"><i data-lucide="snowflake" class="w-3.5 h-3.5"></i> Iced</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-[11px] font-semibold uppercase text-stone-400">Location & Spending</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="setLocationMode('home', this)" class="loc-btn py-2 px-3 rounded-xl bg-stone-800 border border-coffee-500 text-coffee-300 text-xs font-medium flex items-center justify-center gap-1.5">
+              <i data-lucide="home" class="w-3.5 h-3.5"></i> Home Brew ($0.50)
+            </button>
+            <button onclick="setLocationMode('cafe', this)" class="loc-btn py-2 px-3 rounded-xl bg-stone-800 text-stone-400 text-xs font-medium flex items-center justify-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> At Cafe
+            </button>
+          </div>
+          <div id="cafe-details-row" class="hidden grid grid-cols-2 gap-2 pt-1">
+            <input type="text" id="log-cafe-name" placeholder="Cafe Name (e.g. Blue Bottle)" class="px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white" />
+            <input type="number" step="0.5" id="log-price" placeholder="Price ($)" class="px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Cup Style</label>
+            <select id="log-cup" class="w-full mt-1 px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white">
+              <option>Ceramic Mug (Default)</option>
+              <option>Paper Takeaway Cup</option>
+              <option>Glass Cup</option>
+              <option>Thermos Tumbler</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold uppercase text-stone-400">Time</label>
+            <input type="time" id="log-time" class="w-full mt-1 px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white" />
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-semibold uppercase text-stone-400">Note & Photo (Optional)</label>
+          <div class="flex gap-2 mt-1">
+            <input type="text" id="log-note" placeholder="E.g. with oat milk & honey" class="flex-1 px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white" />
+            <button onclick="document.getElementById('drink-photo').click()" class="px-3 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs flex items-center gap-1">
+              <i data-lucide="camera" class="w-3.5 h-3.5"></i> Photo
+            </button>
+            <input type="file" id="drink-photo" class="hidden" accept="image/*" />
+          </div>
+        </div>
+
+        <button onclick="saveFullLog()" class="w-full py-3.5 bg-coffee-500 hover:bg-coffee-600 text-white font-semibold rounded-2xl tap-effect shadow-lg">
+          Log Entry
+        </button>
+      </div>
+    </div>
+
+    <!-- MODE SHEET -->
+    <div id="modal-mode-sheet" class="hidden absolute inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col justify-end">
+      <div class="bg-card w-full rounded-t-[32px] border-t border-stone-700 p-5 space-y-3">
+        <div class="flex justify-between items-center pb-2 border-b border-stone-800">
+          <h3 class="text-sm font-bold text-white">Switch Mode</h3>
+          <button onclick="closeModeSheet()" class="p-1 text-stone-400"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <button onclick="setAppMode('tracking')" class="w-full p-3 rounded-2xl bg-stone-900 border border-stone-800 flex items-center justify-between text-left">
+          <div>
+            <div class="text-xs font-bold text-white">Just Tracking</div>
+            <div class="text-[11px] text-stone-400">Log habits & view stats (Daily log streak)</div>
+          </div>
+          <span class="text-xs text-coffee-400">400mg Limit</span>
+        </button>
+        <button onclick="setAppMode('cutting')" class="w-full p-3 rounded-2xl bg-stone-900 border border-stone-800 flex items-center justify-between text-left">
+          <div>
+            <div class="text-xs font-bold text-white">Cutting Back</div>
+            <div class="text-[11px] text-stone-400">Strict limit, streaks count days below goal</div>
+          </div>
+          <span class="text-xs text-amber-400">200mg Goal</span>
+        </button>
+        <button onclick="setAppMode('quitting')" class="w-full p-3 rounded-2xl bg-stone-900 border border-stone-800 flex items-center justify-between text-left">
+          <div>
+            <div class="text-xs font-bold text-white">Quitting Completely</div>
+            <div class="text-[11px] text-stone-400">Zero caffeine goal. Count caffeine-free days.</div>
+          </div>
+          <span class="text-xs text-rose-400">0mg Goal</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- THEME SHEET -->
+    <div id="modal-theme-sheet" class="hidden absolute inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col justify-end">
+      <div class="bg-card w-full rounded-t-[32px] border-t border-stone-700 p-5 space-y-3">
+        <div class="flex justify-between items-center pb-2 border-b border-stone-800">
+          <h3 class="text-sm font-bold text-white">Choose a theme</h3>
+          <button onclick="closeThemeSheet()" class="p-1 text-stone-400"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <button onclick="setTheme('espresso')" data-theme-opt="espresso" class="theme-opt w-full p-3 rounded-2xl bg-stone-900 border-2 border-stone-800 flex items-center justify-between text-left tap-effect">
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#241B16"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#8C5A3C"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#D5BAA0"></span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Espresso</div>
+              <div class="text-[11px] text-stone-400">Classic dark roast</div>
+            </div>
+          </div>
+          <span class="theme-check hidden text-coffee-300"><i data-lucide="check" class="w-4 h-4"></i></span>
+        </button>
+        <button onclick="setTheme('iced')" data-theme-opt="iced" class="theme-opt w-full p-3 rounded-2xl bg-stone-900 border-2 border-stone-800 flex items-center justify-between text-left tap-effect">
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#172128"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#4F8FAE"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#9CC4D9"></span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Iced Latte</div>
+              <div class="text-[11px] text-stone-400">Cool, icy and creamy</div>
+            </div>
+          </div>
+          <span class="theme-check hidden text-coffee-300"><i data-lucide="check" class="w-4 h-4"></i></span>
+        </button>
+        <button onclick="setTheme('matcha')" data-theme-opt="matcha" class="theme-opt w-full p-3 rounded-2xl bg-stone-900 border-2 border-stone-800 flex items-center justify-between text-left tap-effect">
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#16211A"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#5E8F3E"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#A5C97F"></span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Matcha</div>
+              <div class="text-[11px] text-stone-400">Fresh green tea</div>
+            </div>
+          </div>
+          <span class="theme-check hidden text-coffee-300"><i data-lucide="check" class="w-4 h-4"></i></span>
+        </button>
+        <button onclick="setTheme('tea')" data-theme-opt="tea" class="theme-opt w-full p-3 rounded-2xl bg-stone-900 border-2 border-stone-800 flex items-center justify-between text-left tap-effect">
+          <div class="flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#241C10"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#C98A2B"></span>
+              <span class="w-7 h-7 rounded-full border-2 border-stone-900" style="background:#E8C27A"></span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">Tea</div>
+              <div class="text-[11px] text-stone-400">Warm amber black tea</div>
+            </div>
+          </div>
+          <span class="theme-check hidden text-coffee-300"><i data-lucide="check" class="w-4 h-4"></i></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- NEW FEATURE MODAL -->
+    <div id="modal-new-feature" class="hidden absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex flex-col justify-end">
+      <div class="bg-card w-full rounded-t-[32px] border-t border-stone-700 p-5 space-y-3">
+        <div class="flex justify-between items-center pb-1 border-b border-stone-800">
+          <h3 class="text-sm font-bold text-white">Suggest a Feature</h3>
+          <button onclick="closeNewFeatureModal()" class="text-stone-400"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <input type="text" id="feat-title" placeholder="Title (e.g. Home Widget for Android)" class="w-full px-3 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white" />
+        <textarea id="feat-desc" rows="3" placeholder="Explain how this helps your caffeine habits..." class="w-full px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-xs text-white"></textarea>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="feat-anon" class="rounded bg-stone-800 border-stone-700 text-coffee-500" />
+          <label for="feat-anon" class="text-xs text-stone-400">Submit anonymously</label>
+        </div>
+        <button onclick="submitFeature()" class="w-full py-3 bg-coffee-500 text-white text-xs font-bold rounded-xl tap-effect">Post Suggestion</button>
+      </div>
+    </div>
+
+    <div id="toast-perm" class="hidden absolute top-12 left-4 right-4 bg-stone-800 border border-coffee-500/40 p-3 rounded-2xl shadow-2xl flex items-center justify-between z-50 animate-bounce">
+      <div class="flex items-center gap-2.5">
+        <i data-lucide="bell" class="w-5 h-5 text-amber-400"></i>
+        <div class="text-xs text-stone-200">
+          <span class="font-bold">Enable Bedtime Alerts?</span>
+          <div class="text-[10px] text-stone-400">Get notified when caffeine will impair sleep.</div>
+        </div>
+      </div>
+      <button onclick="dismissNotificationPrompt()" class="px-3 py-1 rounded-lg bg-coffee-500 text-[11px] font-semibold text-white">Allow</button>
+    </div>
+
+  </div>
+
+  <script>
+    const state = {
+      mode: 'tracking',
+      targetCaffeine: 400,
+      totalConsumedToday: 0,
+      cupsToday: 0,
+      totalCostToday: 0,
+      streak: 4,
+      loggedDrinks: [],
+      hasAskedNotification: false,
+    };
+
+    // Drink icons (full-colour illustrations)
+    const STEAM = '<path d="M25 13c-2.4-3.2 2.4-5.2 0-9M33 13c-2.4-3.2 2.4-5.2 0-9" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>';
+    const CUP = (liq, art, opt) => {
+      opt = opt || {};
+      return (opt.shadow === false ? '' : '<ellipse cx="30" cy="53" rx="19" ry="3.6" fill="#000" fill-opacity=".28"/>') +
+        '<path d="M48 29h2.5a6 6 0 0 1 0 12H46" fill="none" stroke="#E9DFCF" stroke-width="4.5" stroke-linecap="round"/>' +
+        '<path d="M11 24v10c0 10 8 17 19 17s19-7 19-17V24z" fill="#FAF5EC"/>' +
+        '<path d="M49 24v10c0 10-8 17-19 17c9-2 14-9 14-17V24z" fill="#E4D8C6"/>' +
+        '<ellipse cx="30" cy="24" rx="19" ry="7.5" fill="#FDFBF6" stroke="#E3D7C4"/>' +
+        '<ellipse cx="30" cy="24.6" rx="16" ry="6" fill="#D9CDBB"/>' +
+        '<ellipse cx="30" cy="25.4" rx="14.6" ry="5" fill="' + liq + '"/>' + (art || '') +
+        '<path d="M15 33c0 5 2.5 9 6 12" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"/>';
+    };
+    const GLASS_BACK = '<ellipse cx="32" cy="56.5" rx="13" ry="2.6" fill="#000" fill-opacity=".28"/><path d="M18 14h28l-3.5 40a3 3 0 0 1-3 2.7h-15a3 3 0 0 1-3-2.7z" fill="#fff" fill-opacity=".14"/><path d="M40 4L35 38" stroke="#E8664A" stroke-width="3.2" stroke-linecap="round"/>';
+    const GLASS_FRONT = '<rect x="22" y="22" width="9" height="9" rx="2" transform="rotate(-12 26 26)" fill="#fff" fill-opacity=".5" stroke="#fff" stroke-opacity=".8"/><rect x="32" y="30" width="8" height="8" rx="2" transform="rotate(14 36 34)" fill="#fff" fill-opacity=".45" stroke="#fff" stroke-opacity=".8"/><path d="M18 14h28l-3.5 40a3 3 0 0 1-3 2.7h-15a3 3 0 0 1-3-2.7z" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.6"/><ellipse cx="32" cy="14" rx="14" ry="3" fill="#fff" fill-opacity=".12" stroke="#fff" stroke-opacity=".6" stroke-width="1.4"/><path d="M22 20l1.6 28" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>';
+    const ART_LATTE = '<ellipse cx="30" cy="25.4" rx="10" ry="3.4" fill="#F7EAD7"/><ellipse cx="30" cy="25.7" rx="5.5" ry="1.9" fill="#C99A6B"/><path d="M30 22.3v6" stroke="#F7EAD7" stroke-width=".9"/>';
+    const DRINK_ICONS = {
+      blackcoffee: '<g transform="translate(1.5 -3)">' + STEAM + CUP('#2B1810', '<ellipse cx="23" cy="24.6" rx="4" ry="1.1" fill="#fff" fill-opacity=".25"/>') + '</g>',
+      americano: '<g transform="translate(1.5 -3)">' + STEAM + CUP('#6A3C22', '<ellipse cx="30" cy="25.6" rx="12" ry="3.9" fill="#40240F"/><ellipse cx="23" cy="24.6" rx="3.5" ry="1" fill="#fff" fill-opacity=".2"/>') + '</g>',
+      latte: '<g transform="translate(1.5 -3)">' + STEAM + CUP('#C99A6B', ART_LATTE) + '</g>',
+      cappuccino: '<g transform="translate(1.5 -3)">' + STEAM + CUP('#EBD7B9', '<ellipse cx="30" cy="25.4" rx="10" ry="3.3" fill="#C99A6B" fill-opacity=".6"/><circle cx="26" cy="25" r=".8" fill="#8A5A36"/><circle cx="31" cy="26.2" r=".8" fill="#8A5A36"/><circle cx="34" cy="24.8" r=".7" fill="#8A5A36"/>') + '</g>',
+      espresso: '<ellipse cx="32" cy="43" rx="25" ry="6.2" fill="#000" fill-opacity=".28"/><ellipse cx="32" cy="42" rx="24" ry="6" fill="#EFE7DA"/><ellipse cx="32" cy="41.5" rx="18" ry="4" fill="#DDD1BE"/><path d="M26 15c-1.8-2.6 1.8-4.2 0-7M33 15c-1.8-2.6 1.8-4.2 0-7" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.8" stroke-linecap="round"/><g transform="translate(8.5 5.3) scale(.72)">' + CUP('#A8683A', '<ellipse cx="30" cy="25.6" rx="10" ry="3.4" fill="#3A2013"/>', {shadow:false}) + '</g>',
+      tea: '<g transform="translate(1.5 -3)">' + STEAM + CUP('#C4701A', '<ellipse cx="25" cy="24.6" rx="4" ry="1.1" fill="#fff" fill-opacity=".3"/>') + '<path d="M33 24L38 11" stroke="#D9C9A5" stroke-width="1.2"/><rect x="36" y="4" width="7" height="8" rx="1.4" transform="rotate(14 39.5 8)" fill="#F2D58A" stroke="#C9A24A"/></g>',
+      matcha: '<ellipse cx="32" cy="53" rx="19" ry="3.4" fill="#000" fill-opacity=".28"/><path d="M8 25c0 15 10 26 24 26s24-11 24-26z" fill="#5C7A5E"/><path d="M56 25c0 15-10 26-24 26 11-3 17-12 17-26z" fill="#466049"/><ellipse cx="32" cy="51" rx="10" ry="2.2" fill="#3C5240"/><ellipse cx="32" cy="25" rx="24" ry="8" fill="#6B8B6C" stroke="#7FA07F"/><ellipse cx="32" cy="25.6" rx="21" ry="6.6" fill="#3E5742"/><ellipse cx="32" cy="26.2" rx="19.6" ry="5.8" fill="#8FB65E"/><ellipse cx="32" cy="26" rx="14" ry="4" fill="#B4D683"/><circle cx="27" cy="25.5" r="1" fill="#D3E8A8"/><circle cx="34" cy="26.8" r="1.2" fill="#D3E8A8"/><circle cx="38" cy="25" r=".8" fill="#D3E8A8"/><path d="M13 33c1 5 4 9 8 12" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="2" stroke-linecap="round"/>',
+      coldbrew: GLASS_BACK + '<path d="M19.7 27h24.6l-2.3 26.6a2 2 0 0 1-2 1.8H24a2 2 0 0 1-2-1.8z" fill="#3A2013"/><ellipse cx="32" cy="27" rx="12.3" ry="1.8" fill="#6A3C22"/>' + GLASS_FRONT,
+      icedlatte: GLASS_BACK + '<path d="M19.9 22h24.2l-.96 11H20.86z" fill="#F1E3CC"/><path d="M20.86 33h22.28l-.61 7H21.47z" fill="#B07C54"/><path d="M21.47 40h21.06l-1.2 14.4a1.8 1.8 0 0 1-1.8 1.6h-15a1.8 1.8 0 0 1-1.8-1.6z" fill="#3A2013"/>' + GLASS_FRONT,
+      energy: '<ellipse cx="32" cy="57" rx="11" ry="2.4" fill="#000" fill-opacity=".28"/><path d="M22 14c0-2 2-3 4-3h12c2 0 4 1 4 3v38c0 2-2 3-4 3H26c-2 0-4-1-4-3z" fill="#2F86D6"/><path d="M38 11h0c2 0 4 1 4 3v38c0 2-2 3-4 3 3-2 4-6 4-10V20c0-4-1-7-4-9z" fill="#1F6DB8"/><path d="M22 14c0-2 2-3 4-3h12c2 0 4 1 4 3v3H22z" fill="#D5DBE1"/><path d="M22 49h20v3c0 2-2 3-4 3H26c-2 0-4-1-4-3z" fill="#D5DBE1"/><path d="M33.5 21l-7 12h5.5l-2 11 8-13.5h-5.5z" fill="#FFD23F"/><path d="M25.5 20v26" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>',
+      other: '<path d="M44 26h3a5.5 5.5 0 0 1 0 11h-3" fill="none" stroke="#C9A66B" stroke-width="4" stroke-linecap="round"/><path d="M12 22h32v14c0 9-7 15-16 15s-16-6-16-15z" fill="#C9A66B"/><path d="M28 28.5v15M20.5 36h15" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/>',
+      bolt: '<path stroke="#ef4444" stroke-width="3" stroke-linejoin="round" fill="rgba(239,68,68,.35)" d="M36 6L16 36h14l-3 22 22-32H34z"/>'
+    };
+    DRINK_ICONS['badge-sprout'] = '<path d="M32 52V30" stroke="#6AA84F" stroke-width="3.5" stroke-linecap="round"/><path d="M32 32C32 20 22 16 14 17c0 11 8 16 18 15z" fill="#7BC95A"/><path d="M32 28c0-9 7-13 16-12 0 10-7 14-16 12z" fill="#5BAE45"/><ellipse cx="32" cy="53" rx="14" ry="4" fill="#7A5230"/>';
+    DRINK_ICONS['badge-bolt'] = '<path d="M36 6L16 36h14l-3 22 22-32H34z" fill="#FFD23F" stroke="#E5A800" stroke-width="2" stroke-linejoin="round"/>';
+    DRINK_ICONS['badge-target'] = '<circle cx="30" cy="34" r="22" fill="#E5484D"/><circle cx="30" cy="34" r="15" fill="#fff"/><circle cx="30" cy="34" r="9" fill="#E5484D"/><circle cx="30" cy="34" r="3.5" fill="#fff"/><path d="M30 34L50 14" stroke="#8A5A36" stroke-width="3" stroke-linecap="round"/><path d="M46 10l8-2-2 8-4-1zM50 18l6-1" fill="#F2D58A" stroke="#C9A24A" stroke-width="1"/>';
+    DRINK_ICONS['badge-zen'] = '<ellipse cx="32" cy="38" rx="7" ry="15" fill="#F06292"/><ellipse cx="32" cy="38" rx="7" ry="15" transform="rotate(-40 32 52)" fill="#F8BBD0"/><ellipse cx="32" cy="38" rx="7" ry="15" transform="rotate(40 32 52)" fill="#F8BBD0"/><ellipse cx="32" cy="38" rx="7" ry="15" transform="rotate(-75 32 52)" fill="#F48FB1"/><ellipse cx="32" cy="38" rx="7" ry="15" transform="rotate(75 32 52)" fill="#F48FB1"/><ellipse cx="32" cy="38" rx="6" ry="14" fill="#F06292"/><path d="M12 54c6 3 14 4 20 4s14-1 20-4" fill="none" stroke="#4DB6AC" stroke-width="3" stroke-linecap="round"/>';
+    DRINK_ICONS.mug = DRINK_ICONS.blackcoffee;
+    DRINK_ICONS.can = DRINK_ICONS.energy;
+    DRINK_ICONS.glass = DRINK_ICONS.icedlatte;
+    function drinkIcon(kind, size) {
+      return `<svg class="di" width="${size || 28}" height="${size || 28}" viewBox="0 0 64 64" aria-hidden="true">${DRINK_ICONS[kind] || DRINK_ICONS.blackcoffee}</svg>`;
+    }
+    function hydrateDrinkIcons() {
+      document.querySelectorAll('.drink-icon').forEach(el => {
+        el.innerHTML = drinkIcon(el.dataset.kind, parseInt(el.dataset.size) || 28);
+      });
+    }
+
+    // Themes
+    function openThemeSheet() { document.getElementById('modal-theme-sheet').classList.remove('hidden'); }
+    function closeThemeSheet() { document.getElementById('modal-theme-sheet').classList.add('hidden'); }
+    function setTheme(name) {
+      document.documentElement.setAttribute('data-theme', name);
+      document.querySelectorAll('.theme-opt').forEach(b => {
+        const on = b.dataset.themeOpt === name;
+        b.classList.toggle('border-coffee-500', on);
+        b.classList.toggle('border-stone-800', !on);
+        b.querySelector('.theme-check').classList.toggle('hidden', !on);
+      });
+      try { localStorage.setItem('coffeeaholic-theme', name); } catch (e) {}
+      closeThemeSheet();
+    }
+
+    function icons() { try { lucide.createIcons(); } catch (e) {} }
+
+    function updateClock() {
+      const d = new Date();
+      const t = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+      document.getElementById('current-clock').textContent = t;
+      document.getElementById('log-time').value = t;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    function goToOnboarding(step) {
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`onboarding-step-${i}`);
+        if (el) el.classList.add('hidden');
+      }
+      document.getElementById(`onboarding-step-${step}`).classList.remove('hidden');
+      icons();
+    }
+
+    function handleStep2Continue() {
+      const mode = document.querySelector('input[name="app_mode"]:checked').value;
+      state.mode = mode;
+
+      const title = document.getElementById('step3-title');
+      const desc = document.getElementById('step3-desc');
+      const slider = document.getElementById('target-slider');
+
+      if (mode === 'quitting') {
+        state.targetCaffeine = 0;
+        goToOnboarding(4);
+        return;
+      } else if (mode === 'cutting') {
+        title.textContent = 'Set your daily goal';
+        desc.textContent = 'Pick a target you can actually hit. Default: 200 mg.';
+        slider.value = 200;
+        updateTargetDisplay(200);
+      } else {
+        title.textContent = 'Set a daily limit';
+        desc.textContent = "We'll show how close you are each day. Default: 400 mg.";
+        slider.value = 400;
+        updateTargetDisplay(400);
+      }
+      goToOnboarding(3);
+    }
+
+    function updateTargetDisplay(val) {
+      state.targetCaffeine = parseInt(val);
+      document.getElementById('target-value-disp').textContent = val;
+    }
+
+    function toggleFavDrink(btn, name, mg) {
+      btn.classList.toggle('border-coffee-500');
+      btn.classList.toggle('bg-cardLight');
+    }
+
+    function finishOnboarding() {
+      document.getElementById('screen-onboarding').classList.add('hidden');
+      document.getElementById('screen-main').classList.remove('hidden');
+      applyModeUI();
+      buildCalendar();
+      updateDashboard();
+      icons();
+    }
+
+    function applyModeUI() {
+      const badge = document.getElementById('active-mode-badge');
+      const label = document.getElementById('active-mode-label');
+      const streakLabel = document.getElementById('streak-label');
+      const emptyTitle = document.getElementById('empty-title');
+      const emptyDesc = document.getElementById('empty-desc');
+
+      if (state.mode === 'quitting') {
+        badge.className = 'w-2 h-2 rounded-full bg-rose-400';
+        label.textContent = 'Quitting';
+        streakLabel.textContent = 'Caffeine-Free Streak';
+        state.targetCaffeine = 0;
+        emptyTitle.textContent = 'Day 1 starts now';
+        emptyDesc.textContent = 'Log a drink only if you have one. Stay strong!';
+      } else if (state.mode === 'cutting') {
+        badge.className = 'w-2 h-2 rounded-full bg-amber-400';
+        label.textContent = 'Cutting Back';
+        streakLabel.textContent = 'Days Under Goal';
+        emptyTitle.textContent = 'Log your first drink';
+        emptyDesc.textContent = 'Keep your intake below ' + state.targetCaffeine + 'mg today.';
+      } else {
+        badge.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        label.textContent = 'Tracking';
+        streakLabel.textContent = 'Daily Log Streak';
+        emptyTitle.textContent = 'Log your first drink';
+        emptyDesc.textContent = 'Tap one of your quick-log drinks to get started.';
+      }
+      document.getElementById('user-limit-disp').textContent = state.targetCaffeine;
+    }
+
+    function quickLog(name, mg, ml, icon, cost) {
+      addDrinkRecord({
+        name, mg, ml, icon,
+        cost: cost || 0,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        location: 'Quick Log'
+      });
+    }
+
+    function addDrinkRecord(drink) {
+      state.loggedDrinks.unshift(drink);
+      state.totalConsumedToday += drink.mg;
+      state.cupsToday += 1;
+      state.totalCostToday += drink.cost;
+
+      updateDashboard();
+      renderDrinkList();
+
+      if (!state.hasAskedNotification) {
+        state.hasAskedNotification = true;
+        setTimeout(() => {
+          document.getElementById('toast-perm').classList.remove('hidden');
+        }, 800);
+      }
+    }
+
+    function dismissNotificationPrompt() {
+      document.getElementById('toast-perm').classList.add('hidden');
+    }
+
+    function updateDashboard() {
+      const circle = document.getElementById('caffeine-ring');
+      const max = state.targetCaffeine || 1;
+      const percentage = Math.min(state.totalConsumedToday / max, 1);
+      const circumference = 2 * Math.PI * 76;
+      const offset = circumference - (percentage * circumference);
+      circle.style.strokeDashoffset = offset;
+
+      if (state.totalConsumedToday > state.targetCaffeine && state.targetCaffeine > 0) {
+        circle.style.stroke = '#ef4444';
+      } else {
+        circle.style.stroke = 'rgb(var(--c500))';
+      }
+
+      document.getElementById('consumed-caffeine').textContent = state.totalConsumedToday;
+      document.getElementById('cups-count').textContent = state.cupsToday;
+      document.getElementById('today-cost').textContent = '$' + state.totalCostToday.toFixed(2);
+
+      const remaining = Math.max(0, state.targetCaffeine - state.totalConsumedToday);
+      document.getElementById('remaining-caffeine').textContent = remaining + ' mg';
+
+      const tag = document.getElementById('caffeine-status-tag');
+      if (state.totalConsumedToday === 0) {
+        tag.textContent = 'Zero Intake';
+        tag.className = 'mt-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium';
+      } else if (state.totalConsumedToday <= state.targetCaffeine) {
+        tag.textContent = 'Optimal Range';
+        tag.className = 'mt-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium';
+      } else {
+        tag.textContent = 'Limit Exceeded';
+        tag.className = 'mt-1 text-[11px] px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 font-medium';
+      }
+    }
+
+    function renderDrinkList() {
+      const container = document.getElementById('home-drinks-list');
+      const empty = document.getElementById('home-empty-state');
+
+      if (state.loggedDrinks.length === 0) {
+        empty.classList.remove('hidden');
+        container.classList.add('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      container.classList.remove('hidden');
+      container.innerHTML = '';
+
+      state.loggedDrinks.forEach((d) => {
+        const item = document.createElement('div');
+        item.className = 'p-3 rounded-2xl bg-card border border-stone-800 flex items-center justify-between tap-effect';
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-cardLight flex items-center justify-center">${drinkIcon(d.icon || 'blackcoffee', 36)}</div>
+            <div>
+              <div class="text-xs font-semibold text-white">${d.name}</div>
+              <div class="text-[11px] text-stone-400">${d.time} · ${d.location} ${d.cost > 0 ? '· $' + d.cost.toFixed(2) : ''}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs font-bold text-coffee-300 font-mono">+${d.mg} mg</div>
+            <div class="text-[10px] text-stone-500">${d.ml || 250} ml</div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function openFullLogModal() {
+      document.getElementById('modal-full-log').classList.remove('hidden');
+    }
+    function closeFullLogModal() {
+      document.getElementById('modal-full-log').classList.add('hidden');
+    }
+
+    let selectedLocation = 'home';
+    function setLocationMode(mode, btn) {
+      selectedLocation = mode;
+      document.querySelectorAll('.loc-btn').forEach(b => {
+        b.classList.remove('border-coffee-500', 'text-coffee-300');
+        b.classList.add('text-stone-400');
+      });
+      btn.classList.add('border-coffee-500', 'text-coffee-300');
+      const cafeRow = document.getElementById('cafe-details-row');
+      if (mode === 'cafe') {
+        cafeRow.classList.remove('hidden');
+      } else {
+        cafeRow.classList.add('hidden');
+      }
+    }
+
+    const DRINKS = [
+      { id: 'blackcoffee', label: 'Black Coffee', mg: 95, ml: 240 },
+      { id: 'espresso', label: 'Espresso', mg: 75, ml: 30 },
+      { id: 'americano', label: 'Americano', mg: 150, ml: 250 },
+      { id: 'latte', label: 'Latte', mg: 120, ml: 300 },
+      { id: 'cappuccino', label: 'Cappuccino', mg: 80, ml: 180 },
+      { id: 'icedlatte', label: 'Iced Latte', mg: 130, ml: 350 },
+      { id: 'coldbrew', label: 'Cold Brew', mg: 200, ml: 350 },
+      { id: 'matcha', label: 'Matcha', mg: 70, ml: 250 },
+      { id: 'tea', label: 'Black Tea', mg: 50, ml: 200 },
+      { id: 'energy', label: 'Energy Drink', mg: 80, ml: 250 },
+      { id: 'other', label: 'Other', mg: 80, ml: 200 }
+    ];
+    let selectedDrink = 'latte';
+    function renderDrinkPicker() {
+      const box = document.getElementById('drink-picker');
+      box.innerHTML = DRINKS.map(d => `
+        <button onclick="pickDrink('${d.id}')" data-drink="${d.id}" class="drink-tile shrink-0 w-[72px] flex flex-col items-center gap-1.5 tap-effect">
+          <div class="tile w-[68px] h-[68px] rounded-2xl bg-cardLight border-2 ${d.id === 'other' ? 'border-dashed border-stone-700' : 'border-transparent'} flex items-center justify-center">${drinkIcon(d.id, 46)}</div>
+          <span class="text-[11px] leading-tight text-stone-300 text-center">${d.label}</span>
+        </button>`).join('');
+    }
+    function pickDrink(id) {
+      selectedDrink = id;
+      const d = DRINKS.find(x => x.id === id);
+      document.getElementById('log-name').value = id === 'other' ? 'Custom drink' : d.label;
+      document.getElementById('log-mg').value = d.mg;
+      document.getElementById('log-ml').value = d.ml;
+      document.querySelectorAll('.drink-tile').forEach(t => {
+        const on = t.dataset.drink === id;
+        const tile = t.querySelector('.tile');
+        tile.classList.toggle('border-coffee-500', on);
+        tile.classList.toggle('border-transparent', !on && t.dataset.drink !== 'other');
+        tile.classList.toggle('border-stone-700', !on && t.dataset.drink === 'other');
+      });
+    }
+
+    function setTemp(t, btn) {
+      document.querySelectorAll('.temp-btn').forEach(b => {
+        b.classList.remove('border', 'border-coffee-500', 'text-coffee-300');
+        b.classList.add('text-stone-400');
+      });
+      btn.classList.add('border', 'border-coffee-500', 'text-coffee-300');
+    }
+
+    function switchStatsRange(range, btn) {
+      document.querySelectorAll('.stats-range-btn').forEach(b => {
+        b.classList.remove('bg-coffee-500', 'text-white', 'shadow');
+        b.classList.add('text-stone-400');
+      });
+      btn.classList.remove('text-stone-400');
+      btn.classList.add('bg-coffee-500', 'text-white', 'shadow');
+    }
+
+    function filterFeatures(kind, btn) {
+      document.querySelectorAll('.feat-filter').forEach(b => {
+        b.classList.remove('bg-coffee-500', 'text-white', 'font-medium');
+        b.classList.add('bg-card', 'border', 'border-stone-800', 'text-stone-400');
+      });
+      btn.classList.remove('bg-card', 'border', 'border-stone-800', 'text-stone-400');
+      btn.classList.add('bg-coffee-500', 'text-white', 'font-medium');
+    }
+
+    function saveFullLog() {
+      const name = document.getElementById('log-name').value || 'Coffee';
+      const mg = parseInt(document.getElementById('log-mg').value) || 80;
+      const ml = parseInt(document.getElementById('log-ml').value) || 200;
+      const time = document.getElementById('log-time').value;
+      const cafeName = document.getElementById('log-cafe-name').value;
+      const price = parseFloat(document.getElementById('log-price').value) || (selectedLocation === 'home' ? 0.50 : 3.50);
+
+      addDrinkRecord({
+        name, mg, ml,
+        icon: selectedDrink,
+        cost: price,
+        time: time || 'Just now',
+        location: selectedLocation === 'home' ? 'Home' : (cafeName || 'Cafe')
+      });
+
+      closeFullLogModal();
+    }
+
+    function switchTab(tab, btn) {
+      ['home', 'calendar', 'stats', 'features'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+      });
+      document.querySelectorAll('.nav-item').forEach(b => {
+        b.classList.remove('text-coffee-400');
+        b.classList.add('text-stone-500');
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      btn.classList.remove('text-stone-500');
+      btn.classList.add('text-coffee-400');
+      icons();
+    }
+
+    const CAL_KINDS = ['espresso','latte','americano','blackcoffee','cappuccino','icedlatte','matcha','tea','coldbrew'];
+    function buildCalendar() {
+      const grid = document.getElementById('calendar-grid');
+      grid.innerHTML = '';
+      for (let day = 1; day <= 30; day++) {
+        const cell = document.createElement('div');
+        const hasCoffee = day % 2 === 0 || day % 3 === 0;
+        const isOver = day === 8 || day === 19;
+
+        cell.className = `p-1.5 rounded-xl border flex flex-col items-center justify-between h-[58px] text-[10px] ${
+          day === 22 ? 'bg-coffee-500/20 border-coffee-500 text-white font-bold' : 'bg-card border-stone-800 text-stone-400'
+        }`;
+
+        let icon = '';
+        if (hasCoffee) {
+          icon = isOver ? drinkIcon('bolt', 24) : drinkIcon(CAL_KINDS[(day * day + 2 * day + Math.floor(day / 4)) % CAL_KINDS.length], 28);
+        }
+
+        cell.innerHTML = `
+          <span class="font-mono text-[9px]">${day}</span>
+          ${icon}
+        `;
+        grid.appendChild(cell);
+      }
+    }
+
+    function toggleUpvote(btn, count) {
+      const span = btn.querySelector('span');
+      const isVoted = btn.classList.contains('border-coffee-500');
+      if (isVoted) {
+        btn.classList.remove('border-coffee-500', 'bg-coffee-500/20');
+        span.textContent = count;
+      } else {
+        btn.classList.add('border-coffee-500', 'bg-coffee-500/20');
+        span.textContent = count + 1;
+      }
+    }
+
+    function openModeSheet() {
+      document.getElementById('modal-mode-sheet').classList.remove('hidden');
+    }
+    function closeModeSheet() {
+      document.getElementById('modal-mode-sheet').classList.add('hidden');
+    }
+    function setAppMode(m) {
+      state.mode = m;
+      applyModeUI();
+      updateDashboard();
+      closeModeSheet();
+    }
+
+    function openNewFeatureModal() {
+      document.getElementById('modal-new-feature').classList.remove('hidden');
+    }
+    function closeNewFeatureModal() {
+      document.getElementById('modal-new-feature').classList.add('hidden');
+    }
+    function submitFeature() {
+      alert("Feature request submitted! Others will be able to upvote it.");
+      closeNewFeatureModal();
+    }
+
+    let savedTheme = 'espresso';
+    try { savedTheme = localStorage.getItem('coffeeaholic-theme') || 'espresso'; } catch (e) {}
+    setTheme(savedTheme);
+    hydrateDrinkIcons();
+    renderDrinkPicker();
+    pickDrink('latte');
+    icons();
+  </script>
+</body>
+</html>
