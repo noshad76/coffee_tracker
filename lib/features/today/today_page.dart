@@ -461,30 +461,90 @@ class TodayPage extends ConsumerWidget {
     WidgetRef ref,
     DrinkRecord drink,
   ) async {
-    final approved = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete drink?'),
-        content: Text('Remove ${drink.name} from your history?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-    if (approved != true || !context.mounted) return;
     try {
       await ref.read(trackingControllerProvider.notifier).deleteDrink(drink.id);
+      if (context.mounted) {
+        final palette = AppTheme.paletteOf(context);
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.clearSnackBars();
+        messenger.showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 5),
+            content: _UndoSnackbarContent(
+              drinkName: drink.name,
+              onComplete: () => messenger.hideCurrentSnackBar(),
+            ),
+            backgroundColor: palette.brand50,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            action: SnackBarAction(
+              label: 'Undo',
+              textColor: palette.brand700,
+              onPressed: () async {
+                final draft = DrinkDraft(
+                  name: drink.name,
+                  caffeineMg: drink.caffeineMg,
+                  volumeMl: drink.volumeMl,
+                  consumedAtUtc: drink.consumedAtUtc,
+                  priceCents: drink.priceCents,
+                  temperature: drink.temperature,
+                  location: drink.location,
+                  cupStyle: drink.cupStyle,
+                  cafeName: drink.cafeName,
+                  note: drink.note,
+                  photoPath: drink.photoPath,
+                );
+                await ref.read(trackingControllerProvider.notifier).addDrink(draft);
+              },
+            ),
+          ),
+        );
+      }
     } catch (_) {
       if (context.mounted) {
         AppToast.show(context, 'Could not delete drink.', isError: true);
       }
     }
+  }
+}
+
+class _UndoSnackbarContent extends StatelessWidget {
+  const _UndoSnackbarContent({required this.drinkName, required this.onComplete});
+  final String drinkName;
+  final VoidCallback onComplete;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = AppTheme.paletteOf(context);
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            '$drinkName deleted',
+            style: TextStyle(color: palette.stone900, fontWeight: FontWeight.w500),
+          ),
+        ),
+        TweenAnimationBuilder<double>(
+          tween: Tween(begin: 1.0, end: 0.0),
+          duration: const Duration(seconds: 5),
+          builder: (context, value, child) {
+            return SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                value: value,
+                strokeWidth: 2.5,
+                color: palette.brand700.withValues(alpha: 0.8),
+                backgroundColor: palette.brand700.withValues(alpha: 0.15),
+              ),
+            );
+          },
+          onEnd: onComplete,
+        ),
+      ],
+    );
   }
 }

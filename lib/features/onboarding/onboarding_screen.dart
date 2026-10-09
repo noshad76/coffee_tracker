@@ -74,14 +74,12 @@ class _ModeOption {
     this.title,
     this.description,
     this.accent,
-    this.badge,
   );
   final CaffeineGoalMode mode;
   final IconData icon;
   final String title;
   final String description;
   final _ModeAccent accent;
-  final String badge;
 }
 
 const _modeOptions = [
@@ -89,25 +87,22 @@ const _modeOptions = [
     CaffeineGoalMode.tracking,
     Icons.bar_chart_rounded,
     'Just tracking',
-    'Log what I drink and see where I stand.',
+    'I want to see how much I drink & monitor patterns.',
     _ModeAccent.brand,
-    '400mg Limit',
   ),
   _ModeOption(
     CaffeineGoalMode.cuttingBack,
     Icons.trending_down_rounded,
     'Cutting back',
-    'Gradually reduce my daily intake toward goal.',
+    'I want to drink less and set a reduction target.',
     _ModeAccent.warning,
-    '200mg Goal',
   ),
   _ModeOption(
     CaffeineGoalMode.quitting,
     Icons.block_rounded,
-    'Quitting completely',
-    'Zero caffeine. Track streak and cravings.',
+    'Quitting',
+    'I want to stop completely. Zero caffeine streak.',
     _ModeAccent.danger,
-    '0mg Goal',
   ),
 ];
 

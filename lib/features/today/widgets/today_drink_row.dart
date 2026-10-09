@@ -172,10 +172,46 @@ class TodayDrinkRow extends StatelessWidget {
             tooltip: 'Actions for ${drink.name}',
             icon: Icon(Icons.more_vert, size: 18, color: palette.textMuted),
             padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 40, minHeight: 44),
-            itemBuilder: (_) => const [
-              PopupMenuItem(value: 'edit', child: Text('Edit')),
-              PopupMenuItem(value: 'delete', child: Text('Delete')),
+            position: PopupMenuPosition.under,
+            color: palette.surfaceRaised,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadii.card),
+              side: BorderSide(color: palette.stone700),
+            ),
+            constraints: const BoxConstraints(minWidth: 160),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'edit',
+                height: 48,
+                child: Row(
+                  children: [
+                    Icon(Icons.edit_outlined, size: 20, color: palette.textPrimary),
+                    const SizedBox(width: AppSpacing.x3),
+                    Text('Edit', style: TextStyle(color: palette.textPrimary, fontSize: 14)),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
+                enabled: false,
+                height: 1,
+                padding: EdgeInsets.zero,
+                child: Container(
+                  height: 1,
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  color: palette.stone700,
+                ),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                height: 48,
+                child: Row(
+                  children: [
+                    Icon(Icons.delete_outline, size: 20, color: palette.stateDanger),
+                    const SizedBox(width: AppSpacing.x3),
+                    Text('Delete', style: TextStyle(color: palette.stateDanger, fontSize: 14)),
+                  ],
+                ),
+              ),
             ],
             onSelected: (action) => action == 'edit' ? onEdit() : onDelete(),
           ),
