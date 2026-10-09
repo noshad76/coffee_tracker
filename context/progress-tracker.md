@@ -5,13 +5,12 @@
 **Phase:** Complete Native Flutter Client
 
 **Last completed:**
-- Fixed Custom Drink Artwork Matching: Custom drinks created with custom artwork (e.g. matcha, cold brew, etc.) now correctly carry their artwork style into the Today's Drinks log and history row via `drinkArtworkId` and fallback catalog resolution.
-- Redesigned `MetabolismCard`: Created a clean, clear, and intuitive 3-milestone caffeine clearance journey (Active Now, In 6 Hours half-life, and Sleep-Safe expected clearance time) with sleep status badge and educational clearance guidance.
-- Fixed `LogDrinkSheet` dropdown assertion error when editing drinks with encoded cupStyle/artwork values.
-- Quick Log 3-Drink Restore Guarantee: Empty shortcut lists now automatically restore 3 drinks from onboarding or default catalog; explicit button added.
-- Filtered Earned Badges in Calendar (`EarnedBadgesCard`): Strictly displays only unlocked badges, eliminating locked badges from the card, with an inviting empty state when no badges are earned yet.
-- Added Camera & Photo permissions to `AndroidManifest.xml` and iOS `Info.plist` with actionable error handling in `LogDrinkSheet`.
-- All 5 test suites pass with 100% success (7/7 tests) and 0 analyze warnings.
+- Onboarding Skip Action: Added a prominent "Skip" option on the first step (and header) allowing users to bypass onboarding immediately into the main app with sensible defaults (tracking mode, 400mg limit, 3 default favorite drinks).
+- Onboarding Reminders Customization: Empowered users to add and manage fixed coffee break alarms directly during Onboarding Step 5 with time picker, enable/disable switches, and delete controls, alongside the smart routine reminder.
+- Removed Check-In Card from UI: Removed the 9:00 PM check-in card from both RemindersSheet and Onboarding to keep the UI clean while quietly scheduling the evening check-in notification automatically in the background.
+- Dedicated SQLite Custom Locations Architecture: Upgraded Drift database schema to version 5 with a dedicated `custom_locations` table and backward migration. Adding and deleting locations now operates directly against SQLite, eliminating bugs and ensuring 100% persistent local storage.
+- Streamlined Location Selector: Refined `LogDrinkSheet` dropdown visual to match the reference (clean items without inline trash icons, and `Manage Locations...` at the bottom). Unified adding and deleting custom places inside an all-in-one "Manage Locations" dialog.
+- Full test suite passed (15/15 tests, 0 analyze warnings).
 
 **Next:** Continuous maintenance and future feature iterations based on local offline coffee journeys.
 
@@ -47,6 +46,17 @@
 - [x] Theme and mode settings
 - [x] Feature board scope decision: ideas and votes are local to this device
 - [x] Native visual comparison on Android and iOS against the supplied HTML
+- [x] Brew Scrapbook & coffee photo capture with full-screen photo detail inspection
+- [x] Dedicated Trophy Room with 50 achievement milestones, categories, and Barista rank levels
+- [x] Metabolism decay curve & 6-hour half-life bedtime sleep cutoff forecast
+- [x] Floating AppToast feedback pills replacing default SnackBars
+- [x] Quick Log shortcut customization & custom drink builder dialog
+- [x] Settings & Reminders hub (`SettingsSheet`)
+- [x] Custom notification reminders with median coffee time calculation and daily 9:00 PM check-in
+- [x] Proactive notification permission requests in onboarding and settings
+- [x] Dynamic custom location management and modern `AppDropdown` selector in full drink log
+- [x] Light Mode theme engine and redesigned color palettes across Coffee, Ocean, Forest, and Amber
+- [x] Refined modal sheet styling eliminating pitch-black overlays
 
 ## Known product decisions to resolve during implementation
 

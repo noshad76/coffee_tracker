@@ -130,7 +130,7 @@ class PhotoDetailDialog extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '${TimeOfDay.fromDateTime(drink.localTime).format(context)} • ${drink.consumedAtUtc.toLocal().month}/${drink.consumedAtUtc.toLocal().day}/${drink.consumedAtUtc.toLocal().year} • ${drink.location == 'cafe' ? (drink.cafeName ?? 'At Cafe') : 'Home Brew'}',
+                      '${TimeOfDay.fromDateTime(drink.localTime).format(context)} • ${drink.consumedAtUtc.toLocal().month}/${drink.consumedAtUtc.toLocal().day}/${drink.consumedAtUtc.toLocal().year} • ${drink.location == 'cafe' ? (drink.cafeName ?? 'At Cafe') : (drink.location == 'home' ? 'Home Brew' : (drink.cafeName?.isNotEmpty == true ? drink.cafeName! : (drink.location.isNotEmpty && drink.location != 'custom' ? drink.location : 'Work / Custom')))}',
                       style: TextStyle(color: palette.textMuted, fontSize: 12),
                     ),
                     if (drink.note != null && drink.note!.isNotEmpty) ...[

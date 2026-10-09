@@ -24,9 +24,20 @@ class TodayDrinkRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = AppTheme.paletteOf(context);
-    final source = drink.location == 'cafe'
-        ? (drink.cafeName?.isNotEmpty == true ? drink.cafeName! : 'At Cafe')
-        : 'Home Brew';
+    final String source;
+    if (drink.location == 'home') {
+      source = 'Home Brew';
+    } else if (drink.location == 'cafe') {
+      source = drink.cafeName?.isNotEmpty == true ? drink.cafeName! : 'At Cafe';
+    } else if (drink.location == 'work') {
+      source = drink.cafeName?.isNotEmpty == true ? drink.cafeName! : 'Work';
+    } else {
+      source = drink.cafeName?.isNotEmpty == true
+          ? drink.cafeName!
+          : (drink.location.isNotEmpty && drink.location != 'custom'
+                ? drink.location
+                : 'Custom');
+    }
     final cost = drink.priceCents > 0
         ? ' · \$${(drink.priceCents / 100).toStringAsFixed(2)}'
         : '';
@@ -185,9 +196,19 @@ class TodayDrinkRow extends StatelessWidget {
                 height: 48,
                 child: Row(
                   children: [
-                    Icon(Icons.edit_outlined, size: 20, color: palette.textPrimary),
+                    Icon(
+                      Icons.edit_outlined,
+                      size: 20,
+                      color: palette.textPrimary,
+                    ),
                     const SizedBox(width: AppSpacing.x3),
-                    Text('Edit', style: TextStyle(color: palette.textPrimary, fontSize: 14)),
+                    Text(
+                      'Edit',
+                      style: TextStyle(
+                        color: palette.textPrimary,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -206,9 +227,19 @@ class TodayDrinkRow extends StatelessWidget {
                 height: 48,
                 child: Row(
                   children: [
-                    Icon(Icons.delete_outline, size: 20, color: palette.stateDanger),
+                    Icon(
+                      Icons.delete_outline,
+                      size: 20,
+                      color: palette.stateDanger,
+                    ),
                     const SizedBox(width: AppSpacing.x3),
-                    Text('Delete', style: TextStyle(color: palette.stateDanger, fontSize: 14)),
+                    Text(
+                      'Delete',
+                      style: TextStyle(
+                        color: palette.stateDanger,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),

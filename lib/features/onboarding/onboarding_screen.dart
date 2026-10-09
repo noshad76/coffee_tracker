@@ -1,3 +1,4 @@
+import 'package:coffee_tracker/core/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widget_previews.dart';
@@ -11,12 +12,14 @@ import 'models/onboarding_repository.dart';
 import 'controllers/onboarding_controller.dart';
 import 'providers/onboarding_providers.dart';
 import 'providers/onboarding_repository_provider.dart';
+import '../settings/providers/reminders_provider.dart';
 
 part 'widgets/onboarding_step.dart';
 part 'widgets/welcome_content.dart';
 part 'widgets/mode_content.dart';
 part 'widgets/limit_content.dart';
 part 'widgets/favorites_content.dart';
+part 'widgets/reminders_content.dart';
 part 'widgets/setup_complete.dart';
 part 'widgets/mode_card.dart';
 part 'widgets/drink_card.dart';

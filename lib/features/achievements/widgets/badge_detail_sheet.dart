@@ -15,7 +15,7 @@ class BadgeDetailSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: AppTheme.paletteOf(context).overlay.withValues(alpha: 0),
+      backgroundColor: Colors.transparent,
       builder: (context) => BadgeDetailSheet(badge: badge),
     );
   }
@@ -27,8 +27,10 @@ class BadgeDetailSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: palette.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        border: Border.all(color: palette.stone800),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(AppRadii.sheetTop),
+        ),
+        border: Border(top: BorderSide(color: palette.stone700, width: 1.2)),
       ),
       padding: EdgeInsets.only(
         top: 12,

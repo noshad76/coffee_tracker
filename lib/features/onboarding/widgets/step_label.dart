@@ -8,7 +8,7 @@ class _StepLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = AppTheme.paletteOf(context);
     return Text(
-      'STEP $number OF 4',
+      'STEP $number OF 5',
       style: Theme.of(context).textTheme.labelSmall?.copyWith(
         color: palette.brand300,
         fontWeight: FontWeight.w700,

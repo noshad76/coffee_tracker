@@ -151,8 +151,35 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     _set(current.copyWith(preferences: preferences));
   }
 
+  void continueFromFavorites() =>
+      _update((current) => current.copyWith(step: 4, clearError: true));
+
+  void setSmartReminder(bool enabled) => _update(
+    (current) => current.copyWith(
+      preferences: current.preferences.copyWith(smartReminder: enabled),
+    ),
+  );
+
+  void setMorningReminder(bool enabled) => _update(
+    (current) => current.copyWith(
+      preferences: current.preferences.copyWith(morningReminder: enabled),
+    ),
+  );
+
+  void setMorningReminderTime(int hour, int minute) => _update(
+    (current) => current.copyWith(
+      preferences: current.preferences.copyWith(
+        morningReminderHour: hour,
+        morningReminderMinute: minute,
+      ),
+    ),
+  );
+
   void back() => _update((current) {
     final step = current.step;
+    if (step == 4) {
+      return current.copyWith(step: 3, clearError: true);
+    }
     if (step == 3) {
       return current.copyWith(
         step: current.preferences.goalMode == CaffeineGoalMode.quitting ? 1 : 2,
@@ -161,6 +188,55 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     }
     return current.copyWith(step: step > 0 ? step - 1 : 0, clearError: true);
   });
+
+  Future<void> continueFromReminders({required bool skip}) async {
+    final current = _current;
+    if (current == null) return;
+    if (skip) {
+      _update(
+        (c) => c.copyWith(
+          preferences: c.preferences.copyWith(
+            smartReminder: false,
+            morningReminder: false,
+          ),
+        ),
+      );
+    }
+    await finish();
+  }
+
+  Future<void> skipAll() async {
+    final current = _current;
+    if (current == null || current.saving) return;
+    _set(current.copyWith(saving: true, clearError: true));
+    final defaultPrefs = current.preferences.copyWith(
+      onboardingComplete: true,
+      goalMode: CaffeineGoalMode.tracking,
+      caffeineLimitMg: 400,
+      favoriteDrinkIds: const ['espresso', 'americano', 'cappuccino'],
+      themePreset: CoffeeThemePreset.coffee,
+      smartReminder: false,
+      morningReminder: false,
+    );
+    try {
+      await _repository.savePreferences(defaultPrefs);
+      _set(
+        current.copyWith(
+          preferences: defaultPrefs,
+          step: 0,
+          saving: false,
+          clearError: true,
+        ),
+      );
+    } catch (_) {
+      _set(
+        current.copyWith(
+          saving: false,
+          errorMessage: 'Could not skip setup. Please try again.',
+        ),
+      );
+    }
+  }
 
   Future<void> finish() async {
     final current = _current;

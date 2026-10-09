@@ -39,6 +39,7 @@ class DriftOnboardingRepository implements OnboardingRepository {
           .take(10)
           .toList(growable: false),
       themePreset: _themeFromStorage(row.themePreset),
+      smartReminder: row.smartReminderEnabled,
     );
   }
 
@@ -62,8 +63,12 @@ class DriftOnboardingRepository implements OnboardingRepository {
                 preferences.goalMode.name,
               ),
               themePreset: preferences.themePreset.name,
+              smartReminderEnabled: Value(preferences.smartReminder),
             ),
           );
+
+      // Default 9:00 PM check-in notification is managed globally by NotificationService
+      // and not stored in user's custom fixed drink reminders table.
 
       await (_database.delete(_database.favoriteDrinkRows)).go();
 

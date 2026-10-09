@@ -64,6 +64,20 @@ class $LocalAppSettingsTable extends LocalAppSettings
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _smartReminderEnabledMeta =
+      const VerificationMeta('smartReminderEnabled');
+  @override
+  late final GeneratedColumn<bool> smartReminderEnabled = GeneratedColumn<bool>(
+    'smart_reminder_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("smart_reminder_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -71,6 +85,7 @@ class $LocalAppSettingsTable extends LocalAppSettings
     goalMode,
     caffeineLimitMg,
     themePreset,
+    smartReminderEnabled,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -128,6 +143,15 @@ class $LocalAppSettingsTable extends LocalAppSettings
     } else if (isInserting) {
       context.missing(_themePresetMeta);
     }
+    if (data.containsKey('smart_reminder_enabled')) {
+      context.handle(
+        _smartReminderEnabledMeta,
+        smartReminderEnabled.isAcceptableOrUnknown(
+          data['smart_reminder_enabled']!,
+          _smartReminderEnabledMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -157,6 +181,10 @@ class $LocalAppSettingsTable extends LocalAppSettings
         DriftSqlType.string,
         data['${effectivePrefix}theme_preset'],
       )!,
+      smartReminderEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}smart_reminder_enabled'],
+      )!,
     );
   }
 
@@ -172,12 +200,14 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
   final String goalMode;
   final int caffeineLimitMg;
   final String themePreset;
+  final bool smartReminderEnabled;
   const LocalAppSetting({
     required this.id,
     required this.onboardingComplete,
     required this.goalMode,
     required this.caffeineLimitMg,
     required this.themePreset,
+    required this.smartReminderEnabled,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -187,6 +217,7 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
     map['goal_mode'] = Variable<String>(goalMode);
     map['caffeine_limit_mg'] = Variable<int>(caffeineLimitMg);
     map['theme_preset'] = Variable<String>(themePreset);
+    map['smart_reminder_enabled'] = Variable<bool>(smartReminderEnabled);
     return map;
   }
 
@@ -197,6 +228,7 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
       goalMode: Value(goalMode),
       caffeineLimitMg: Value(caffeineLimitMg),
       themePreset: Value(themePreset),
+      smartReminderEnabled: Value(smartReminderEnabled),
     );
   }
 
@@ -211,6 +243,9 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
       goalMode: serializer.fromJson<String>(json['goalMode']),
       caffeineLimitMg: serializer.fromJson<int>(json['caffeineLimitMg']),
       themePreset: serializer.fromJson<String>(json['themePreset']),
+      smartReminderEnabled: serializer.fromJson<bool>(
+        json['smartReminderEnabled'],
+      ),
     );
   }
   @override
@@ -222,6 +257,7 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
       'goalMode': serializer.toJson<String>(goalMode),
       'caffeineLimitMg': serializer.toJson<int>(caffeineLimitMg),
       'themePreset': serializer.toJson<String>(themePreset),
+      'smartReminderEnabled': serializer.toJson<bool>(smartReminderEnabled),
     };
   }
 
@@ -231,12 +267,14 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
     String? goalMode,
     int? caffeineLimitMg,
     String? themePreset,
+    bool? smartReminderEnabled,
   }) => LocalAppSetting(
     id: id ?? this.id,
     onboardingComplete: onboardingComplete ?? this.onboardingComplete,
     goalMode: goalMode ?? this.goalMode,
     caffeineLimitMg: caffeineLimitMg ?? this.caffeineLimitMg,
     themePreset: themePreset ?? this.themePreset,
+    smartReminderEnabled: smartReminderEnabled ?? this.smartReminderEnabled,
   );
   LocalAppSetting copyWithCompanion(LocalAppSettingsCompanion data) {
     return LocalAppSetting(
@@ -251,6 +289,9 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
       themePreset: data.themePreset.present
           ? data.themePreset.value
           : this.themePreset,
+      smartReminderEnabled: data.smartReminderEnabled.present
+          ? data.smartReminderEnabled.value
+          : this.smartReminderEnabled,
     );
   }
 
@@ -261,7 +302,8 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
           ..write('onboardingComplete: $onboardingComplete, ')
           ..write('goalMode: $goalMode, ')
           ..write('caffeineLimitMg: $caffeineLimitMg, ')
-          ..write('themePreset: $themePreset')
+          ..write('themePreset: $themePreset, ')
+          ..write('smartReminderEnabled: $smartReminderEnabled')
           ..write(')'))
         .toString();
   }
@@ -273,6 +315,7 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
     goalMode,
     caffeineLimitMg,
     themePreset,
+    smartReminderEnabled,
   );
   @override
   bool operator ==(Object other) =>
@@ -282,7 +325,8 @@ class LocalAppSetting extends DataClass implements Insertable<LocalAppSetting> {
           other.onboardingComplete == this.onboardingComplete &&
           other.goalMode == this.goalMode &&
           other.caffeineLimitMg == this.caffeineLimitMg &&
-          other.themePreset == this.themePreset);
+          other.themePreset == this.themePreset &&
+          other.smartReminderEnabled == this.smartReminderEnabled);
 }
 
 class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
@@ -291,12 +335,14 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
   final Value<String> goalMode;
   final Value<int> caffeineLimitMg;
   final Value<String> themePreset;
+  final Value<bool> smartReminderEnabled;
   const LocalAppSettingsCompanion({
     this.id = const Value.absent(),
     this.onboardingComplete = const Value.absent(),
     this.goalMode = const Value.absent(),
     this.caffeineLimitMg = const Value.absent(),
     this.themePreset = const Value.absent(),
+    this.smartReminderEnabled = const Value.absent(),
   });
   LocalAppSettingsCompanion.insert({
     this.id = const Value.absent(),
@@ -304,6 +350,7 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
     required String goalMode,
     required int caffeineLimitMg,
     required String themePreset,
+    this.smartReminderEnabled = const Value.absent(),
   }) : onboardingComplete = Value(onboardingComplete),
        goalMode = Value(goalMode),
        caffeineLimitMg = Value(caffeineLimitMg),
@@ -314,6 +361,7 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
     Expression<String>? goalMode,
     Expression<int>? caffeineLimitMg,
     Expression<String>? themePreset,
+    Expression<bool>? smartReminderEnabled,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -321,6 +369,8 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
       if (goalMode != null) 'goal_mode': goalMode,
       if (caffeineLimitMg != null) 'caffeine_limit_mg': caffeineLimitMg,
       if (themePreset != null) 'theme_preset': themePreset,
+      if (smartReminderEnabled != null)
+        'smart_reminder_enabled': smartReminderEnabled,
     });
   }
 
@@ -330,6 +380,7 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
     Value<String>? goalMode,
     Value<int>? caffeineLimitMg,
     Value<String>? themePreset,
+    Value<bool>? smartReminderEnabled,
   }) {
     return LocalAppSettingsCompanion(
       id: id ?? this.id,
@@ -337,6 +388,7 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
       goalMode: goalMode ?? this.goalMode,
       caffeineLimitMg: caffeineLimitMg ?? this.caffeineLimitMg,
       themePreset: themePreset ?? this.themePreset,
+      smartReminderEnabled: smartReminderEnabled ?? this.smartReminderEnabled,
     );
   }
 
@@ -358,6 +410,11 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
     if (themePreset.present) {
       map['theme_preset'] = Variable<String>(themePreset.value);
     }
+    if (smartReminderEnabled.present) {
+      map['smart_reminder_enabled'] = Variable<bool>(
+        smartReminderEnabled.value,
+      );
+    }
     return map;
   }
 
@@ -368,7 +425,8 @@ class LocalAppSettingsCompanion extends UpdateCompanion<LocalAppSetting> {
           ..write('onboardingComplete: $onboardingComplete, ')
           ..write('goalMode: $goalMode, ')
           ..write('caffeineLimitMg: $caffeineLimitMg, ')
-          ..write('themePreset: $themePreset')
+          ..write('themePreset: $themePreset, ')
+          ..write('smartReminderEnabled: $smartReminderEnabled')
           ..write(')'))
         .toString();
   }
@@ -1699,6 +1757,554 @@ class FeatureIdeasCompanion extends UpdateCompanion<FeatureIdea> {
   }
 }
 
+class $LocalRemindersTable extends LocalReminders
+    with TableInfo<$LocalRemindersTable, LocalReminder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalRemindersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _hourMeta = const VerificationMeta('hour');
+  @override
+  late final GeneratedColumn<int> hour = GeneratedColumn<int>(
+    'hour',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _minuteMeta = const VerificationMeta('minute');
+  @override
+  late final GeneratedColumn<int> minute = GeneratedColumn<int>(
+    'minute',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _enabledMeta = const VerificationMeta(
+    'enabled',
+  );
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+    'enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, hour, minute, enabled];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_reminders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalReminder> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('hour')) {
+      context.handle(
+        _hourMeta,
+        hour.isAcceptableOrUnknown(data['hour']!, _hourMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_hourMeta);
+    }
+    if (data.containsKey('minute')) {
+      context.handle(
+        _minuteMeta,
+        minute.isAcceptableOrUnknown(data['minute']!, _minuteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_minuteMeta);
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(
+        _enabledMeta,
+        enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalReminder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalReminder(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      hour: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hour'],
+      )!,
+      minute: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}minute'],
+      )!,
+      enabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}enabled'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalRemindersTable createAlias(String alias) {
+    return $LocalRemindersTable(attachedDatabase, alias);
+  }
+}
+
+class LocalReminder extends DataClass implements Insertable<LocalReminder> {
+  final int id;
+  final int hour;
+  final int minute;
+  final bool enabled;
+  const LocalReminder({
+    required this.id,
+    required this.hour,
+    required this.minute,
+    required this.enabled,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['hour'] = Variable<int>(hour);
+    map['minute'] = Variable<int>(minute);
+    map['enabled'] = Variable<bool>(enabled);
+    return map;
+  }
+
+  LocalRemindersCompanion toCompanion(bool nullToAbsent) {
+    return LocalRemindersCompanion(
+      id: Value(id),
+      hour: Value(hour),
+      minute: Value(minute),
+      enabled: Value(enabled),
+    );
+  }
+
+  factory LocalReminder.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalReminder(
+      id: serializer.fromJson<int>(json['id']),
+      hour: serializer.fromJson<int>(json['hour']),
+      minute: serializer.fromJson<int>(json['minute']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'hour': serializer.toJson<int>(hour),
+      'minute': serializer.toJson<int>(minute),
+      'enabled': serializer.toJson<bool>(enabled),
+    };
+  }
+
+  LocalReminder copyWith({int? id, int? hour, int? minute, bool? enabled}) =>
+      LocalReminder(
+        id: id ?? this.id,
+        hour: hour ?? this.hour,
+        minute: minute ?? this.minute,
+        enabled: enabled ?? this.enabled,
+      );
+  LocalReminder copyWithCompanion(LocalRemindersCompanion data) {
+    return LocalReminder(
+      id: data.id.present ? data.id.value : this.id,
+      hour: data.hour.present ? data.hour.value : this.hour,
+      minute: data.minute.present ? data.minute.value : this.minute,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalReminder(')
+          ..write('id: $id, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute, ')
+          ..write('enabled: $enabled')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, hour, minute, enabled);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalReminder &&
+          other.id == this.id &&
+          other.hour == this.hour &&
+          other.minute == this.minute &&
+          other.enabled == this.enabled);
+}
+
+class LocalRemindersCompanion extends UpdateCompanion<LocalReminder> {
+  final Value<int> id;
+  final Value<int> hour;
+  final Value<int> minute;
+  final Value<bool> enabled;
+  const LocalRemindersCompanion({
+    this.id = const Value.absent(),
+    this.hour = const Value.absent(),
+    this.minute = const Value.absent(),
+    this.enabled = const Value.absent(),
+  });
+  LocalRemindersCompanion.insert({
+    this.id = const Value.absent(),
+    required int hour,
+    required int minute,
+    this.enabled = const Value.absent(),
+  }) : hour = Value(hour),
+       minute = Value(minute);
+  static Insertable<LocalReminder> custom({
+    Expression<int>? id,
+    Expression<int>? hour,
+    Expression<int>? minute,
+    Expression<bool>? enabled,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (hour != null) 'hour': hour,
+      if (minute != null) 'minute': minute,
+      if (enabled != null) 'enabled': enabled,
+    });
+  }
+
+  LocalRemindersCompanion copyWith({
+    Value<int>? id,
+    Value<int>? hour,
+    Value<int>? minute,
+    Value<bool>? enabled,
+  }) {
+    return LocalRemindersCompanion(
+      id: id ?? this.id,
+      hour: hour ?? this.hour,
+      minute: minute ?? this.minute,
+      enabled: enabled ?? this.enabled,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (hour.present) {
+      map['hour'] = Variable<int>(hour.value);
+    }
+    if (minute.present) {
+      map['minute'] = Variable<int>(minute.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalRemindersCompanion(')
+          ..write('id: $id, ')
+          ..write('hour: $hour, ')
+          ..write('minute: $minute, ')
+          ..write('enabled: $enabled')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $CustomLocationsTable extends CustomLocations
+    with TableInfo<$CustomLocationsTable, CustomLocation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CustomLocationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _createdAtUtcMeta = const VerificationMeta(
+    'createdAtUtc',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAtUtc = GeneratedColumn<DateTime>(
+    'created_at_utc',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, createdAtUtc];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'custom_locations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CustomLocation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at_utc')) {
+      context.handle(
+        _createdAtUtcMeta,
+        createdAtUtc.isAcceptableOrUnknown(
+          data['created_at_utc']!,
+          _createdAtUtcMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtUtcMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CustomLocation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CustomLocation(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAtUtc: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at_utc'],
+      )!,
+    );
+  }
+
+  @override
+  $CustomLocationsTable createAlias(String alias) {
+    return $CustomLocationsTable(attachedDatabase, alias);
+  }
+}
+
+class CustomLocation extends DataClass implements Insertable<CustomLocation> {
+  final int id;
+  final String name;
+  final DateTime createdAtUtc;
+  const CustomLocation({
+    required this.id,
+    required this.name,
+    required this.createdAtUtc,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['created_at_utc'] = Variable<DateTime>(createdAtUtc);
+    return map;
+  }
+
+  CustomLocationsCompanion toCompanion(bool nullToAbsent) {
+    return CustomLocationsCompanion(
+      id: Value(id),
+      name: Value(name),
+      createdAtUtc: Value(createdAtUtc),
+    );
+  }
+
+  factory CustomLocation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CustomLocation(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      createdAtUtc: serializer.fromJson<DateTime>(json['createdAtUtc']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'createdAtUtc': serializer.toJson<DateTime>(createdAtUtc),
+    };
+  }
+
+  CustomLocation copyWith({int? id, String? name, DateTime? createdAtUtc}) =>
+      CustomLocation(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        createdAtUtc: createdAtUtc ?? this.createdAtUtc,
+      );
+  CustomLocation copyWithCompanion(CustomLocationsCompanion data) {
+    return CustomLocation(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      createdAtUtc: data.createdAtUtc.present
+          ? data.createdAtUtc.value
+          : this.createdAtUtc,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomLocation(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAtUtc: $createdAtUtc')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, createdAtUtc);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CustomLocation &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.createdAtUtc == this.createdAtUtc);
+}
+
+class CustomLocationsCompanion extends UpdateCompanion<CustomLocation> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<DateTime> createdAtUtc;
+  const CustomLocationsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.createdAtUtc = const Value.absent(),
+  });
+  CustomLocationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required DateTime createdAtUtc,
+  }) : name = Value(name),
+       createdAtUtc = Value(createdAtUtc);
+  static Insertable<CustomLocation> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<DateTime>? createdAtUtc,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (createdAtUtc != null) 'created_at_utc': createdAtUtc,
+    });
+  }
+
+  CustomLocationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<DateTime>? createdAtUtc,
+  }) {
+    return CustomLocationsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAtUtc: createdAtUtc ?? this.createdAtUtc,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (createdAtUtc.present) {
+      map['created_at_utc'] = Variable<DateTime>(createdAtUtc.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomLocationsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAtUtc: $createdAtUtc')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1709,6 +2315,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $FavoriteDrinkRowsTable(this);
   late final $DrinkEntriesTable drinkEntries = $DrinkEntriesTable(this);
   late final $FeatureIdeasTable featureIdeas = $FeatureIdeasTable(this);
+  late final $LocalRemindersTable localReminders = $LocalRemindersTable(this);
+  late final $CustomLocationsTable customLocations = $CustomLocationsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1718,6 +2328,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     favoriteDrinkRows,
     drinkEntries,
     featureIdeas,
+    localReminders,
+    customLocations,
   ];
 }
 
@@ -1728,6 +2340,7 @@ typedef $$LocalAppSettingsTableCreateCompanionBuilder =
       required String goalMode,
       required int caffeineLimitMg,
       required String themePreset,
+      Value<bool> smartReminderEnabled,
     });
 typedef $$LocalAppSettingsTableUpdateCompanionBuilder =
     LocalAppSettingsCompanion Function({
@@ -1736,6 +2349,7 @@ typedef $$LocalAppSettingsTableUpdateCompanionBuilder =
       Value<String> goalMode,
       Value<int> caffeineLimitMg,
       Value<String> themePreset,
+      Value<bool> smartReminderEnabled,
     });
 
 class $$LocalAppSettingsTableFilterComposer
@@ -1769,6 +2383,11 @@ class $$LocalAppSettingsTableFilterComposer
 
   ColumnFilters<String> get themePreset => $composableBuilder(
     column: $table.themePreset,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get smartReminderEnabled => $composableBuilder(
+    column: $table.smartReminderEnabled,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -1806,6 +2425,11 @@ class $$LocalAppSettingsTableOrderingComposer
     column: $table.themePreset,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get smartReminderEnabled => $composableBuilder(
+    column: $table.smartReminderEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$LocalAppSettingsTableAnnotationComposer
@@ -1835,6 +2459,11 @@ class $$LocalAppSettingsTableAnnotationComposer
 
   GeneratedColumn<String> get themePreset => $composableBuilder(
     column: $table.themePreset,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get smartReminderEnabled => $composableBuilder(
+    column: $table.smartReminderEnabled,
     builder: (column) => column,
   );
 }
@@ -1881,12 +2510,14 @@ class $$LocalAppSettingsTableTableManager
                 Value<String> goalMode = const Value.absent(),
                 Value<int> caffeineLimitMg = const Value.absent(),
                 Value<String> themePreset = const Value.absent(),
+                Value<bool> smartReminderEnabled = const Value.absent(),
               }) => LocalAppSettingsCompanion(
                 id: id,
                 onboardingComplete: onboardingComplete,
                 goalMode: goalMode,
                 caffeineLimitMg: caffeineLimitMg,
                 themePreset: themePreset,
+                smartReminderEnabled: smartReminderEnabled,
               ),
           createCompanionCallback:
               ({
@@ -1895,12 +2526,14 @@ class $$LocalAppSettingsTableTableManager
                 required String goalMode,
                 required int caffeineLimitMg,
                 required String themePreset,
+                Value<bool> smartReminderEnabled = const Value.absent(),
               }) => LocalAppSettingsCompanion.insert(
                 id: id,
                 onboardingComplete: onboardingComplete,
                 goalMode: goalMode,
                 caffeineLimitMg: caffeineLimitMg,
                 themePreset: themePreset,
+                smartReminderEnabled: smartReminderEnabled,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -2635,6 +3268,347 @@ typedef $$FeatureIdeasTableProcessedTableManager =
       FeatureIdea,
       PrefetchHooks Function()
     >;
+typedef $$LocalRemindersTableCreateCompanionBuilder =
+    LocalRemindersCompanion Function({
+      Value<int> id,
+      required int hour,
+      required int minute,
+      Value<bool> enabled,
+    });
+typedef $$LocalRemindersTableUpdateCompanionBuilder =
+    LocalRemindersCompanion Function({
+      Value<int> id,
+      Value<int> hour,
+      Value<int> minute,
+      Value<bool> enabled,
+    });
+
+class $$LocalRemindersTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalRemindersTable> {
+  $$LocalRemindersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hour => $composableBuilder(
+    column: $table.hour,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get minute => $composableBuilder(
+    column: $table.minute,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalRemindersTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalRemindersTable> {
+  $$LocalRemindersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hour => $composableBuilder(
+    column: $table.hour,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get minute => $composableBuilder(
+    column: $table.minute,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get enabled => $composableBuilder(
+    column: $table.enabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalRemindersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalRemindersTable> {
+  $$LocalRemindersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get hour =>
+      $composableBuilder(column: $table.hour, builder: (column) => column);
+
+  GeneratedColumn<int> get minute =>
+      $composableBuilder(column: $table.minute, builder: (column) => column);
+
+  GeneratedColumn<bool> get enabled =>
+      $composableBuilder(column: $table.enabled, builder: (column) => column);
+}
+
+class $$LocalRemindersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalRemindersTable,
+          LocalReminder,
+          $$LocalRemindersTableFilterComposer,
+          $$LocalRemindersTableOrderingComposer,
+          $$LocalRemindersTableAnnotationComposer,
+          $$LocalRemindersTableCreateCompanionBuilder,
+          $$LocalRemindersTableUpdateCompanionBuilder,
+          (
+            LocalReminder,
+            BaseReferences<_$AppDatabase, $LocalRemindersTable, LocalReminder>,
+          ),
+          LocalReminder,
+          PrefetchHooks Function()
+        > {
+  $$LocalRemindersTableTableManager(
+    _$AppDatabase db,
+    $LocalRemindersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalRemindersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalRemindersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocalRemindersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> hour = const Value.absent(),
+                Value<int> minute = const Value.absent(),
+                Value<bool> enabled = const Value.absent(),
+              }) => LocalRemindersCompanion(
+                id: id,
+                hour: hour,
+                minute: minute,
+                enabled: enabled,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int hour,
+                required int minute,
+                Value<bool> enabled = const Value.absent(),
+              }) => LocalRemindersCompanion.insert(
+                id: id,
+                hour: hour,
+                minute: minute,
+                enabled: enabled,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalRemindersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalRemindersTable,
+      LocalReminder,
+      $$LocalRemindersTableFilterComposer,
+      $$LocalRemindersTableOrderingComposer,
+      $$LocalRemindersTableAnnotationComposer,
+      $$LocalRemindersTableCreateCompanionBuilder,
+      $$LocalRemindersTableUpdateCompanionBuilder,
+      (
+        LocalReminder,
+        BaseReferences<_$AppDatabase, $LocalRemindersTable, LocalReminder>,
+      ),
+      LocalReminder,
+      PrefetchHooks Function()
+    >;
+typedef $$CustomLocationsTableCreateCompanionBuilder =
+    CustomLocationsCompanion Function({
+      Value<int> id,
+      required String name,
+      required DateTime createdAtUtc,
+    });
+typedef $$CustomLocationsTableUpdateCompanionBuilder =
+    CustomLocationsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<DateTime> createdAtUtc,
+    });
+
+class $$CustomLocationsTableFilterComposer
+    extends Composer<_$AppDatabase, $CustomLocationsTable> {
+  $$CustomLocationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAtUtc => $composableBuilder(
+    column: $table.createdAtUtc,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CustomLocationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CustomLocationsTable> {
+  $$CustomLocationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAtUtc => $composableBuilder(
+    column: $table.createdAtUtc,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CustomLocationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CustomLocationsTable> {
+  $$CustomLocationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAtUtc => $composableBuilder(
+    column: $table.createdAtUtc,
+    builder: (column) => column,
+  );
+}
+
+class $$CustomLocationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CustomLocationsTable,
+          CustomLocation,
+          $$CustomLocationsTableFilterComposer,
+          $$CustomLocationsTableOrderingComposer,
+          $$CustomLocationsTableAnnotationComposer,
+          $$CustomLocationsTableCreateCompanionBuilder,
+          $$CustomLocationsTableUpdateCompanionBuilder,
+          (
+            CustomLocation,
+            BaseReferences<
+              _$AppDatabase,
+              $CustomLocationsTable,
+              CustomLocation
+            >,
+          ),
+          CustomLocation,
+          PrefetchHooks Function()
+        > {
+  $$CustomLocationsTableTableManager(
+    _$AppDatabase db,
+    $CustomLocationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CustomLocationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CustomLocationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CustomLocationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> createdAtUtc = const Value.absent(),
+              }) => CustomLocationsCompanion(
+                id: id,
+                name: name,
+                createdAtUtc: createdAtUtc,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required DateTime createdAtUtc,
+              }) => CustomLocationsCompanion.insert(
+                id: id,
+                name: name,
+                createdAtUtc: createdAtUtc,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CustomLocationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CustomLocationsTable,
+      CustomLocation,
+      $$CustomLocationsTableFilterComposer,
+      $$CustomLocationsTableOrderingComposer,
+      $$CustomLocationsTableAnnotationComposer,
+      $$CustomLocationsTableCreateCompanionBuilder,
+      $$CustomLocationsTableUpdateCompanionBuilder,
+      (
+        CustomLocation,
+        BaseReferences<_$AppDatabase, $CustomLocationsTable, CustomLocation>,
+      ),
+      CustomLocation,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2647,4 +3621,8 @@ class $AppDatabaseManager {
       $$DrinkEntriesTableTableManager(_db, _db.drinkEntries);
   $$FeatureIdeasTableTableManager get featureIdeas =>
       $$FeatureIdeasTableTableManager(_db, _db.featureIdeas);
+  $$LocalRemindersTableTableManager get localReminders =>
+      $$LocalRemindersTableTableManager(_db, _db.localReminders);
+  $$CustomLocationsTableTableManager get customLocations =>
+      $$CustomLocationsTableTableManager(_db, _db.customLocations);
 }

@@ -28,8 +28,8 @@ class MetabolismCard extends StatelessWidget {
     final statusColor = isSleepSafeNow
         ? palette.stateSuccess
         : (below != null && below.hour < 23
-            ? palette.stateInfo
-            : palette.stateWarning);
+              ? palette.stateInfo
+              : palette.stateWarning);
 
     final halfLifeTime = now.add(const Duration(hours: 6));
     final halfLifeMg = (activeMg * 0.5).round();
@@ -129,9 +129,7 @@ class MetabolismCard extends StatelessWidget {
                     ? Icons.check_circle_rounded
                     : Icons.schedule_rounded,
                 size: 14,
-                color: isSleepSafeNow
-                    ? palette.stateSuccess
-                    : palette.brand300,
+                color: isSleepSafeNow ? palette.stateSuccess : palette.brand300,
               ),
               const SizedBox(width: 6),
               Expanded(
@@ -223,7 +221,7 @@ class MetabolismCard extends StatelessWidget {
                         ? 'Your system is clear of caffeine. Deep sleep and REM cycles are protected.'
                         : 'Caffeine has a ~6-hour half-life. Safe sleep is expected when levels drop below 50 mg.',
                     style: TextStyle(
-                      color: palette.textMuted,
+                      color: palette.textSecondary,
                       fontSize: 10.5,
                       height: 1.3,
                     ),
@@ -272,7 +270,11 @@ class MetabolismCard extends StatelessWidget {
                   stageLabel,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: palette.textSubtle, fontSize: 10),
+                  style: TextStyle(
+                    color: palette.textMuted,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ],
@@ -294,7 +296,11 @@ class MetabolismCard extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               timeLabel,
-              style: TextStyle(color: palette.textMuted, fontSize: 10),
+              style: TextStyle(
+                color: palette.textSecondary,
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

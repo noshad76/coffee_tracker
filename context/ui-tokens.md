@@ -1,25 +1,48 @@
-﻿# UI Tokens
+# UI Tokens
 
 Production widgets use named semantic theme tokens. Raw color literals belong in the centralized theme implementation only. Values below are transcribed from the theme variables and visible Tailwind scales in `ui/coffeeaholic-tracker-1-5.html`.
 
-## Theme palettes
+## Theme palettes (Dark Mode)
 
-Each theme overrides the listed brand steps plus `background`, `surface`, `surfaceRaised`, and neutral `stone700` through `stone900`. Brand steps absent from the source must not be interpolated without a design decision.
+Each dark theme provides the listed brand steps plus `background`, `surface`, `surfaceRaised`, and neutral `stone700` through `stone900`.
 
 | Token | Coffee | Ocean | Forest | Amber |
 |---|---|---|---|---|
-| `brand50` | `#FDF8F5` | `#F2F8FB` | `#F3F8EE` | `#FFF9ED` |
-| `brand100` | `#F5EBE1` | `#E3EFF5` | `#E3EFD7` | `#FBEFD3` |
-| `brand200` | `#E7D5C4` | `#C7DEEA` | `#C9DFB2` | `#F3DCA8` |
-| `brand300` | `#D5BAA0` | `#9CC4D9` | `#A5C97F` | `#E8C27A` |
-| `brand400` | `#D5BAA0` | `#9CC4D9` | `#A5C97F` | `#E8C27A` |
-| `brand500` | `#8C5A3C` | `#4F8FAE` | `#5E8F3E` | `#C98A2B` |
-| `brand600` | `#6E452D` | `#3E7391` | `#497330` | `#A06E1F` |
-| `brand700` | `#5A3622` | `#2C566E` | `#355524` | `#7A5217` |
-| `brand900` | `#2E180E` | `#142A38` | `#182A12` | `#3A260A` |
-| `background` | `#18120F` | `#0F1519` | `#0E1510` | `#17120A` |
-| `surface` | `#241B16` | `#172128` | `#16211A` | `#241C10` |
-| `surfaceRaised` | `#322620` | `#20303A` | `#1F3125` | `#33281A` |
+| `brand50` | `#FDF8F4` | `#F2F9FC` | `#F3FAF0` | `#FFF9EE` |
+| `brand100` | `#F7ECE2` | `#E3F3F9` | `#E8F7DE` | `#FCF1D6` |
+| `brand200` | `#EEDBCB` | `#C7E8F3` | `#D2EFC0` | `#FAE4B1` |
+| `brand300` | `#E2C4A8` | `#A3D7E8` | `#B5E298` | `#F7D487` |
+| `brand400` | `#E2C4A8` | `#A3D7E8` | `#B5E298` | `#F7D487` |
+| `brand500` | `#A6663E` | `#459CB8` | `#67AA48` | `#D99426` |
+| `brand600` | `#8B512E` | `#358099` | `#528C37` | `#B27519` |
+| `brand700` | `#6B3C1F` | `#266175` | `#3C6A27` | `#8A570E` |
+| `brand900` | `#3A1E0E` | `#112E3B` | `#1B3615` | `#452A07` |
+| `background` | `#191310` | `#0E161C` | `#0E1711` | `#18130B` |
+| `surface` | `#261D18` | `#16232D` | `#15251B` | `#251E12` |
+| `surfaceRaised` | `#352922` | `#203342` | `#1E3526` | `#352B1A` |
+
+## Theme palettes (Light Mode)
+
+Each light theme provides clean, warm specialty cafe aesthetics with high contrast:
+
+| Token | Coffee Light | Ocean Light | Forest Light | Amber Light |
+|---|---|---|---|---|
+| `brand50` | `#FAF3EC` | `#EFF7FB` | `#F1F9EE` | `#FDF7EB` |
+| `brand100` | `#EEDECF` | `#D0E8F4` | `#D7EFCB` | `#F7E2B7` |
+| `brand200` | `#D4B39A` | `#91C9DF` | `#A3D590` | `#ECC279` |
+| `brand300` | `#A6663E` | `#3B92B5` | `#5EA143` | `#CF8A23` |
+| `brand400` | `#A6663E` | `#3B92B5` | `#5EA143` | `#CF8A23` |
+| `brand500` | `#8A5333` | `#2A7B9B` | `#488732` | `#B57418` |
+| `brand600` | `#704126` | `#1E617C` | `#376A25` | `#91590F` |
+| `brand700` | `#532E19` | `#14475B` | `#274D19` | `#6E4007` |
+| `brand900` | `#381D0E` | `#0F2E3B` | `#193610` | `#472802` |
+| `background` | `#FAF6F0` | `#F2F6F9` | `#F2F7F1` | `#FAF5ED` |
+| `surface` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
+| `surfaceRaised` | `#F2E9DE` | `#E3EDF4` | `#E2EFE0` | `#F3E8D5` |
+| `textPrimary` | `#261912` | `#12222D` | `#162515` | `#261C0E` |
+| `textSecondary` | `#5C473A` | `#3E5868` | `#425A3E` | `#5F492E` |
+| `textMuted` | `#8A7263` | `#678394` | `#6B8667` | `#8B7354` |
+| `textSubtle` | `#AF9C8F` | `#94ABB9` | `#98AF95` | `#AF9D84` |
 
 Default to the Coffee palette. Theme selection in the reference changes the full accent and dark-surface palette; keep semantic component roles stable across variants.
 

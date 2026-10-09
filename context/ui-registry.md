@@ -32,15 +32,17 @@ File: `lib/app/theme/app_theme.dart`
 
 | Property | Flutter contract |
 |---|---|
-| Palettes | Coffee (default), Ocean, Forest, Amber, with shared text and status colors |
+| Palettes | 8 Presets: 4 Redesigned Dark (Coffee/Espresso, Ocean, Forest, Amber) + 4 Light (Coffee Light, Ocean Light, Forest Light, Amber Light) |
 | Access | `CoffeeThemeExtension` on `ThemeData`; use `AppTheme.paletteOf(context)` |
-| Typography | Material text roles with reference weights and system sans-serif fallback |
+| Mode Switch | Segmented Dark/Light mode toggle in `ThemeSheet` with live preview swatches and automatic persistence |
+| Typography | Material text roles with reference weights and system sans-serif fallback; automatic black/white contrast adaptation |
 | Spacing | `AppSpacing` four-point scale matching the HTML spacing values |
 | Shape | `AppRadii` control, card, large-card, and sheet-top radii |
 | Targets | `AppTargets.minimumInteractive` is 44 logical pixels |
 | Animation | Palette extension interpolates colors when the app theme changes |
+| Sheet Theme | Clean transparent modal backings with semantic `palette.surface` backgrounds and 1.2px `stone700` top borders |
 
-The app root reads the saved theme preset and applies its palette. Theme selection UI is not implemented yet. Feature widgets must consume the active theme palette instead of embedding raw colors.
+The app root reads the saved theme preset and applies its palette. Theme and mode selection UI allows instant switching between dark and light modes across all four palettes. Feature widgets consume the active theme palette without embedding raw colors.
 
 ### Onboarding wizard
 
@@ -128,10 +130,12 @@ Files: `lib/features/achievements/achievements_page.dart`, `lib/features/achieve
 
 Files: `lib/features/drink_log/log_drink_sheet.dart`, `lib/features/settings/mode_sheet.dart`, `lib/features/settings/theme_sheet.dart`, `lib/features/feature_board/suggest_feature_sheet.dart`
 
-Sheets use the semantic card surface with 32 pixel top corners and native back dismissal:
+Sheets use the semantic `palette.surface` card background with 32 pixel top corners (`AppRadii.sheetTop`), 1.2px `stone700` top borders, and native back dismissal:
 - `LogDrinkSheet`: 68x68 horizontal drink scroll selector, side-by-side Name & Caffeine and Volume & Price fields, Hot/Iced and Home/Cafe segmented pill toggles, Cup Style dropdown, Time picker, Photo button, and sticky full-width Log Entry action.
+- `SettingsSheet`: (`lib/features/settings/settings_sheet.dart`) Consolidated settings hub opened from the header settings gear. Features navigation tiles to Theme and Reminders sheets with live active status subtitles, `palette.surface` background, and `palette.surfaceRaised` tiles.
+- `RemindersSheet`: (`lib/features/settings/reminders_sheet.dart`) Displays a permanent top card for the default 9:00 PM Daily Check-In ("Did you have a brew today?") with active badge (no toggle or delete button), followed by user-customizable coffee break alarms with time picker, toggle switches, and smart median coffee reminder calculation.
 - `ModeSheet`: 3 selectable cards ("Just Tracking", "Cutting Back", "Quitting Completely") with color-coded badges ("400mg Limit", "200mg Goal", "0mg Goal") and radio checkmarks.
-- `ThemeSheet`: Preset theme selector (Coffee, Ocean, Forest, Amber).
+- `ThemeSheet`: (`lib/features/settings/theme_sheet.dart`) Theme and appearance customizer featuring a Dark/Light mode segmented switcher, 4 curated palettes (Espresso, Iced Latte, Matcha, Amber Tea) with 4-swatch preview circles, and instant persistence.
 - `SuggestFeatureSheet`: Local device idea submission.
 - `EditQuickLogSheet`: (`lib/features/today/widgets/edit_quick_log_sheet.dart`) Quick Log shortcut customization sheet. Pinned shortcuts section with delete/edit actions, 11-drink catalog browser with quick pin toggles, custom drink builder dialog with name, caffeine mg, volume ml, and SVG icon picker, and full-width Save button.
 
@@ -160,6 +164,42 @@ Faithful reconstruction of the prototype's metabolism component (`ui/coffeeaholi
 - 72px smooth Bézier decay curve with vertical gradient fill and current-time dot.
 - Dashed red sleep impact line at 50mg with `Sleep impact limit (50mg)` label.
 - Four timeline labels along the x-axis: `Now`, `+3h`, `+6h (Half-life)`, and `Sleep (11 PM)`.
+
+### Custom AppDropdown component
+
+File: `lib/shared/widgets/app_dropdown.dart`
+
+Reusable dropdown component replacing standard Flutter `DropdownButton`:
+- Positions menu directly below the trigger using `PopupMenuPosition.under` with subtle vertical offset.
+- Styled with `AppRadii.card` (16px), `palette.surfaceRaised` background, and `palette.stone700` border.
+- Clean item row with optional icon, typography matching semantic tokens, and active checkmark.
+- 1px custom divider between items eliminating default white background spacer lines.
+- Supports `onDelete` callback per item, rendering an inline tap-to-delete trash icon for custom entries.
+- Used in `LogDrinkSheet` (Cup Style selector, Location & Spending selector with custom location addition and deletion) and reusable across all future sheets.
+
+### Manage Locations Dialog
+
+File: `lib/features/drink_log/widgets/manage_locations_dialog.dart`
+Last updated: 2026-10-10
+
+| Property         | Pattern / Token |
+| ---------------- | --------------- |
+| Background       | `palette.surface` |
+| Border           | `BorderSide(color: palette.stone700)` |
+| Border radius    | `AppRadii.card` (16px) |
+| Text — primary   | `palette.textPrimary` (16px bold title, 14px item title) |
+| Text — secondary | `palette.textSubtle` (13px input hint) |
+| Text — muted     | `palette.textMuted` (13px empty state description) |
+| Input            | `palette.stone900` fill, `palette.stone800` border, `palette.brand500` focused |
+| Action buttons   | `palette.brand500` (Add), `palette.surfaceRaised` (Done) |
+| Danger icon      | `palette.stateDanger` (20px delete icon button) |
+| Spacing          | `14px` gap, `240px` max height list |
+
+**Pattern notes:**
+- Stateful dialog listening to `customLocationsProvider` via Riverpod `ConsumerStatefulWidget`.
+- Supports optimistic UI updates so additions and deletions render with zero latency while asynchronously synchronizing to SQLite Drift database schema v5.
+- Provides immediate validation, text field clearing, and automatic selection fallback when the active location is deleted.
+
 
 
 

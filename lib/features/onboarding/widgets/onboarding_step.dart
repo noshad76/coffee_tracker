@@ -49,16 +49,24 @@ class _OnboardingStep extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
                                 child: LinearProgressIndicator(
-                                  value: (step + 1) / 4,
+                                  value: (step + 1) / 5,
                                   minHeight: 4,
-                                  backgroundColor:
-                                      AppTheme.paletteOf(context).stone800,
+                                  backgroundColor: AppTheme.paletteOf(
+                                    context,
+                                  ).stone800,
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                     AppTheme.paletteOf(context).brand500,
                                   ),
                                 ),
                               ),
                             ),
+                            TextButton(
+                              onPressed: state.saving
+                                  ? null
+                                  : controller.skipAll,
+                              child: Text('Skip'),
+                            ),
+                            const SizedBox(width: AppSpacing.x3),
                           ],
                         ),
                         const SizedBox(height: 14),
@@ -98,7 +106,8 @@ class _OnboardingStep extends StatelessWidget {
       0 => _WelcomeContent(),
       1 => _ModeContent(state: state, controller: controller),
       2 => _LimitContent(state: state, controller: controller),
-      _ => _FavoritesContent(state: state, controller: controller),
+      3 => _FavoritesContent(state: state, controller: controller),
+      _ => _RemindersContent(state: state, controller: controller),
     };
   }
 
@@ -108,7 +117,17 @@ class _OnboardingStep extends StatelessWidget {
     if (step == 0) {
       return Column(
         children: [
-          _PrimaryButton(label: 'Get started', onPressed: controller.start),
+          Row(
+            children: [
+              Expanded(
+                child: _PrimaryButton(
+                  label: 'Get started',
+                  height: 52,
+                  onPressed: controller.start,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: AppSpacing.x3),
           Wrap(
             alignment: WrapAlignment.center,
@@ -142,14 +161,6 @@ class _OnboardingStep extends StatelessWidget {
       return Row(
         children: [
           Expanded(
-            child: _SecondaryButton(
-              label: 'Skip',
-              height: 52,
-              onPressed: () => controller.continueFromLimit(skip: true),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.x3),
-          Expanded(
             child: _PrimaryButton(
               label: 'Continue',
               height: 52,
@@ -159,21 +170,21 @@ class _OnboardingStep extends StatelessWidget {
         ],
       );
     }
+    if (step == 3) {
+      return _PrimaryButton(
+        label: 'Continue',
+        onPressed: controller.continueFromFavorites,
+      );
+    }
     return Row(
       children: [
-        Expanded(
-          child: _SecondaryButton(
-            label: 'Skip',
-            height: 52,
-            onPressed: state.saving ? null : controller.finish,
-          ),
-        ),
-        const SizedBox(width: AppSpacing.x3),
         Expanded(
           child: _PrimaryButton(
             label: state.saving ? 'Saving…' : 'Done',
             height: 52,
-            onPressed: state.saving ? null : controller.finish,
+            onPressed: state.saving
+                ? null
+                : () => controller.continueFromReminders(skip: false),
             icon: state.saving
                 ? const SizedBox.square(
                     dimension: 18,

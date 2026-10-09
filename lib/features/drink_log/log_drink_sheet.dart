@@ -4,11 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../shared/widgets/app_dropdown.dart';
 import '../../shared/widgets/app_toast.dart';
 import '../../shared/widgets/drink_artwork.dart';
 import '../onboarding/models/favorite_drink.dart';
 import '../tracking/models/tracking_models.dart';
 import '../tracking/providers/tracking_providers.dart';
+import 'providers/custom_locations_provider.dart';
+import 'widgets/manage_locations_dialog.dart';
 
 class LogDrinkSheet extends ConsumerStatefulWidget {
   const LogDrinkSheet({super.key, this.initialRecord});
@@ -44,23 +47,46 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
       name = TextEditingController(text: record.name);
       caffeine = TextEditingController(text: '${record.caffeineMg}');
       volume = TextEditingController(text: '${record.volumeMl}');
-      cafeName = TextEditingController(text: record.cafeName ?? '');
       price = TextEditingController(
         text: (record.priceCents / 100).toStringAsFixed(2),
       );
       note = TextEditingController(text: record.note ?? '');
+      if (record.location == 'home') {
+        location = 'home';
+        cafeName = TextEditingController(text: '');
+      } else if (record.location == 'cafe') {
+        location = 'cafe';
+        cafeName = TextEditingController(text: record.cafeName ?? '');
+      } else if (record.location == 'work') {
+        location = 'work';
+        cafeName = TextEditingController(text: record.cafeName ?? '');
+      } else {
+        location = 'custom';
+        cafeName = TextEditingController(
+          text:
+              record.cafeName ??
+              (record.location != 'custom' ? record.location : ''),
+        );
+      }
       final knownCupStyles = const [
         'Ceramic Mug (Default)',
         'Paper Takeaway Cup',
         'Glass Cup',
         'Thermos Tumbler',
       ];
-      cupStyle = knownCupStyles.contains(record.cupStyle)
-          ? record.cupStyle
-          : 'Ceramic Mug (Default)';
       if (record.cupStyle.startsWith('artwork:')) {
-        selectedDrinkId = record.cupStyle.substring('artwork:'.length);
+        final raw = record.cupStyle.substring('artwork:'.length);
+        final parts = raw.split('|cup:');
+        selectedDrinkId = parts[0];
+        if (parts.length > 1 && knownCupStyles.contains(parts[1])) {
+          cupStyle = parts[1];
+        } else {
+          cupStyle = 'Ceramic Mug (Default)';
+        }
       } else {
+        cupStyle = knownCupStyles.contains(record.cupStyle)
+            ? record.cupStyle
+            : 'Ceramic Mug (Default)';
         selectedDrinkId =
             FavoriteDrink.fullLogCatalog
                 .where(
@@ -121,9 +147,66 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
     );
   }
 
+  List<AppDropdownItem<String>> _buildLocationItems(List<String> customPlaces) {
+    return [
+      const AppDropdownItem(
+        value: 'home',
+        label: 'Home Brew (\$0.50)',
+        icon: Icons.home_outlined,
+      ),
+      const AppDropdownItem(
+        value: 'cafe',
+        label: 'At Cafe',
+        icon: Icons.local_cafe_outlined,
+      ),
+      const AppDropdownItem(
+        value: 'work',
+        label: 'Work / Office',
+        icon: Icons.business_outlined,
+      ),
+      for (final place in customPlaces)
+        if (place != 'home' && place != 'cafe' && place != 'work')
+          AppDropdownItem(
+            value: place,
+            label: place,
+            icon: Icons.place_outlined,
+          ),
+      if (location != 'home' &&
+          location != 'cafe' &&
+          location != 'work' &&
+          !customPlaces.contains(location))
+        AppDropdownItem(
+          value: location,
+          label: location,
+          icon: Icons.place_outlined,
+        ),
+      const AppDropdownItem(
+        value: '__manage_custom__',
+        label: 'Manage Locations...',
+        icon: Icons.tune_rounded,
+      ),
+    ];
+  }
+
+  void _showManageLocationsDialog() {
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => ManageLocationsDialog(
+        currentLocation: location,
+        onLocationSelected: (newLoc) {
+          setState(() {
+            location = newLoc;
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final palette = AppTheme.paletteOf(context);
+    final customLocations =
+        ref.watch(customLocationsProvider).valueOrNull ?? [];
 
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
@@ -355,46 +438,24 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
               Row(
                 children: [
                   Expanded(
-                    child: _toggleOptionButton(
-                      context,
-                      label: 'Home Brew (\$0.50)',
-                      icon: Icons.home_outlined,
-                      selected: location == 'home',
-                      onTap: () => setState(() => location = 'home'),
+                    child: AppDropdown<String>(
+                      value: location,
+                      items: _buildLocationItems(customLocations),
+                      onChanged: (val) {
+                        if (val == '__manage_custom__') {
+                          _showManageLocationsDialog();
+                        } else {
+                          setState(() {
+                            location = val;
+                          });
+                        }
+                      },
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _toggleOptionButton(
-                      context,
-                      label: 'At Cafe',
-                      icon: Icons.location_on_outlined,
-                      selected: location == 'cafe',
-                      onTap: () => setState(() => location = 'cafe'),
-                    ),
-                  ),
-                ],
-              ),
-              if (location == 'cafe') ...[
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: cafeName,
-                        style: TextStyle(
-                          color: palette.textPrimary,
-                          fontSize: 13,
-                        ),
-                        decoration: _inputDeco(
-                          context,
-                          hintText: 'Cafe Name (e.g. Blue Bottle)',
-                        ),
-                      ),
-                    ),
+                  if (location != 'home') ...[
                     const SizedBox(width: 8),
                     SizedBox(
-                      width: 100,
+                      width: 95,
                       child: TextField(
                         controller: price,
                         keyboardType: const TextInputType.numberWithOptions(
@@ -408,6 +469,17 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
                       ),
                     ),
                   ],
+                ],
+              ),
+              if (location == 'cafe') ...[
+                const SizedBox(height: 8),
+                TextField(
+                  controller: cafeName,
+                  style: TextStyle(color: palette.textPrimary, fontSize: 13),
+                  decoration: _inputDeco(
+                    context,
+                    hintText: 'Cafe Name (e.g. Blue Bottle)',
+                  ),
                 ),
               ],
               const SizedBox(height: 14),
@@ -421,47 +493,43 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
                       children: [
                         _fieldLabel(context, 'CUP STYLE'),
                         const SizedBox(height: 6),
-                        Container(
-                          height: 44,
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: palette.stone900,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: palette.stone800),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              value: cupStyle,
-                              dropdownColor: palette.stone900,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: palette.textMuted,
-                                size: 18,
-                              ),
-                              style: TextStyle(
-                                color: palette.textPrimary,
-                                fontSize: 12,
-                              ),
-                              items: [
-                                for (final style in [
-                                  'Ceramic Mug (Default)',
-                                  'Paper Takeaway Cup',
-                                  'Glass Cup',
-                                  'Thermos Tumbler',
-                                ])
-                                  DropdownMenuItem(
-                                    value: style,
-                                    child: Text(
-                                      style,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                              ],
-                              onChanged: (value) =>
-                                  setState(() => cupStyle = value ?? cupStyle),
+                        AppDropdown<String>(
+                          value: cupStyle,
+                          items: [
+                            const AppDropdownItem(
+                              value: 'Ceramic Mug (Default)',
+                              label: 'Ceramic Mug (Default)',
+                              icon: Icons.coffee_rounded,
                             ),
-                          ),
+                            const AppDropdownItem(
+                              value: 'Paper Takeaway Cup',
+                              label: 'Paper Takeaway Cup',
+                              icon: Icons.takeout_dining_rounded,
+                            ),
+                            const AppDropdownItem(
+                              value: 'Glass Cup',
+                              label: 'Glass Cup',
+                              icon: Icons.local_bar_rounded,
+                            ),
+                            const AppDropdownItem(
+                              value: 'Thermos Tumbler',
+                              label: 'Thermos Tumbler',
+                              icon: Icons.water_drop_outlined,
+                            ),
+                            if (!const [
+                              'Ceramic Mug (Default)',
+                              'Paper Takeaway Cup',
+                              'Glass Cup',
+                              'Thermos Tumbler',
+                            ].contains(cupStyle))
+                              AppDropdownItem(
+                                value: cupStyle,
+                                label: cupStyle,
+                                icon: Icons.coffee_rounded,
+                              ),
+                          ],
+                          onChanged: (value) =>
+                              setState(() => cupStyle = value),
                         ),
                       ],
                     ),
@@ -752,6 +820,27 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
       saving = true;
       error = null;
     });
+    final String savedLocation;
+    final String? savedPlaceName;
+    if (location == 'home') {
+      savedLocation = 'home';
+      savedPlaceName = null;
+    } else if (location == 'cafe') {
+      savedLocation = 'cafe';
+      savedPlaceName = cafeName.text.trim().isEmpty
+          ? null
+          : cafeName.text.trim();
+    } else if (location == 'work') {
+      savedLocation = 'work';
+      savedPlaceName = cafeName.text.trim().isEmpty
+          ? null
+          : cafeName.text.trim();
+    } else {
+      final customName = cafeName.text.trim();
+      savedLocation = customName.isNotEmpty ? customName : 'custom';
+      savedPlaceName = customName.isNotEmpty ? customName : null;
+    }
+
     try {
       final draft = DrinkDraft(
         name: name.text.trim(),
@@ -760,9 +849,11 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
         consumedAtUtc: local.toUtc(),
         priceCents: (dollars * 100).round(),
         temperature: temperature,
-        location: location,
-        cupStyle: 'artwork:$selectedDrinkId',
-        cafeName: cafeName.text.trim().isEmpty ? null : cafeName.text.trim(),
+        location: savedLocation,
+        cupStyle: selectedDrinkId != 'other'
+            ? 'artwork:$selectedDrinkId|cup:$cupStyle'
+            : cupStyle,
+        cafeName: savedPlaceName,
         note: note.text.trim().isEmpty ? null : note.text.trim(),
         photoPath: photoPath,
       );
@@ -865,11 +956,7 @@ class _LogDrinkSheetState extends ConsumerState<LogDrinkSheet> {
           final msg = isCamera
               ? 'Camera unavailable. Try choosing from gallery.'
               : 'Could not access photo library. Check device permissions.';
-          AppToast.show(
-            context,
-            msg,
-            isError: true,
-          );
+          AppToast.show(context, msg, isError: true);
         }
       }
     }

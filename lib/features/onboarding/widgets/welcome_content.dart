@@ -74,12 +74,12 @@ class _WelcomeContent extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                color: palette.brand50,
-                fontWeight: FontWeight.w800,
-                letterSpacing: -0.5,
-                height: 1.15,
-                fontSize: 34,
-              ),
+            color: palette.brand50,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.5,
+            height: 1.15,
+            fontSize: 34,
+          ),
         ),
         const SizedBox(height: 10),
         ConstrainedBox(

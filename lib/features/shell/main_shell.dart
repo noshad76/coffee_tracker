@@ -8,7 +8,7 @@ import '../onboarding/models/onboarding_preferences.dart';
 import '../onboarding/providers/onboarding_providers.dart';
 import '../achievements/achievements_page.dart';
 import '../settings/mode_sheet.dart';
-import '../settings/theme_sheet.dart';
+import '../settings/settings_sheet.dart';
 import '../statistics/statistics_page.dart';
 import '../today/today_page.dart';
 import '../tracking/providers/tracking_providers.dart';
@@ -27,7 +27,7 @@ class _MainShellState extends ConsumerState<MainShell> {
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
-    backgroundColor: AppTheme.paletteOf(context).overlay.withValues(alpha: 0),
+    backgroundColor: Colors.transparent,
     builder: (context) => const LogDrinkSheet(),
   );
 
@@ -93,11 +93,12 @@ class _MainShellState extends ConsumerState<MainShell> {
                       ),
                     ),
                     Tooltip(
-                      message: 'Change theme',
+                      message: 'Settings',
                       child: InkWell(
                         onTap: () => showModalBottomSheet<void>(
                           context: context,
-                          builder: (_) => const ThemeSheet(),
+                          isScrollControlled: true,
+                          builder: (_) => const SettingsSheet(),
                         ),
                         borderRadius: BorderRadius.circular(24),
                         child: SizedBox(
@@ -115,7 +116,7 @@ class _MainShellState extends ConsumerState<MainShell> {
                                 ),
                               ),
                               child: Icon(
-                                Icons.palette_outlined,
+                                Icons.settings_outlined,
                                 size: 18,
                                 color: palette.brand300,
                               ),
@@ -130,6 +131,7 @@ class _MainShellState extends ConsumerState<MainShell> {
                       child: InkWell(
                         onTap: () => showModalBottomSheet<void>(
                           context: context,
+                          isScrollControlled: true,
                           builder: (_) => const ModeSheet(),
                         ),
                         borderRadius: BorderRadius.circular(24),
@@ -163,9 +165,9 @@ class _MainShellState extends ConsumerState<MainShell> {
                                   Text(
                                     modeLabel,
                                     style: TextStyle(
-                                      color: palette.brand200,
+                                      color: palette.textPrimary,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   const SizedBox(width: 5),
@@ -251,7 +253,7 @@ class _MainShellState extends ConsumerState<MainShell> {
 
   Widget _tabButton(int index, IconData icon, String label) {
     final palette = AppTheme.paletteOf(context);
-    final color = tab == index ? palette.brand300 : palette.textSubtle;
+    final color = tab == index ? palette.brand300 : palette.textMuted;
     return InkWell(
       onTap: () => setState(() => tab = index),
       child: SizedBox(

@@ -222,10 +222,7 @@ class EarnedBadgesCard extends StatelessWidget {
                   Text(
                     'Log drinks and hit milestones to unlock your first trophy!',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: palette.textMuted,
-                      fontSize: 11.5,
-                    ),
+                    style: TextStyle(color: palette.textMuted, fontSize: 11.5),
                   ),
                 ],
               ),
@@ -265,11 +262,7 @@ class EarnedBadgesCard extends StatelessWidget {
                         if (badge.svgAsset != null)
                           DrinkArtwork(id: badge.svgAsset!, size: 36)
                         else
-                          Icon(
-                            badge.icon,
-                            color: palette.brand300,
-                            size: 32,
-                          ),
+                          Icon(badge.icon, color: palette.brand300, size: 32),
                         const SizedBox(height: 4),
                         Text(
                           badge.title,

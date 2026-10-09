@@ -15,7 +15,7 @@ import 'package:coffee_tracker/features/tracking/providers/tracking_providers.da
 
 class _MockOnboardingRepo implements OnboardingRepository {
   _MockOnboardingRepo({OnboardingPreferences? initial})
-      : preferences = initial ?? OnboardingPreferences.initial;
+    : preferences = initial ?? OnboardingPreferences.initial;
 
   OnboardingPreferences preferences;
 
@@ -41,7 +41,11 @@ class _MockTrackingRepo implements TrackingRepository {
   @override
   Future<void> deleteDrink(int id) async {}
   @override
-  Future<void> addIdea(String title, String description, bool anonymous) async {}
+  Future<void> addIdea(
+    String title,
+    String description,
+    bool anonymous,
+  ) async {}
   @override
   Future<void> toggleVote(int id, bool voted) async {}
 }

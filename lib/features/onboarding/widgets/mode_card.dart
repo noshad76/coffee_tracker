@@ -69,13 +69,10 @@ class _ModeCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: palette.textPrimary,
-                          ),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: palette.textPrimary,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -83,9 +80,9 @@ class _ModeCard extends StatelessWidget {
                     Text(
                       description,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: palette.textMuted,
-                            height: 1.3,
-                          ),
+                        color: palette.textMuted,
+                        height: 1.3,
+                      ),
                     ),
                   ],
                 ),

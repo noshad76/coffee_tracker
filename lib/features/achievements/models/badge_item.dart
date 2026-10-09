@@ -220,7 +220,8 @@ class BadgeCalculator {
         final day = sortedDays[i];
         final total = dayTotals[day] ?? 0;
         if (total > 0 && total <= effectiveLimit) {
-          if (i == 0 || sortedDays[i].difference(sortedDays[i - 1]).inDays == 1) {
+          if (i == 0 ||
+              sortedDays[i].difference(sortedDays[i - 1]).inDays == 1) {
             current++;
           } else {
             current = 1;
@@ -266,14 +267,18 @@ class BadgeCalculator {
       }
     }
 
-    final underTargetDays =
-        dayTotals.values.where((t) => t > 0 && t <= effectiveLimit).length;
-    final safeSlumberDays =
-        dayLastDrinkTime.values.where((t) => t.hour < 14).length;
-    final before3PmDays =
-        dayLastDrinkTime.values.where((t) => t.hour < 15).length;
-    final before1PmDays =
-        dayLastDrinkTime.values.where((t) => t.hour < 13).length;
+    final underTargetDays = dayTotals.values
+        .where((t) => t > 0 && t <= effectiveLimit)
+        .length;
+    final safeSlumberDays = dayLastDrinkTime.values
+        .where((t) => t.hour < 14)
+        .length;
+    final before3PmDays = dayLastDrinkTime.values
+        .where((t) => t.hour < 15)
+        .length;
+    final before1PmDays = dayLastDrinkTime.values
+        .where((t) => t.hour < 13)
+        .length;
     final lowBuzzDays = dayTotals.values.where((t) => t > 0 && t < 50).length;
     final microDoseDrinks = drinks.where((d) => d.caffeineMg <= 30).length;
     final halfCaffDrinks = drinks.where((d) => d.caffeineMg <= 60).length;
@@ -284,15 +289,28 @@ class BadgeCalculator {
     final morningRitualDays = dayFirstDrinkTime.values
         .where((t) => t.hour >= 8 && t.hour < 10)
         .length;
-    final noonBoostDrinks =
-        drinks.where((d) => d.localTime.hour == 12 || (d.localTime.hour == 11 && d.localTime.minute >= 30) || (d.localTime.hour == 13 && d.localTime.minute <= 30)).length;
+    final noonBoostDrinks = drinks
+        .where(
+          (d) =>
+              d.localTime.hour == 12 ||
+              (d.localTime.hour == 11 && d.localTime.minute >= 30) ||
+              (d.localTime.hour == 13 && d.localTime.minute <= 30),
+        )
+        .length;
     final sundaySlowdownDays = dayTotals.entries
         .where((e) => e.key.weekday == DateTime.sunday && e.value <= 150)
         .length;
-    final mondayMorningDrinks = drinks.where(
-        (d) => d.localTime.weekday == DateTime.monday && d.localTime.hour < 9).length;
-    final fridayAfternoonDrinks = drinks.where(
-        (d) => d.localTime.weekday == DateTime.friday && d.localTime.hour >= 13).length;
+    final mondayMorningDrinks = drinks
+        .where(
+          (d) => d.localTime.weekday == DateTime.monday && d.localTime.hour < 9,
+        )
+        .length;
+    final fridayAfternoonDrinks = drinks
+        .where(
+          (d) =>
+              d.localTime.weekday == DateTime.friday && d.localTime.hour >= 13,
+        )
+        .length;
     final doubleShotMorningDays = dayDrinks.values.where((list) {
       final morningCount = list.where((d) => d.localTime.hour < 12).length;
       return morningCount >= 2;
@@ -389,7 +407,8 @@ class BadgeCalculator {
         earned: maxStreak >= 14,
         progress: math.min(maxStreak, 14),
         progressMax: 14,
-        tip: '14 days without skipping gives highly accurate circadian insights.',
+        tip:
+            '14 days without skipping gives highly accurate circadian insights.',
       ),
       BadgeItem(
         id: 'twenty_one_habit',
@@ -425,7 +444,8 @@ class BadgeCalculator {
         earned: maxStreak >= 60,
         progress: math.min(maxStreak, 60),
         progressMax: 60,
-        tip: 'Elite status! Your metabolism data is extraordinarily comprehensive.',
+        tip:
+            'Elite status! Your metabolism data is extraordinarily comprehensive.',
       ),
 
       // ==============================================
@@ -435,7 +455,8 @@ class BadgeCalculator {
         id: 'under_target',
         title: 'Under $effectiveLimit',
         description: 'Kept daily caffeine within your target limit.',
-        requirement: 'Stay under $effectiveLimit mg on any day with logged drinks.',
+        requirement:
+            'Stay under $effectiveLimit mg on any day with logged drinks.',
         category: BadgeCategory.mindfulness,
         icon: Icons.track_changes_rounded,
         svgAsset: 'badge-target',
@@ -454,7 +475,8 @@ class BadgeCalculator {
         earned: maxUnderLimitStreak >= 3,
         progress: math.min(maxUnderLimitStreak, 3),
         progressMax: 3,
-        tip: 'Consistent threshold adherence trains balanced adenosine sensitivity.',
+        tip:
+            'Consistent threshold adherence trains balanced adenosine sensitivity.',
       ),
       BadgeItem(
         id: 'seven_day_under',
@@ -479,19 +501,22 @@ class BadgeCalculator {
         earned: safeSlumberDays > 0,
         progress: math.min(safeSlumberDays, 1),
         progressMax: 1,
-        tip: 'Caffeine has a 5-6 hour half-life; stopping early protects deep sleep.',
+        tip:
+            'Caffeine has a 5-6 hour half-life; stopping early protects deep sleep.',
       ),
       BadgeItem(
         id: 'three_pm_cutoff',
         title: '3 PM Sentinel',
-        description: 'Logged your last coffee before 3:00 PM on 3 separate days.',
+        description:
+            'Logged your last coffee before 3:00 PM on 3 separate days.',
         requirement: 'Finish all drinks before 15:00 on 3 days.',
         category: BadgeCategory.mindfulness,
         icon: Icons.alarm_on_rounded,
         earned: before3PmDays >= 3,
         progress: math.min(before3PmDays, 3),
         progressMax: 3,
-        tip: 'A rigid afternoon cutoff is the single highest-impact sleep upgrade.',
+        tip:
+            'A rigid afternoon cutoff is the single highest-impact sleep upgrade.',
       ),
       BadgeItem(
         id: 'sleep_protector',
@@ -503,7 +528,8 @@ class BadgeCalculator {
         earned: before1PmDays > 0,
         progress: math.min(before1PmDays, 1),
         progressMax: 1,
-        tip: 'Ending caffeine by 1 PM leaves near-zero residual adenosine blockade by bedtime.',
+        tip:
+            'Ending caffeine by 1 PM leaves near-zero residual adenosine blockade by bedtime.',
       ),
       BadgeItem(
         id: 'zen_day',
@@ -515,7 +541,8 @@ class BadgeCalculator {
         earned: lowBuzzDays > 0,
         progress: math.min(lowBuzzDays, 1),
         progressMax: 1,
-        tip: 'Occasional low-caffeine reset days resensitize your adenosine receptors.',
+        tip:
+            'Occasional low-caffeine reset days resensitize your adenosine receptors.',
       ),
       BadgeItem(
         id: 'micro_dose',
@@ -527,7 +554,8 @@ class BadgeCalculator {
         earned: microDoseDrinks > 0,
         progress: math.min(microDoseDrinks, 1),
         progressMax: 1,
-        tip: 'Small, strategic doses can enhance focus without stimulating anxiety.',
+        tip:
+            'Small, strategic doses can enhance focus without stimulating anxiety.',
       ),
       BadgeItem(
         id: 'half_caff',
@@ -539,19 +567,22 @@ class BadgeCalculator {
         earned: halfCaffDrinks > 0,
         progress: math.min(halfCaffDrinks, 1),
         progressMax: 1,
-        tip: 'Half-caff gives you all the warm ritual with half the stimulant load.',
+        tip:
+            'Half-caff gives you all the warm ritual with half the stimulant load.',
       ),
       BadgeItem(
         id: 'steady_intake',
         title: 'Balanced Rhythm',
-        description: 'Maintained steady caffeine within 50 mg of each other for 3 days.',
+        description:
+            'Maintained steady caffeine within 50 mg of each other for 3 days.',
         requirement: 'Log 3 days with similar balanced totals.',
         category: BadgeCategory.mindfulness,
         icon: Icons.equalizer_rounded,
         earned: dayTotals.length >= 3,
         progress: math.min(dayTotals.length, 3),
         progressMax: 3,
-        tip: 'Avoiding erratic spikes prevents adrenal fatigue and rebound headaches.',
+        tip:
+            'Avoiding erratic spikes prevents adrenal fatigue and rebound headaches.',
       ),
 
       // ==========================================
@@ -567,7 +598,8 @@ class BadgeCalculator {
         earned: dawnDrinks > 0,
         progress: math.min(dawnDrinks, 1),
         progressMax: 1,
-        tip: 'Waiting 60-90 min after waking optimizes your natural cortisol boost.',
+        tip:
+            'Waiting 60-90 min after waking optimizes your natural cortisol boost.',
       ),
       BadgeItem(
         id: 'sunrise_sipper',
@@ -579,19 +611,22 @@ class BadgeCalculator {
         earned: sunriseDrinks > 0,
         progress: math.min(sunriseDrinks, 1),
         progressMax: 1,
-        tip: 'First light and fresh coffee create an invigorating morning mindfulness anchor.',
+        tip:
+            'First light and fresh coffee create an invigorating morning mindfulness anchor.',
       ),
       BadgeItem(
         id: 'morning_ritual',
         title: 'Morning Ritual',
-        description: 'Logged your favorite brew between 8 AM and 10 AM on 5 days.',
+        description:
+            'Logged your favorite brew between 8 AM and 10 AM on 5 days.',
         requirement: 'Log morning coffee between 8:00-10:00 AM on 5 days.',
         category: BadgeCategory.rituals,
         icon: Icons.schedule_rounded,
         earned: morningRitualDays >= 5,
         progress: math.min(morningRitualDays, 5),
         progressMax: 5,
-        tip: 'The 9:00 AM window coincides with when morning cortisol naturally dips.',
+        tip:
+            'The 9:00 AM window coincides with when morning cortisol naturally dips.',
       ),
       BadgeItem(
         id: 'noon_boost',
@@ -603,7 +638,8 @@ class BadgeCalculator {
         earned: noonBoostDrinks > 0,
         progress: math.min(noonBoostDrinks, 1),
         progressMax: 1,
-        tip: 'A quick espresso after lunch keeps the afternoon post-prandial slump away.',
+        tip:
+            'A quick espresso after lunch keeps the afternoon post-prandial slump away.',
       ),
       BadgeItem(
         id: 'weekend_warrior',
@@ -613,7 +649,11 @@ class BadgeCalculator {
         category: BadgeCategory.rituals,
         icon: Icons.weekend_rounded,
         earned: weekendWarriorEarned,
-        progress: weekendWarriorEarned ? 2 : (recordedDays.any((d) => d.weekday == 6 || d.weekday == 7) ? 1 : 0),
+        progress: weekendWarriorEarned
+            ? 2
+            : (recordedDays.any((d) => d.weekday == 6 || d.weekday == 7)
+                  ? 1
+                  : 0),
         progressMax: 2,
         tip: 'Tracking on weekends keeps your sleep clock in tune for Monday.',
       ),
@@ -627,12 +667,14 @@ class BadgeCalculator {
         earned: sundaySlowdownDays > 0,
         progress: math.min(sundaySlowdownDays, 1),
         progressMax: 1,
-        tip: 'A calm Sunday evening ensures you wake up fully energized on Monday.',
+        tip:
+            'A calm Sunday evening ensures you wake up fully energized on Monday.',
       ),
       BadgeItem(
         id: 'monday_motivation',
         title: 'Monday Fuel',
-        description: 'Kicked off the workweek with a Monday morning coffee before 9 AM.',
+        description:
+            'Kicked off the workweek with a Monday morning coffee before 9 AM.',
         requirement: 'Log a coffee on Monday before 9:00 AM.',
         category: BadgeCategory.rituals,
         icon: Icons.rocket_launch_rounded,
@@ -663,7 +705,8 @@ class BadgeCalculator {
         earned: doubleShotMorningDays > 0,
         progress: math.min(doubleShotMorningDays, 1),
         progressMax: 1,
-        tip: 'Spacing your morning coffees 90-120 minutes apart sustains steady energy.',
+        tip:
+            'Spacing your morning coffees 90-120 minutes apart sustains steady energy.',
       ),
       BadgeItem(
         id: 'golden_hour',
@@ -704,7 +747,8 @@ class BadgeCalculator {
         earned: icedCount >= 5,
         progress: math.min(icedCount, 5),
         progressMax: 5,
-        tip: 'Slow cold immersion extraction produces rich chocolate and berry notes.',
+        tip:
+            'Slow cold immersion extraction produces rich chocolate and berry notes.',
       ),
       BadgeItem(
         id: 'tea_sommelier',
@@ -722,14 +766,16 @@ class BadgeCalculator {
       BadgeItem(
         id: 'matcha_maven',
         title: 'Matcha Maven',
-        description: 'Celebrated the ceremonial green powder with 3 matcha drinks.',
+        description:
+            'Celebrated the ceremonial green powder with 3 matcha drinks.',
         requirement: 'Log 3 matcha drinks.',
         category: BadgeCategory.variety,
         icon: Icons.grass_rounded,
         earned: matchaCount >= 3,
         progress: math.min(matchaCount, 3),
         progressMax: 3,
-        tip: 'Matcha provides a steady 4-6 hour boost with high antioxidant EGCG content.',
+        tip:
+            'Matcha provides a steady 4-6 hour boost with high antioxidant EGCG content.',
       ),
       BadgeItem(
         id: 'pure_extraction',
@@ -742,7 +788,8 @@ class BadgeCalculator {
         earned: espressoCount >= 3,
         progress: math.min(espressoCount, 3),
         progressMax: 3,
-        tip: 'Espresso extracts about 60-75mg caffeine per single shot in ~28 seconds.',
+        tip:
+            'Espresso extracts about 60-75mg caffeine per single shot in ~28 seconds.',
       ),
       BadgeItem(
         id: 'espresso_purist',
@@ -767,7 +814,8 @@ class BadgeCalculator {
         earned: filterCount > 0,
         progress: math.min(filterCount, 1),
         progressMax: 1,
-        tip: 'Paper filters capture cafestol, highlighting floral and fruit notes.',
+        tip:
+            'Paper filters capture cafestol, highlighting floral and fruit notes.',
       ),
       BadgeItem(
         id: 'specialty_sip',
@@ -792,7 +840,8 @@ class BadgeCalculator {
         earned: specialtyCount >= 5,
         progress: math.min(specialtyCount, 5),
         progressMax: 5,
-        tip: 'Whole milk textured to 60-65°C yields peak natural lactose sweetness.',
+        tip:
+            'Whole milk textured to 60-65°C yields peak natural lactose sweetness.',
       ),
       BadgeItem(
         id: 'flavor_explorer',
@@ -832,7 +881,8 @@ class BadgeCalculator {
         earned: detailedLogsCount >= 5,
         progress: math.min(detailedLogsCount, 5),
         progressMax: 5,
-        tip: 'Precise financial data helps calculate your yearly home-brew savings.',
+        tip:
+            'Precise financial data helps calculate your yearly home-brew savings.',
       ),
       BadgeItem(
         id: 'kitchen_cafe',
@@ -856,7 +906,8 @@ class BadgeCalculator {
         earned: homeCount >= 15,
         progress: math.min(homeCount, 15),
         progressMax: 15,
-        tip: 'Dialing in grind size and water temperature at home is true craft.',
+        tip:
+            'Dialing in grind size and water temperature at home is true craft.',
       ),
       BadgeItem(
         id: 'neighborhood_regular',
@@ -868,19 +919,22 @@ class BadgeCalculator {
         earned: cafeCount >= 3,
         progress: math.min(cafeCount, 3),
         progressMax: 3,
-        tip: 'Local cafes build community and showcase seasonal single origins.',
+        tip:
+            'Local cafes build community and showcase seasonal single origins.',
       ),
       BadgeItem(
         id: 'local_supporter',
         title: 'Cafe Connoisseur',
-        description: 'A patron of coffee culture! Logged 10 drinks at coffee shops.',
+        description:
+            'A patron of coffee culture! Logged 10 drinks at coffee shops.',
         requirement: 'Log 10 drinks at cafes.',
         category: BadgeCategory.milestones,
         icon: Icons.local_activity_rounded,
         earned: cafeCount >= 10,
         progress: math.min(cafeCount, 10),
         progressMax: 10,
-        tip: 'Exploring specialty roasters broadens your appreciation of origin terroir.',
+        tip:
+            'Exploring specialty roasters broadens your appreciation of origin terroir.',
       ),
       BadgeItem(
         id: 'double_digits',
@@ -904,7 +958,8 @@ class BadgeCalculator {
         earned: drinks.length >= 25,
         progress: math.min(drinks.length, 25),
         progressMax: 25,
-        tip: '25 drinks provides a solid statistical sample for monthly intake trends.',
+        tip:
+            '25 drinks provides a solid statistical sample for monthly intake trends.',
       ),
       BadgeItem(
         id: 'half_hundred',
@@ -916,7 +971,8 @@ class BadgeCalculator {
         earned: drinks.length >= 50,
         progress: math.min(drinks.length, 50),
         progressMax: 50,
-        tip: 'At 50 drinks, you have saved weeks of sleep latency and gained mastery.',
+        tip:
+            'At 50 drinks, you have saved weeks of sleep latency and gained mastery.',
       ),
       BadgeItem(
         id: 'century_club',

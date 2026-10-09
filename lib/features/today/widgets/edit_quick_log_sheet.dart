@@ -296,8 +296,9 @@ class _EditQuickLogSheetState extends ConsumerState<EditQuickLogSheet> {
                             child: InkWell(
                               onTap: () =>
                                   setDialogState(() => selectedArtwork = art),
-                              borderRadius:
-                                  BorderRadius.circular(AppRadii.control),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.control,
+                              ),
                               child: Container(
                                 width: 50,
                                 height: 50,
@@ -560,8 +561,9 @@ class _EditQuickLogSheetState extends ConsumerState<EditQuickLogSheet> {
                             child: InkWell(
                               onTap: () =>
                                   setDialogState(() => selectedArtwork = art),
-                              borderRadius:
-                                  BorderRadius.circular(AppRadii.control),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.control,
+                              ),
                               child: Container(
                                 width: 50,
                                 height: 50,
@@ -651,9 +653,9 @@ class _EditQuickLogSheetState extends ConsumerState<EditQuickLogSheet> {
       decoration: BoxDecoration(
         color: palette.surface,
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppRadii.largeCard),
+          top: Radius.circular(AppRadii.sheetTop),
         ),
-        border: Border(top: BorderSide(color: palette.stone800)),
+        border: Border(top: BorderSide(color: palette.stone700, width: 1.2)),
       ),
       child: SafeArea(
         top: false,

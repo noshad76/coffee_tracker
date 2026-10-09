@@ -9,7 +9,8 @@ String drinkArtworkId(
 }) {
   // 1. Check if cupStyle contains encoded artwork e.g. "artwork:matcha"
   if (cupStyle != null && cupStyle.startsWith('artwork:')) {
-    final art = cupStyle.substring('artwork:'.length).trim();
+    final raw = cupStyle.substring('artwork:'.length).trim();
+    final art = raw.split('|')[0].trim();
     if (art.isNotEmpty) return art;
   }
 

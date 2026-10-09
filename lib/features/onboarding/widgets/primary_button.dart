@@ -5,7 +5,7 @@ class _PrimaryButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon,
-    this.height = 56,
+    this.height = 52,
   });
   final String label;
   final VoidCallback? onPressed;

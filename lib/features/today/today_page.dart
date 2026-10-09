@@ -46,9 +46,9 @@ class TodayPage extends ConsumerWidget {
     final favoriteIds = preferences?.favoriteDrinkIds ?? const <String>[];
     final favorites = favoriteIds.isNotEmpty
         ? favoriteIds
-            .map((id) => FavoriteDrink.findById(id))
-            .whereType<FavoriteDrink>()
-            .toList()
+              .map((id) => FavoriteDrink.findById(id))
+              .whereType<FavoriteDrink>()
+              .toList()
         : FavoriteDrink.catalog.take(3).toList();
 
     return ListView(
@@ -85,7 +85,12 @@ class TodayPage extends ConsumerWidget {
                 children: [
                   Text(
                     'LIMIT / TARGET',
-                    style: TextStyle(color: palette.textSubtle, fontSize: 10),
+                    style: TextStyle(
+                      color: palette.textMuted,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                   Text(
                     '$limit mg',
@@ -202,7 +207,7 @@ class TodayPage extends ConsumerWidget {
                 const SizedBox(width: 6),
                 Text(
                   '• 1-tap record',
-                  style: TextStyle(color: palette.textSubtle, fontSize: 11),
+                  style: TextStyle(color: palette.textMuted, fontSize: 11),
                 ),
               ],
             ),
@@ -295,7 +300,8 @@ class TodayPage extends ConsumerWidget {
                             const SizedBox(height: 6),
                             Text(
                               drink.name,
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: palette.textPrimary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -382,7 +388,7 @@ class TodayPage extends ConsumerWidget {
                 context: context,
                 isScrollControlled: true,
                 useSafeArea: true,
-                backgroundColor: palette.overlay.withValues(alpha: 0),
+                backgroundColor: Colors.transparent,
                 builder: (_) => LogDrinkSheet(initialRecord: drink),
               ),
               onDelete: () => _confirmDelete(context, ref, drink),
@@ -497,7 +503,9 @@ class TodayPage extends ConsumerWidget {
                   note: drink.note,
                   photoPath: drink.photoPath,
                 );
-                await ref.read(trackingControllerProvider.notifier).addDrink(draft);
+                await ref
+                    .read(trackingControllerProvider.notifier)
+                    .addDrink(draft);
               },
             ),
           ),
@@ -512,7 +520,10 @@ class TodayPage extends ConsumerWidget {
 }
 
 class _UndoSnackbarContent extends StatelessWidget {
-  const _UndoSnackbarContent({required this.drinkName, required this.onComplete});
+  const _UndoSnackbarContent({
+    required this.drinkName,
+    required this.onComplete,
+  });
   final String drinkName;
   final VoidCallback onComplete;
 
@@ -524,7 +535,10 @@ class _UndoSnackbarContent extends StatelessWidget {
         Expanded(
           child: Text(
             '$drinkName deleted',
-            style: TextStyle(color: palette.stone900, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: palette.stone900,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         TweenAnimationBuilder<double>(

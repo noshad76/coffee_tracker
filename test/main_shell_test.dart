@@ -155,7 +155,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Today'), findsOneWidget);
 
-    await tester.tap(find.byTooltip('Change theme'));
+    await tester.tap(find.byTooltip('Settings'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Theme'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Matcha'));
     await tester.pumpAndSettle();
