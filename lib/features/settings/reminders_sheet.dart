@@ -178,6 +178,7 @@ class _RemindersSheetState extends ConsumerState<RemindersSheet> {
                         ),
                       for (final reminder in state.fixedReminders)
                         _buildFixedReminderTile(context, ref, reminder),
+                      const SizedBox(height: 24),
                     ],
                   );
                 },
@@ -279,6 +280,20 @@ class _RemindersSheetState extends ConsumerState<RemindersSheet> {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        onTap: () async {
+          final picked = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay(
+              hour: reminder.hour,
+              minute: reminder.minute,
+            ),
+          );
+          if (picked != null) {
+            ref
+                .read(remindersProvider.notifier)
+                .updateFixedReminder(reminder.id, picked.hour, picked.minute);
+          }
+        },
         title: Text(
           time,
           style: TextStyle(
@@ -288,7 +303,7 @@ class _RemindersSheetState extends ConsumerState<RemindersSheet> {
           ),
         ),
         subtitle: Text(
-          'Coffee break reminder',
+          'Tap to edit reminder time',
           style: TextStyle(color: palette.textMuted, fontSize: 12),
         ),
         trailing: Row(

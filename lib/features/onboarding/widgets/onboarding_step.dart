@@ -44,7 +44,7 @@ class _OnboardingStep extends StatelessWidget {
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                             ),
-                            const SizedBox(width: 14),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
@@ -60,13 +60,13 @@ class _OnboardingStep extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            const SizedBox(width: 8),
                             TextButton(
                               onPressed: state.saving
                                   ? null
                                   : controller.skipAll,
                               child: Text('Skip'),
                             ),
-                            const SizedBox(width: AppSpacing.x3),
                           ],
                         ),
                         const SizedBox(height: 14),
@@ -141,9 +141,10 @@ class _OnboardingStep extends StatelessWidget {
               ),
               Text(
                 'Everything stays on your phone. No account, no server.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: palette.textSubtle),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: palette.textSubtle,
+                  fontSize: 10,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],

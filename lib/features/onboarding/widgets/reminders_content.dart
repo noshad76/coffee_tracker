@@ -117,6 +117,9 @@ class _RemindersContentState extends ConsumerState<_RemindersContent> {
                     : (val) async {
                         if (val) await _ensurePermission();
                         widget.controller.setSmartReminder(val);
+                        ref
+                            .read(remindersProvider.notifier)
+                            .toggleSmartReminder(val);
                       },
               ),
             ],
@@ -222,15 +225,36 @@ class _RemindersContentState extends ConsumerState<_RemindersContent> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-                        TimeOfDay(
-                          hour: reminder.hour,
-                          minute: reminder.minute,
-                        ).format(context),
-                        style: TextStyle(
-                          color: palette.textPrimary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () async {
+                          final picked = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay(
+                              hour: reminder.hour,
+                              minute: reminder.minute,
+                            ),
+                          );
+                          if (picked != null) {
+                            await ref
+                                .read(remindersProvider.notifier)
+                                .updateFixedReminder(
+                                  reminder.id,
+                                  picked.hour,
+                                  picked.minute,
+                                );
+                          }
+                        },
+                        child: Text(
+                          TimeOfDay(
+                            hour: reminder.hour,
+                            minute: reminder.minute,
+                          ).format(context),
+                          style: TextStyle(
+                            color: palette.textPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

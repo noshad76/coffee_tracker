@@ -123,6 +123,17 @@ class RemindersNotifier extends AsyncNotifier<RemindersState> {
     ref.invalidateSelf();
   }
 
+  Future<void> updateFixedReminder(int id, int hour, int minute) async {
+    final db = ref.read(appDatabaseProvider);
+    await (db.update(db.localReminders)..where((t) => t.id.equals(id))).write(
+      LocalRemindersCompanion(
+        hour: Value(hour),
+        minute: Value(minute),
+      ),
+    );
+    ref.invalidateSelf();
+  }
+
   Future<void> deleteFixedReminder(int id) async {
     final db = ref.read(appDatabaseProvider);
     await (db.delete(db.localReminders)..where((t) => t.id.equals(id))).go();

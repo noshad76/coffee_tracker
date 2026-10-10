@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -12,6 +13,12 @@ class NotificationService {
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+  static final ValueNotifier<int> openLogDrinkTrigger = ValueNotifier<int>(0);
+
+  static void triggerOpenLogDrink() {
+    openLogDrinkTrigger.value++;
+  }
 
   bool _initialized = false;
 
@@ -41,8 +48,35 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin.initialize(
       settings: initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse details) {
+        triggerOpenLogDrink();
+      },
     );
+    if (Platform.isAndroid) {
+      final androidPlugin = flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      await androidPlugin?.createNotificationChannel(
+        const AndroidNotificationChannel(
+          'coffeeaholic_reminders',
+          'Reminders',
+          description: 'Daily reminders to log your coffee',
+          importance: Importance.max,
+        ),
+      );
+    }
     _initialized = true;
+
+    try {
+      final launchDetails = await flutterLocalNotificationsPlugin
+          .getNotificationAppLaunchDetails();
+      if (launchDetails?.didNotificationLaunchApp == true ||
+          launchDetails?.notificationResponse != null) {
+        triggerOpenLogDrink();
+      }
+    } catch (_) {}
+
     try {
       await scheduleDefaultDailyCheckIn();
     } catch (_) {}
@@ -60,13 +94,27 @@ class NotificationService {
           >()
           ?.requestPermissions(alert: true, badge: true, sound: true);
     } else if (Platform.isAndroid) {
-      granted = await flutterLocalNotificationsPlugin
+      final androidPlugin = flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin
-          >()
-          ?.requestNotificationsPermission();
+          >();
+      granted = await androidPlugin?.requestNotificationsPermission();
+      try {
+        await androidPlugin?.requestExactAlarmsPermission();
+      } catch (_) {}
     }
     return granted ?? false;
+  }
+
+  Future<bool> areNotificationsEnabled() async {
+    if (Platform.isAndroid) {
+      final androidPlugin = flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      return (await androidPlugin?.areNotificationsEnabled()) ?? false;
+    }
+    return true;
   }
 
   Future<void> scheduleDailyReminder(
@@ -76,19 +124,39 @@ class NotificationService {
     String title,
     String body,
   ) async {
-    final now = DateTime.now();
-    var scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    final now = tz.TZDateTime.now(tz.local);
+    var tzDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
+    if (tzDate.isBefore(now)) {
+      tzDate = tzDate.add(const Duration(days: 1));
     }
 
-    final tzDate = tz.TZDateTime.from(scheduledDate, tz.local);
+    var scheduleMode = AndroidScheduleMode.inexactAllowWhileIdle;
+    if (Platform.isAndroid) {
+      try {
+        final androidPlugin = flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
+        final canExact = await androidPlugin?.canScheduleExactNotifications();
+        if (canExact == true) {
+          scheduleMode = AndroidScheduleMode.exactAllowWhileIdle;
+        }
+      } catch (_) {}
+    }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id: id,
       title: title,
       body: body,
       scheduledDate: tzDate,
+      payload: 'log_drink',
       notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'coffeeaholic_reminders',
@@ -96,11 +164,49 @@ class NotificationService {
           channelDescription: 'Daily reminders to log your coffee',
           importance: Importance.max,
           priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+          largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          color: Color(0xFFA6663E),
         ),
-        iOS: DarwinNotificationDetails(),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
       ),
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      androidScheduleMode: scheduleMode,
       matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  Future<void> showTestNotification() async {
+    if (!_initialized) {
+      await init();
+    }
+    await requestPermissions();
+
+    await flutterLocalNotificationsPlugin.show(
+      id: 8888,
+      title: '☕ Coffee Break Test',
+      body: 'Notifications are working! Tap this notification to log a brew.',
+      payload: 'log_drink',
+      notificationDetails: const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'coffeeaholic_reminders',
+          'Reminders',
+          channelDescription: 'Daily reminders to log your coffee',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+          largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          color: Color(0xFFA6663E),
+        ),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
     );
   }
 

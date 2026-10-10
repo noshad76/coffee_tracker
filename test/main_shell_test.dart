@@ -1,3 +1,6 @@
+import 'package:drift/native.dart';
+import 'package:coffee_tracker/core/storage/app_database.dart' hide FeatureIdea;
+import 'package:coffee_tracker/core/storage/app_database_provider.dart';
 import 'package:coffee_tracker/app/theme/app_theme.dart';
 import 'package:coffee_tracker/core/models/coffee_theme_preset.dart';
 import 'package:coffee_tracker/features/onboarding/models/onboarding_preferences.dart';
@@ -8,6 +11,8 @@ import 'package:coffee_tracker/features/today/today_page.dart';
 import 'package:coffee_tracker/features/tracking/models/tracking_models.dart';
 import 'package:coffee_tracker/features/tracking/models/tracking_repository.dart';
 import 'package:coffee_tracker/features/tracking/providers/tracking_providers.dart';
+import 'package:coffee_tracker/core/services/notification_service.dart';
+import 'package:coffee_tracker/features/drink_log/log_drink_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -202,5 +207,38 @@ void main() {
     await tester.tap(find.text('Save Changes'));
     await tester.pumpAndSettle();
     expect(tracking.drinks.last.name, 'Edited Latte');
+  });
+
+  testWidgets('triggering notification opens log drink sheet', (tester) async {
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(() => db.close());
+    final settings = _SettingsRepository();
+    final tracking = _TrackingRepository();
+    tester.view.physicalSize = const Size(430, 932);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appDatabaseProvider.overrideWithValue(db),
+          onboardingRepositoryProvider.overrideWithValue(settings),
+          trackingRepositoryProvider.overrideWithValue(tracking),
+        ],
+        child: MaterialApp(
+          theme: AppTheme.build(CoffeeThemePreset.coffee),
+          home: const MainShell(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LogDrinkSheet), findsNothing);
+
+    NotificationService.triggerOpenLogDrink();
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LogDrinkSheet), findsOneWidget);
   });
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_theme.dart';
+import '../../core/services/notification_service.dart';
 import '../calendar/calendar_page.dart';
 import '../drink_log/log_drink_sheet.dart';
 import '../onboarding/models/onboarding_preferences.dart';
@@ -22,14 +23,53 @@ class MainShell extends ConsumerStatefulWidget {
 
 class _MainShellState extends ConsumerState<MainShell> {
   int tab = 0;
+  int _lastHandledNotificationTrigger = 0;
+  bool _isLogOpen = false;
 
-  void _openLog() => showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) => const LogDrinkSheet(),
-  );
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.openLogDrinkTrigger.addListener(
+      _checkNotificationAction,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkNotificationAction();
+    });
+  }
+
+  @override
+  void dispose() {
+    NotificationService.openLogDrinkTrigger.removeListener(
+      _checkNotificationAction,
+    );
+    super.dispose();
+  }
+
+  void _checkNotificationAction() {
+    if (!mounted) return;
+    if (NotificationService.openLogDrinkTrigger.value >
+        _lastHandledNotificationTrigger) {
+      _lastHandledNotificationTrigger =
+          NotificationService.openLogDrinkTrigger.value;
+      _openLog();
+    }
+  }
+
+  void _openLog() {
+    if (_isLogOpen) return;
+    _isLogOpen = true;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const LogDrinkSheet(),
+    ).whenComplete(() {
+      if (mounted) {
+        _isLogOpen = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

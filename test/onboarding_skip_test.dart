@@ -1,6 +1,9 @@
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:coffee_tracker/core/storage/app_database.dart';
+import 'package:coffee_tracker/core/storage/app_database_provider.dart';
 import 'package:coffee_tracker/core/models/coffee_theme_preset.dart';
 import 'package:coffee_tracker/features/onboarding/models/onboarding_preferences.dart';
 import 'package:coffee_tracker/features/onboarding/models/onboarding_repository.dart';
@@ -21,9 +24,14 @@ class _FakeOnboardingRepo implements OnboardingRepository {
 
 void main() {
   test('skipAll sets default values and completes onboarding', () async {
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(() => db.close());
     final repo = _FakeOnboardingRepo();
     final container = ProviderContainer(
-      overrides: [onboardingRepositoryProvider.overrideWithValue(repo)],
+      overrides: [
+        appDatabaseProvider.overrideWithValue(db),
+        onboardingRepositoryProvider.overrideWithValue(repo),
+      ],
     );
     addTearDown(container.dispose);
 

@@ -70,24 +70,24 @@ void main() {
       find.text('Everything stays on your phone. No account, no server.'),
       findsOneWidget,
     );
-    expect(find.text('Skip'), findsOneWidget);
+    expect(find.text('Skip'), findsNothing);
 
     await tester.tap(find.text('Get started'));
     await tester.pumpAndSettle();
     expect(find.text('What brings you here?'), findsOneWidget);
-    expect(find.text('Skip'), findsNothing);
+    expect(find.text('Skip'), findsOneWidget);
 
     await tester.tap(find.text('Cutting back'));
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.text('Set your daily goal'), findsOneWidget);
     expect(find.text('200 mg'), findsWidgets);
-    expect(find.text('Skip'), findsNothing);
+    expect(find.text('Skip'), findsOneWidget);
 
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.text('What do you usually drink?'), findsOneWidget);
-    expect(find.text('Skip'), findsNothing);
+    expect(find.text('Skip'), findsOneWidget);
     await tester.tap(find.text('Espresso'));
     await tester.tap(find.text('Americano'));
     await tester.tap(find.text('Latte'));
@@ -103,7 +103,7 @@ void main() {
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.text('Never miss a brew'), findsOneWidget);
-    expect(find.text('Skip'), findsNothing);
+    expect(find.text('Skip'), findsOneWidget);
     await tester.tap(find.text('Done'));
     await tester.pumpAndSettle();
 
@@ -115,7 +115,7 @@ void main() {
     expect(find.text('Today'), findsOneWidget);
   });
 
-  testWidgets('tapping Skip on welcome completes onboarding with defaults', (
+  testWidgets('tapping Skip in header completes onboarding with defaults', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(430, 840);
@@ -134,6 +134,9 @@ void main() {
         child: const CoffeeaholicApp(),
       ),
     );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Get started'));
     await tester.pumpAndSettle();
 
     expect(find.text('Skip'), findsOneWidget);

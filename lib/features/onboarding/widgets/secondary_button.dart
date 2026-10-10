@@ -1,9 +1,11 @@
 part of '../onboarding_screen.dart';
 
+// ignore: unused_element
 class _SecondaryButton extends StatelessWidget {
   const _SecondaryButton({
     required this.label,
     required this.onPressed,
+    // ignore: unused_element_parameter
     this.height = 56,
   });
   final String label;

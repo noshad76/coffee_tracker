@@ -133,7 +133,7 @@ Files: `lib/features/drink_log/log_drink_sheet.dart`, `lib/features/settings/mod
 Sheets use the semantic `palette.surface` card background with 32 pixel top corners (`AppRadii.sheetTop`), 1.2px `stone700` top borders, and native back dismissal:
 - `LogDrinkSheet`: 68x68 horizontal drink scroll selector, side-by-side Name & Caffeine and Volume & Price fields, Hot/Iced and Home/Cafe segmented pill toggles, Cup Style dropdown, Time picker, Photo button, and sticky full-width Log Entry action.
 - `SettingsSheet`: (`lib/features/settings/settings_sheet.dart`) Consolidated settings hub opened from the header settings gear. Features navigation tiles to Theme and Reminders sheets with live active status subtitles, `palette.surface` background, and `palette.surfaceRaised` tiles.
-- `RemindersSheet`: (`lib/features/settings/reminders_sheet.dart`) Displays a permanent top card for the default 9:00 PM Daily Check-In ("Did you have a brew today?") with active badge (no toggle or delete button), followed by user-customizable coffee break alarms with time picker, toggle switches, and smart median coffee reminder calculation.
+- `RemindersSheet`: (`lib/features/settings/reminders_sheet.dart`) Displays smart median coffee reminder calculation, user-customizable coffee break alarms with time picker and toggle switches, and an instant test notification trigger with real-time feedback toast.
 - `ModeSheet`: 3 selectable cards ("Just Tracking", "Cutting Back", "Quitting Completely") with color-coded badges ("400mg Limit", "200mg Goal", "0mg Goal") and radio checkmarks.
 - `ThemeSheet`: (`lib/features/settings/theme_sheet.dart`) Theme and appearance customizer featuring a Dark/Light mode segmented switcher, 4 curated palettes (Espresso, Iced Latte, Matcha, Amber Tea) with 4-swatch preview circles, and instant persistence.
 - `SuggestFeatureSheet`: Local device idea submission.
@@ -195,10 +195,25 @@ Last updated: 2026-10-10
 | Danger icon      | `palette.stateDanger` (20px delete icon button) |
 | Spacing          | `14px` gap, `240px` max height list |
 
+### Custom Reminder Time Picker & Notification Action
+
+Files: `lib/features/settings/reminders_sheet.dart`, `lib/features/onboarding/widgets/reminders_content.dart`, `lib/features/shell/main_shell.dart`, `lib/core/services/notification_service.dart`
+Last updated: 2026-10-10
+
+| Property | Pattern / Token |
+| --- | --- |
+| Container | `palette.surfaceRaised` with `palette.stone800` border, `16px` radius |
+| Time display | `palette.textPrimary` (17px semibold), inline edit indicator icon |
+| Edit actions | Interactive tap anywhere on the tile or tap dedicated schedule icon button |
+| Subtitle | `palette.textMuted` ("Tap to edit reminder time") |
+| Time Picker | Native Material `showTimePicker` with theme preset palette styling |
+| Notification Logo | High-resolution app launcher logo (`@mipmap/ic_launcher`) as small icon and large avatar bitmap with `0xFFA6663E` brand accent |
+| Notification Tap | Dispatches `triggerOpenLogDrink()` event; `MainShell` consumes trigger and presents `LogDrinkSheet` with duplicate-opening guard |
+
 **Pattern notes:**
-- Stateful dialog listening to `customLocationsProvider` via Riverpod `ConsumerStatefulWidget`.
-- Supports optimistic UI updates so additions and deletions render with zero latency while asynchronously synchronizing to SQLite Drift database schema v5.
-- Provides immediate validation, text field clearing, and automatic selection fallback when the active location is deleted.
+- Custom reminder alarms can be edited on-the-fly without deleting and re-creating.
+- Changes persist directly to Drift SQLite and cancel/reschedule exact alarm notifications via timezone-aware local scheduling.
+- Deep interaction via notification response opens the drink logging sheet directly from anywhere outside or inside the app.
 
 
 

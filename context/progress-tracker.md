@@ -5,12 +5,11 @@
 **Phase:** Complete Native Flutter Client
 
 **Last completed:**
-- Onboarding Skip Action: Added a prominent "Skip" option on the first step (and header) allowing users to bypass onboarding immediately into the main app with sensible defaults (tracking mode, 400mg limit, 3 default favorite drinks).
-- Onboarding Reminders Customization: Empowered users to add and manage fixed coffee break alarms directly during Onboarding Step 5 with time picker, enable/disable switches, and delete controls, alongside the smart routine reminder.
-- Removed Check-In Card from UI: Removed the 9:00 PM check-in card from both RemindersSheet and Onboarding to keep the UI clean while quietly scheduling the evening check-in notification automatically in the background.
-- Dedicated SQLite Custom Locations Architecture: Upgraded Drift database schema to version 5 with a dedicated `custom_locations` table and backward migration. Adding and deleting locations now operates directly against SQLite, eliminating bugs and ensuring 100% persistent local storage.
-- Streamlined Location Selector: Refined `LogDrinkSheet` dropdown visual to match the reference (clean items without inline trash icons, and `Manage Locations...` at the bottom). Unified adding and deleting custom places inside an all-in-one "Manage Locations" dialog.
-- Full test suite passed (15/15 tests, 0 analyze warnings).
+- Tap-to-Edit Custom Reminders (No Extra Buttons): Tapping any reminder tile in `RemindersSheet` or time label in Onboarding directly opens the time picker to adjust the alarm without any extra edit/schedule buttons or pencil icons.
+- Removed Test Notification Widget: Cleaned up `RemindersSheet` by removing the test notification card widget per user request.
+- App Logo & Brand Styling on Notifications: Enhanced local notifications with the app launcher icon (`@mipmap/ic_launcher` for both small icon and large artwork) and coffee brand tint (`0xFFA6663E`).
+- Tap Notification to Open Log Drink: Integrated notification tap response listeners in `NotificationService` and `MainShell`. Tapping a notification (from cold start launch or background notification tray) opens the `LogDrinkSheet` directly, protected by opening guards.
+- Full test suite passed (17/17 tests, 0 analyze warnings).
 
 **Next:** Continuous maintenance and future feature iterations based on local offline coffee journeys.
 

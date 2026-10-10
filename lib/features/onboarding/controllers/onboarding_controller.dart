@@ -5,6 +5,7 @@ import '../models/onboarding_preferences.dart';
 import '../models/onboarding_repository.dart';
 import '../providers/onboarding_repository_provider.dart';
 import '../../../core/models/coffee_theme_preset.dart';
+import '../../settings/providers/reminders_provider.dart';
 
 @immutable
 class OnboardingState {
@@ -220,6 +221,7 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     );
     try {
       await _repository.savePreferences(defaultPrefs);
+      ref.invalidate(remindersProvider);
       _set(
         current.copyWith(
           preferences: defaultPrefs,
@@ -245,6 +247,7 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     final completed = current.preferences.copyWith(onboardingComplete: true);
     try {
       await _repository.savePreferences(completed);
+      ref.invalidate(remindersProvider);
       _set(
         current.copyWith(
           preferences: completed,

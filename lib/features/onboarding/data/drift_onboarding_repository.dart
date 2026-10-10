@@ -93,6 +93,7 @@ class DriftOnboardingRepository implements OnboardingRepository {
         goalMode: 'tracking',
         caffeineLimitMg: 400,
         themePreset: 'coffee',
+        smartReminderEnabled: const Value(true),
       );
 
   bool _isKnownFavorite(String id) =>
