@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#16110B</color>
+    <color name="widget_background">#1F1914</color>
+    <color name="widget_surface">#2C241D</color>
+    <color name="widget_surface_elevated">#382E25</color>
+    <color name="widget_border">#3D3228</color>
+    <color name="widget_brand_primary">#A6663E</color>
+    <color name="widget_brand_accent">#DDB892</color>
+    <color name="widget_text_primary">#F9F6F0</color>
+    <color name="widget_text_muted">#9C8E82</color>
+    <color name="widget_status_green">#4ADE80</color>
+    <color name="widget_status_amber">#FBBF24</color>
+    <color name="widget_status_blue">#60A5FA</color>
 </resources>

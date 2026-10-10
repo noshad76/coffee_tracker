@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_widget/home_widget.dart';
 
 import '../../app/theme/app_theme.dart';
 import '../../core/services/notification_service.dart';
+import '../../core/services/widget_sync_service.dart';
+import '../../shared/widgets/app_toast.dart';
 import '../calendar/calendar_page.dart';
 import '../drink_log/log_drink_sheet.dart';
+import '../onboarding/models/favorite_drink.dart';
 import '../onboarding/models/onboarding_preferences.dart';
 import '../onboarding/providers/onboarding_providers.dart';
 import '../achievements/achievements_page.dart';
@@ -12,6 +17,7 @@ import '../settings/mode_sheet.dart';
 import '../settings/settings_sheet.dart';
 import '../statistics/statistics_page.dart';
 import '../today/today_page.dart';
+import '../tracking/models/tracking_models.dart';
 import '../tracking/providers/tracking_providers.dart';
 
 class MainShell extends ConsumerStatefulWidget {
@@ -21,28 +27,156 @@ class MainShell extends ConsumerStatefulWidget {
   ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends ConsumerState<MainShell> {
+class _MainShellState extends ConsumerState<MainShell>
+    with WidgetsBindingObserver {
   int tab = 0;
   int _lastHandledNotificationTrigger = 0;
   bool _isLogOpen = false;
+  StreamSubscription<Uri?>? _widgetClickSubscription;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     NotificationService.openLogDrinkTrigger.addListener(
       _checkNotificationAction,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkNotificationAction();
+      _processPendingWidgetLogs();
     });
+    WidgetSyncService.initialize();
+    _initHomeWidget();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     NotificationService.openLogDrinkTrigger.removeListener(
       _checkNotificationAction,
     );
+    _widgetClickSubscription?.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _processPendingWidgetLogs();
+      ref.read(trackingControllerProvider.notifier).refresh();
+      _checkNotificationAction();
+    }
+  }
+
+  Future<void> _processPendingWidgetLogs() async {
+    try {
+      final raw = await HomeWidget.getWidgetData<String>('pending_widget_logs');
+      if (raw == null || raw.trim().isEmpty) return;
+      await HomeWidget.saveWidgetData<String>('pending_widget_logs', '');
+
+      final entries = raw.split(';');
+      for (final entry in entries) {
+        if (entry.trim().isEmpty) continue;
+        final parts = entry.split('|');
+        if (parts.length >= 6) {
+          final name = parts[1];
+          final caffeine = int.tryParse(parts[2]) ?? 80;
+          final volume = int.tryParse(parts[3]) ?? 250;
+          final artwork = parts[4];
+          final timeMs =
+              int.tryParse(parts[5]) ?? DateTime.now().millisecondsSinceEpoch;
+          final time = DateTime.fromMillisecondsSinceEpoch(timeMs, isUtc: true);
+
+          final trackingRepo = ref.read(trackingRepositoryProvider);
+          final currentSnapshot = await trackingRepo.load();
+          final alreadyExists = currentSnapshot.drinks.any(
+            (d) =>
+                d.name == name &&
+                (d.consumedAtUtc.difference(time).inSeconds.abs() <= 5),
+          );
+
+          if (!alreadyExists) {
+            await ref.read(trackingControllerProvider.notifier).addDrink(
+              DrinkDraft(
+                name: name,
+                caffeineMg: caffeine,
+                volumeMl: volume,
+                consumedAtUtc: time,
+                priceCents: 0,
+                temperature: 'Hot',
+                location: 'home',
+                cupStyle: 'artwork:$artwork',
+              ),
+            );
+          }
+        }
+      }
+      await ref.read(trackingControllerProvider.notifier).refresh();
+    } catch (_) {}
+  }
+
+  Future<void> _initHomeWidget() async {
+    try {
+      final initialUri = await HomeWidget.initiallyLaunchedFromHomeWidget();
+      if (initialUri != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _handleWidgetUri(initialUri);
+        });
+      }
+    } catch (_) {}
+
+    _widgetClickSubscription = HomeWidget.widgetClicked.listen((uri) {
+      if (uri != null) {
+        _handleWidgetUri(uri);
+      }
+    });
+  }
+
+  Future<void> _handleWidgetUri(Uri uri) async {
+    if (!mounted) return;
+    final action = uri.host.isNotEmpty ? uri.host : uri.path;
+
+    if (action == 'quicklog') {
+      final drinkId = uri.queryParameters['id'];
+      if (drinkId != null) {
+        final drink = FavoriteDrink.findById(drinkId);
+        if (drink != null) {
+          try {
+            await ref.read(trackingControllerProvider.notifier).addDrink(
+              DrinkDraft(
+                name: drink.name,
+                caffeineMg: drink.caffeineMg,
+                volumeMl: drink.volumeMl,
+                consumedAtUtc: DateTime.now().toUtc(),
+                priceCents: 0,
+                temperature: 'Hot',
+                location: 'home',
+                cupStyle: 'artwork:${drink.artworkId}',
+              ),
+            );
+            if (mounted) {
+              AppToast.show(
+                context,
+                '${drink.name} logged',
+                icon: Icons.local_cafe,
+              );
+            }
+          } catch (_) {
+            if (mounted) {
+              AppToast.show(
+                context,
+                'Could not log drink. Try again.',
+                isError: true,
+              );
+            }
+          }
+        }
+      }
+    } else if (action == 'log') {
+      _openLog();
+    } else if (action == 'metabolism' || action == 'today') {
+      setState(() => tab = 0);
+    }
   }
 
   void _checkNotificationAction() {

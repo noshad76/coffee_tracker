@@ -5,7 +5,10 @@ import '../models/onboarding_preferences.dart';
 import '../models/onboarding_repository.dart';
 import '../providers/onboarding_repository_provider.dart';
 import '../../../core/models/coffee_theme_preset.dart';
+import '../../../core/services/widget_sync_service.dart';
 import '../../settings/providers/reminders_provider.dart';
+import '../../tracking/models/tracking_models.dart';
+import '../../tracking/providers/tracking_providers.dart';
 
 @immutable
 class OnboardingState {
@@ -41,7 +44,19 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
   @override
   Future<OnboardingState> build() async {
     _repository = ref.watch(onboardingRepositoryProvider);
-    return OnboardingState(preferences: await _repository.loadPreferences());
+    final prefs = await _repository.loadPreferences();
+    try {
+      final drinks =
+          ref.read(trackingControllerProvider).valueOrNull?.drinks ??
+          const <DrinkRecord>[];
+      WidgetSyncService.syncWidgets(
+        drinks: drinks,
+        favoriteDrinkIds: prefs.favoriteDrinkIds,
+        caffeineLimitMg: prefs.caffeineLimitMg,
+        themePreset: prefs.themePreset,
+      );
+    } catch (_) {}
+    return OnboardingState(preferences: prefs);
   }
 
   OnboardingState? get _current => state.valueOrNull;
@@ -92,6 +107,17 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     final preferences = current.preferences.copyWith(themePreset: preset);
     await _repository.savePreferences(preferences);
     _set(current.copyWith(preferences: preferences));
+    try {
+      final drinks =
+          ref.read(trackingControllerProvider).valueOrNull?.drinks ??
+          const <DrinkRecord>[];
+      WidgetSyncService.syncWidgets(
+        drinks: drinks,
+        favoriteDrinkIds: preferences.favoriteDrinkIds,
+        caffeineLimitMg: preferences.caffeineLimitMg,
+        themePreset: preset,
+      );
+    } catch (_) {}
   }
 
   void continueFromMode() => _update(
@@ -150,6 +176,17 @@ class OnboardingController extends AsyncNotifier<OnboardingState> {
     );
     await _repository.savePreferences(preferences);
     _set(current.copyWith(preferences: preferences));
+    try {
+      final drinks =
+          ref.read(trackingControllerProvider).valueOrNull?.drinks ??
+          const <DrinkRecord>[];
+      WidgetSyncService.syncWidgets(
+        drinks: drinks,
+        favoriteDrinkIds: drinkIds,
+        caffeineLimitMg: preferences.caffeineLimitMg,
+        themePreset: preferences.themePreset,
+      );
+    } catch (_) {}
   }
 
   void continueFromFavorites() =>

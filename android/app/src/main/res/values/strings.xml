@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Coffeeaholic</string>
+    <string name="widget_metabolism_label">Metabolism Overview</string>
+    <string name="widget_metabolism_desc">Track active caffeine in your system, 5-minute half-life decay, and sleep-safe clearance ETA.</string>
+    <string name="widget_quick_log_label">Quick Log Drinks</string>
+    <string name="widget_quick_log_desc">1-tap home screen shortcuts for logging your favorite coffees and drinks.</string>
+</resources>

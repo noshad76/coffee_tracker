@@ -208,12 +208,31 @@ Last updated: 2026-10-10
 | Subtitle | `palette.textMuted` ("Tap to edit reminder time") |
 | Time Picker | Native Material `showTimePicker` with theme preset palette styling |
 | Notification Logo | High-resolution app launcher logo (`@mipmap/ic_launcher`) as small icon and large avatar bitmap with `0xFFA6663E` brand accent |
-| Notification Tap | Dispatches `triggerOpenLogDrink()` event; `MainShell` consumes trigger and presents `LogDrinkSheet` with duplicate-opening guard |
+### Native Home Screen Widgets (Metabolism & Quick Log)
+
+Files: `android/app/src/main/res/layout/widget_metabolism.xml`, `android/app/src/main/res/layout/widget_quick_log.xml`, `android/app/src/main/kotlin/com/coffeeaholic/app/MetabolismWidgetProvider.kt`, `android/app/src/main/kotlin/com/coffeeaholic/app/QuickLogWidgetProvider.kt`, `android/app/src/main/kotlin/com/coffeeaholic/app/WidgetThemeHelper.kt`, `lib/core/services/widget_sync_service.dart`, `lib/features/shell/main_shell.dart`
+Last updated: 2026-10-11
+
+| Property | Pattern / Token |
+| --- | --- |
+| Theming System | Dynamic integration with 8 app theme presets (`WidgetThemeHelper.kt`); card backgrounds (`widget_card_bg_*.xml`), button backgrounds (`widget_btn_bg_*.xml`), `theme_text_primary`, `theme_text_muted`, and `theme_brand_accent` adapt immediately on theme change in-app |
+| Card Container | Adaptive theme card drawable, 16dp corner radius, 1dp subtle stroke |
+| Button Container | Adaptive theme button drawable, 12dp corner radius, 1dp subtle stroke |
+| Status Pill | Color-coded status pills: `widget_pill_green` (`#4ADE80`), `widget_pill_blue` (`#60A5FA`), `widget_pill_amber` (`#FBBF24`), `20dp` pill radius |
+| Refresh Button | Theme button background with `ic_widget_refresh` tinted to `theme_text_muted`, triggers immediate native recalculation broadcast |
+| Periodic Update | Scheduled 5-minute `AlarmManager` repeating tick recalculates decay curve dynamically in Kotlin without waking Flutter engine |
+| Headless 1-Tap Logging | Broadcast intent (`ACTION_LOG_DRINK`) writes directly into Drift SQLite `drink_entries` without opening app window; provides instant system toast and live metabolism decay updates |
+| Grid & Responsive Sizing | Up to 6 drinks across 2 rows; uses dynamic layout weights (`layout_weight="1"`) so buttons stretch proportionally to fill any card height without dead space. Adapts automatically to compact/narrow dimensions (hiding Row 2 when < 100dp height, hiding subtitle and custom button when < 220dp width, hiding 3rd column when < 180dp width, hiding mg line and status pill when < 65dp height) |
+| Large Metabolism Layout | Multi-metric dashboard (`In 6h`, `Today / Limit`, `Clears in`, and timestamp) rendered side-by-side with active caffeine whenever width is wide (`minWidth >= 180dp`), filling large widgets with useful data instead of empty voids |
+| Log Feedback | Single persistent heads-up notification ("☕ [Drink] Logged • +[mg] caffeine • Today: [total] mg") with direct app opening tap intent; redundant toast removed to prevent double feedback |
+| Custom Log | "+ Custom" action deep links to `coffeeaholic://log` to present `LogDrinkSheet` |
 
 **Pattern notes:**
-- Custom reminder alarms can be edited on-the-fly without deleting and re-creating.
-- Changes persist directly to Drift SQLite and cancel/reschedule exact alarm notifications via timezone-aware local scheduling.
-- Deep interaction via notification response opens the drink logging sheet directly from anywhere outside or inside the app.
+- Mathematical continuous half-life decay ($C(t) = C_0 \cdot 0.5^{t/6}$) is evaluated natively on Android/iOS, ensuring 5-minute precision and instant manual refresh responses with near-zero battery usage.
+- Resizable vertically and horizontally with responsive breakpoint handling that gracefully reduces secondary elements instead of clipping or breaking, and expands to fill large launchers gracefully.
+- Instant theme updates triggered by `OnboardingController.saveTheme()` and `TrackingController._syncWidgets()`.
+- Safe SharedPreferences type coercion via `getSafeInt()` ensures Flutter 64-bit Dart int storage never causes Android runtime cast exceptions.
+
 
 
 

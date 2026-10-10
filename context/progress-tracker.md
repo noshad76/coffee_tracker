@@ -5,11 +5,21 @@
 **Phase:** Complete Native Flutter Client
 
 **Last completed:**
-- Tap-to-Edit Custom Reminders (No Extra Buttons): Tapping any reminder tile in `RemindersSheet` or time label in Onboarding directly opens the time picker to adjust the alarm without any extra edit/schedule buttons or pencil icons.
-- Removed Test Notification Widget: Cleaned up `RemindersSheet` by removing the test notification card widget per user request.
-- App Logo & Brand Styling on Notifications: Enhanced local notifications with the app launcher icon (`@mipmap/ic_launcher` for both small icon and large artwork) and coffee brand tint (`0xFFA6663E`).
-- Tap Notification to Open Log Drink: Integrated notification tap response listeners in `NotificationService` and `MainShell`. Tapping a notification (from cold start launch or background notification tray) opens the `LogDrinkSheet` directly, protected by opening guards.
-- Full test suite passed (17/17 tests, 0 analyze warnings).
+- Native Home Screen Widgets (Metabolism Overview & Quick Log):
+  - Fixed SharedPreferences `ClassCastException` (`Long` to `Integer`) by introducing safe type conversion extension `SharedPreferences.getSafeInt()`, preventing crash on widget receiver startup.
+  - Quick Log Confirmation Notification: When logging a drink via widget 1-tap, posts a high-priority system notification ("☕ [Drink] Logged • +[mg] caffeine • Today: [total] mg") in addition to system toast, with a tap action that opens the app's Today screen.
+  - Always Connected to App Theme: Widgets dynamically adapt to all 8 theme presets (Coffee, Ocean, Forest, Amber × Dark & Light). Theme presets and semantic tokens (`theme_preset`, `theme_text_primary`, `theme_text_muted`, `theme_brand_accent`) are saved to widget storage and trigger live updates immediately when the user changes theme.
+  - Sizing & Responsive Expansion:
+    - Resizable horizontally & vertically (`minHeight="50dp"`, `minResizeHeight="40dp"`).
+    - Weight-based Button Expansion: Eliminated dead space in large sizes by using `layout_weight="1"` container rows and `match_parent` drink item heights, allowing Quick Log buttons to scale and fill any launcher card height.
+    - Large Metabolism Layout: Restored the full multi-metric dashboard (`In 6h`, `Today / Limit`, `Clears in`, and timestamp) side-by-side with active caffeine whenever `minWidth >= 180dp`, eliminating the empty black void on large/wide sizes.
+    - Compact Mode Protection: Shows less in compact sizes without breaking. In 1-cell heights (< 100dp), Row 2 is hidden; in narrow widths (< 220dp), subtitle and Custom button are hidden; in ultra-narrow widths (< 180dp), 3rd column is hidden; in very short heights (< 65dp), status pills are tucked away cleanly.
+  - Headless 1-Tap Quick Logging: 1-tap broadcasts log drinks silently directly into Drift's SQLite database without opening the app, posting a single heads-up confirmation notification, and queuing pending logs in widget storage.
+  - Lifecycle Sync & Preference Integrity:
+    - Fixed SharedPreferences namespace collision by standardizing on `HomeWidgetPreferences` across all native providers and Flutter.
+    - Guarded `TrackingController._syncWidgets` against null preferences during startup/resume, eliminating accidental theme resets to 'coffee' or data wipes.
+    - Added `_processPendingWidgetLogs` in `MainShell` to ingest queued widget logs into Drift reliably on resume without race conditions.
+  - Full test suite passing (20/20 tests, 0 analyze warnings).
 
 **Next:** Continuous maintenance and future feature iterations based on local offline coffee journeys.
 
@@ -56,6 +66,7 @@
 - [x] Dynamic custom location management and modern `AppDropdown` selector in full drink log
 - [x] Light Mode theme engine and redesigned color palettes across Coffee, Ocean, Forest, and Amber
 - [x] Refined modal sheet styling eliminating pitch-black overlays
+- [x] Native Home Screen Widgets for Metabolism Overview (5-min decay & manual refresh) and Quick Log shortcuts (1-tap logging via deep-link)
 
 ## Known product decisions to resolve during implementation
 

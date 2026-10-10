@@ -1,4 +1,4 @@
-﻿# Library Docs
+# Library Docs
 
 This file records Coffeeaholic-specific package usage. Before adding a third-party package, load a matching installed skill when one exists and review official package documentation. No Drift skill is installed in this repository, so follow the official Drift documentation and the conventions below.
 
@@ -50,6 +50,20 @@ The HTML uses Lucide icons from a CDN and code-drawn drink illustrations. The na
 `flutter_svg` renders the local drink SVG assets extracted from the supplied HTML artwork. Keep these files bundled in `assets/drinks/` and load them with `SvgPicture.asset`; do not fetch images at runtime. Package reference: [flutter_svg on pub.dev](https://pub.dev/packages/flutter_svg).
 
 The app bundles the official Inter variable font in `assets/fonts/`, with its SIL Open Font License in the same directory. `AppTheme` applies the font; there is no runtime font download.
+
+## Home Screen Widgets (home_widget)
+
+Selected for native Android (AppWidgetProvider/RemoteViews) and iOS (WidgetKit/SwiftUI) home screen widgets.
+
+- `home_widget` version `0.10.0` provides the communication bridge between Flutter and native widget systems.
+- Shared data is persisted via `HomeWidget.saveWidgetData` and broadcast via `HomeWidget.updateWidget`.
+- Android widgets:
+  - `MetabolismWidgetProvider` (`widget_metabolism.xml`): Real-time active caffeine level, sleep-safe clearance ETA, 5-minute autonomous decay recalculation, and on-widget manual refresh button.
+  - `QuickLogWidgetProvider` (`widget_quick_log.xml`): 1-tap logging shortcuts for user's favorite drinks using deep-link URLs (`coffeeaholic://quicklog?id=...`).
+- iOS widgets:
+  - `MetabolismWidget`: TimelineProvider with 5-minute pre-computed decay timeline and instant refresh intent.
+  - `QuickLogWidget`: Link buttons triggering deep-link URLs.
+- Incoming deep links are handled via `HomeWidget.initiallyLaunchedFromHomeWidget()` and `HomeWidget.widgetClicked` in `MainShell`.
 
 ## Verification
 

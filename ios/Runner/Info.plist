@@ -26,6 +26,19 @@
 	<string>Coffeeaholic needs camera access so you can take photos of your drinks.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Coffeeaholic needs photo library access so you can attach coffee photos to your log.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.coffeeaholic.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>coffeeaholic</string>
+			</array>
+		</dict>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/tracking_models.dart';
 import '../models/tracking_repository.dart';
 import '../providers/tracking_providers.dart';
+import '../../onboarding/providers/onboarding_providers.dart';
 import '../../settings/providers/reminders_provider.dart';
+import '../../../core/services/widget_sync_service.dart';
 
 class TrackingController extends AsyncNotifier<TrackingSnapshot> {
   late TrackingRepository _repository;
@@ -11,10 +13,36 @@ class TrackingController extends AsyncNotifier<TrackingSnapshot> {
   @override
   Future<TrackingSnapshot> build() async {
     _repository = ref.watch(trackingRepositoryProvider);
-    return _repository.load();
+    final snapshot = await _repository.load();
+    _syncWidgets(snapshot.drinks);
+    return snapshot;
   }
 
-  Future<void> refresh() async => state = AsyncData(await _repository.load());
+  Future<void> refresh() async {
+    final snapshot = await _repository.load();
+    state = AsyncData(snapshot);
+    _syncWidgets(snapshot.drinks);
+  }
+
+  void _syncWidgets(List<DrinkRecord> drinks) {
+    try {
+      final preferences =
+          ref.read(onboardingControllerProvider).valueOrNull?.preferences;
+      if (preferences == null) {
+        // Never overwrite widget data with fallback defaults before preferences load!
+        return;
+      }
+      final favorites = preferences.favoriteDrinkIds;
+      final limit = preferences.caffeineLimitMg;
+      final themePreset = preferences.themePreset;
+      WidgetSyncService.syncWidgets(
+        drinks: drinks,
+        favoriteDrinkIds: favorites,
+        caffeineLimitMg: limit,
+        themePreset: themePreset,
+      );
+    } catch (_) {}
+  }
 
   Future<void> addDrink(DrinkDraft draft) async {
     await _repository.addDrink(draft);
